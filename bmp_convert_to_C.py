@@ -42,5 +42,4 @@ def bmp_to_c_array_direct_color_scaled(bmp_file_path):
 if __name__ == "__main__":
     input_image_path = input("Enter the path to the 32x32 image file (.bmp or .png): ")
     c_array_output = bmp_to_c_array_direct_color_scaled(input_image_path)
-    print("\nconst uint16_t myTexture[32 * 32] = ")
-    print(c_array_output)
+    print("\nconst uint16_t myTexture[32 * 32] = " + c_array_output)
