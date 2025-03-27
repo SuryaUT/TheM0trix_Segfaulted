@@ -1,343 +1,211 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <math.h>
-#include <ti/devices/msp/msp.h>
-#include "../inc/ST7735.h"
-#include "../inc/SPI.h"
-#include "../inc/Clock.h"
-#include "../inc/Timer.h"
-#include "../inc/LaunchPad.h"
-#include "maps.h"
-#include "sprites.h"
-#include "Textures.h"
-
-#define SCREEN_WIDTH 160
-#define SCREEN_HEIGHT 128
-#define centerX SCREEN_WIDTH/2
-#define centerY SCREEN_HEIGHT/2
-
-#define MATRIX_DARK_GREEN   0x0320  // Dark green, subtle glow
-#define MATRIX_GREEN        0x07E0  // Standard bright green
-#define MATRIX_NEON_GREEN   0x07F0  // Intense neon green
-#define MATRIX_LIME_GREEN   0x07E6  // Almost white-green
-#define MATRIX_EMERALD      0x03C0  // Deep emerald green
-#define MATRIX_SOFT_GREEN   0x05A0  // Muted soft green
-#define MATRIX_GLOW_GREEN   0x06E0  // Slight glow effect
-#define MATRIX_HACKER_GREEN 0x04E0  // Classic "hacker" terminal green
-
-Sprite targetSprite;
-
-int target[24][24] = {
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, REDS, REDS, REDS, REDS, REDS, REDS, REDS, REDS, WHITE, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, REDS, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, REDS, WHITE, WHITE, REDS, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, WHITE, WHITE, REDS, WHITE, REDS, REDS, REDS, REDS, REDS, REDS, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK, BLACK},
-    {BLACK, BLACK, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK, BLACK},
-    {BLACK, BLACK, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK},
-    {BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE},
-    {BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE},
-    {BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE},
-    {BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE},
-    {BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE},
-    {BLACK, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE},
-    {BLACK, BLACK, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK},
-    {BLACK, BLACK, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, WHITE, WHITE, REDS, WHITE, REDS, REDS, REDS, REDS, REDS, REDS, REDS, WHITE, REDS, WHITE, REDS, WHITE, REDS, WHITE, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, REDS, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, REDS, WHITE, WHITE, REDS, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, REDS, REDS, REDS, REDS, REDS, REDS, REDS, REDS, WHITE, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
-    {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK}
-};
-
-void InitSprites() {
-    targetSprite.x = 12;
-    targetSprite.y = 12;
-}
-
-const uint16_t wallColors[] = {
-    MATRIX_DARK_GREEN,
-    MATRIX_GREEN,
-    MATRIX_NEON_GREEN,
-    MATRIX_LIME_GREEN,
-    MATRIX_EMERALD,
-    MATRIX_SOFT_GREEN,
-    MATRIX_GLOW_GREEN,
-    MATRIX_HACKER_GREEN
-};
-
-uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
-uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT] = {0};
-
-void FillMap(const uint8_t map[MAP_WIDTH][MAP_HEIGHT]) {
-    for (int i = MAP_WIDTH - 1; i >= 0; i--) {
-        for (int j = 0; j < MAP_HEIGHT; j++) {
-            worldMap[i][j] = map[i][j];
-            int index = (MAP_WIDTH - 1 - i) * MAP_HEIGHT + j;
-            miniMap[index] = (map[i][j] != 0) ? ST7735_WHITE : 0;
-        }
+/* main.c
+ * Elijah Silguero
+ * date
+ */
+ 
+ #include <stdio.h>
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <math.h>
+ #include "ti/devices/msp/msp.h"
+ #include "../inc/ST7735.h"
+ #include "../inc/SPI.h"
+ #include "../inc/Clock.h"
+ #include "../inc/Timer.h"
+ #include "../inc/LaunchPad.h"
+ #include "Graphics.h"
+ #include "Joy.h"
+ #include "maps.h"
+ #include "Sounds.h"
+ #include "sprites.h"
+ #include "Buffer.h"
+ #include "Textures.h"
+ 
+ const uint16_t wallColors[] = {MATRIX_DARK_GREEN, MATRIX_GREEN,
+                                 MATRIX_NEON_GREEN, MATRIX_LIME_GREEN,
+                                 MATRIX_EMERALD, MATRIX_SOFT_GREEN,
+                                 MATRIX_GLOW_GREEN, MATRIX_HACKER_GREEN};
+ 
+ uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
+ uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT] = {0};
+ 
+ void FillMap(const uint8_t map[MAP_WIDTH][MAP_HEIGHT]) {
+  for (int i = MAP_WIDTH - 1; i >= 0; i--) {
+   for (int j = 0; j < MAP_HEIGHT; j++) {
+    worldMap[i][j] = map[i][j];
+    //int index = (MAP_WIDTH - 1 - i) * MAP_HEIGHT + j;
+    miniMap[i*MAP_HEIGHT+j] = (map[i][j] != 0) ? ST7735_WHITE : 0;
+   }
+  }
+ }
+ 
+ // Player state
+ double posX = 22, posY = 12;    // x and y start position
+ double dirX = -1, dirY = 0;    // initial direction vector
+ double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
+ int playerHealth = 50;
+ 
+ double ZBuffer[SCREEN_WIDTH];
+ 
+ void CastRays(int side) {
+   //Determine loop bounds.
+  int startX = (side == 0) ? 0 : SCREEN_WIDTH / 2;
+  int endX = (side == 0) ? SCREEN_WIDTH / 2 : SCREEN_WIDTH;
+ 
+  for (int x = startX; x < endX; x++) {
+   // Calculate ray position and direction
+   double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
+   double rayDirX = dirX + planeX * cameraX;
+   double rayDirY = dirY + planeY * cameraX;
+ 
+   // Which box of the map we're in
+   int mapX = (int)posX;
+   int mapY = (int)posY;
+ 
+   // Length of ray from current position to next x or y-side
+   double sideDistX;
+   double sideDistY;
+ 
+   // Length of ray from one x or y-side to next x or y-side
+   double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
+   double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
+   double perpWallDist;
+ 
+   // What direction to step in x or y direction
+   int stepX;
+   int stepY;
+ 
+   int hit = 0;   // Was there a wall hit?
+   int sideHit;  // Was a NS or EW wall hit?
+ 
+   // Calculate step and initial sideDist
+   if (rayDirX < 0) {
+    stepX = -1;
+    sideDistX = (posX - mapX) * deltaDistX;
+   } else {
+    stepX = 1;
+    sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+   }
+   if (rayDirY < 0) {
+    stepY = -1;
+    sideDistY = (posY - mapY) * deltaDistY;
+   } else {
+    stepY = 1;
+    sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+   }
+ 
+   // Perform DDA
+   while (hit == 0) {
+    // Jump to next map square in x or y direction
+    if (sideDistX < sideDistY) {
+     sideDistX += deltaDistX;
+     mapX += stepX;
+     sideHit = 0;
+    } else {
+     sideDistY += deltaDistY;
+     mapY += stepY;
+     sideHit = 1;
     }
-}
+ 
+    // Check if ray hit a wall
+    if (worldMap[mapX][mapY] > 0) hit = 1;
+   }
+ 
+   // Calculate distance from wall to camera plane
+   if (sideHit == 0)
+    perpWallDist = (sideDistX - deltaDistX);
+   else
+    perpWallDist = (sideDistY - deltaDistY);
+   ZBuffer[x] = perpWallDist;
+ 
+   // Calculate height of line to draw on screen
+   int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+ 
+   // Calculate lowest and highest pixel to fill in current stripe
+   int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
+   if (drawStart < 0) drawStart = 0;
+   int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
+   if (drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
+ 
+   int texNum = (worldMap[mapX][mapY] % 6) - 1; // Texture index based on map value (0-7)
+    double wallX; // Where exactly the wall was hit
+    if (sideHit == 0) wallX = posY + perpWallDist * rayDirY;
+    else           wallX = posX + perpWallDist * rayDirX;
+    wallX -= floor(wallX);
 
-double ZBuffer[SCREEN_WIDTH];
+    int texX = (int)(wallX * (double)TEX_WIDTH);
+    if (sideHit == 0 && rayDirX > 0) texX = TEX_WIDTH - texX - 1;
+    if (sideHit == 1 && rayDirY < 0) texX = TEX_WIDTH - texX - 1;
 
-// Fix color swap issue if needed
-uint16_t SwapRB(uint16_t color) {
-    return ((color & 0xF800) >> 11) | ((color & 0x07E0)) | ((color & 0x001F) << 11);
-}
+    // Calculate how much to increase the texture coordinate per screen pixel
+    double step = 1.0 * TEX_HEIGHT / lineHeight;
+    // Starting texture coordinate
+    double texPos = (drawStart - SCREEN_HEIGHT / 2.0 + lineHeight / 2.0) * step; //SCREEN_HEIGHT might be h
 
-// Player state
-double posX = 22, posY = 12;  //x and y start position
-double dirX = -1, dirY = 0; //initial direction vector
-double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-int playerHealth = 50;
+    for (int y = drawStart; y < drawEnd; y++) {
+        // Integer texture coordinate
+        int texY = (TEX_HEIGHT - 1) - ((int)texPos & (TEX_HEIGHT - 1)); // Flip texture vertically
+        texPos += step;
+        uint16_t color = textures[texNum][texY * TEX_WIDTH + texX];
 
-uint32_t time = 0; //time of current frame
-uint32_t oldTime = 0; //time of previous frame
-
-#define RESOLUTION 2
-int lastDrawStart[SCREEN_WIDTH/RESOLUTION] = {0};
-int lastDrawEnd[SCREEN_WIDTH/RESOLUTION] = {0};
-int lastDrawHeight[SCREEN_WIDTH/RESOLUTION] = {0};
-uint16_t lastColor[SCREEN_WIDTH/RESOLUTION] = {0};
-
-void CastRays(void) {
-    int index = 0;
-    for (int x = 0; x < SCREEN_WIDTH; x+= RESOLUTION){
-        // Calculate ray position and direction
-        double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; // x-coordinate in camera space
-        double rayDirX = dirX + planeX * cameraX;
-        double rayDirY = dirY + planeY * cameraX;
-
-        // Which box of the map we're in
-        int mapX = (int)posX;
-        int mapY = (int)posY;
-
-        // Length of ray from current position to next x or y-side
-        double sideDistX;
-        double sideDistY;
-
-        // Length of ray from one x or y-side to next x or y-side
-        double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-        double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-        double perpWallDist;
-
-        // What direction to step in x or y direction
-        int stepX;
-        int stepY;
-
-        int hit = 0; // Was there a wall hit?
-        int side; // Was a NS or EW wall hit?
-
-        // Calculate step and initial sideDist
-        if (rayDirX < 0){
-            stepX = -1;
-            sideDistX = (posX - mapX) * deltaDistX;
-        }
-        else {
-            stepX = 1;
-            sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-        }
-        if (rayDirY < 0){
-            stepY = -1;
-            sideDistY = (posY - mapY) * deltaDistY;
-        }
-        else{
-            stepY = 1;
-            sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-        }
-
-        // Perform DDA
-        while (hit == 0){
-            // Jump to next map square in x or y direction
-            if (sideDistX < sideDistY){
-                sideDistX += deltaDistX;
-                mapX += stepX;
-                side = 0;
-            }
-            else{
-                sideDistY += deltaDistY;
-                mapY += stepY;
-                side = 1;
-            }
-            // Check if ray hit a wall;
-            if (worldMap[mapX][mapY] > 0) hit = 1;
-        }
-
-        // Calculate distance from wall to camera plane
-        if (side == 0) perpWallDist = (sideDistX - deltaDistX);
-        else           perpWallDist = (sideDistY - deltaDistY);
-
-        // Calculate height of line to draw on screen
-        int lineHeight = (int)SCREEN_HEIGHT/perpWallDist;
-
-        // Calculate lowest and highest pixel to fill in current stripe
-        int drawStart = -lineHeight/2 + SCREEN_HEIGHT/2;
-        if (drawStart < 0) drawStart = 0;
-        int drawEnd = lineHeight / 2 + SCREEN_HEIGHT/2;
-        if(drawEnd > SCREEN_HEIGHT)drawEnd = SCREEN_HEIGHT;
-
-        int texNum = (worldMap[mapX][mapY] % 9) - 1; // Texture index based on map value (0-7)
-
-        double wallX; // Where exactly the wall was hit
-        if (side == 0) wallX = posY + perpWallDist * rayDirY;
-        else           wallX = posX + perpWallDist * rayDirX;
-        wallX -= floor(wallX);
-
-        int texX = (int)(wallX * (double)TEX_WIDTH);
-        if (side == 0 && rayDirX > 0) texX = TEX_WIDTH - texX - 1;
-        if (side == 1 && rayDirY < 0) texX = TEX_WIDTH - texX - 1;
+        // Make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+        if (sideHit == 1) {color = (color >> 1) & 0x7BEF;}
         
-        // Calculate how much to increase the texture coordinate per screen pixel
-        double step = 1.0 * TEX_HEIGHT / lineHeight;
-        // Starting texture coordinate
-        double texPos = (drawStart - SCREEN_HEIGHT / 2.0 + lineHeight / 2.0) * step; //SCREEN_HEIGHT might be h
-
-        for (int y = drawStart; y < drawEnd; y++) {
-            // Integer texture coordinate
-            int texY = (int)texPos & (TEX_HEIGHT - 1);
-            texPos += step;
-            uint16_t color = textures[texNum][texY * TEX_WIDTH + texX];
-
-            // Make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-            if (side == 1) {color = (color >> 1) & 0x7BEF;}
-            
-            ST7735_DrawPixel(x, y, color);
-        }
-        // Store the new values for the next frame
-        lastDrawStart[index] = drawStart;
-        lastDrawEnd[index] = drawEnd;
-        lastDrawHeight[index] = lineHeight;
-        //lastColor[index] = color;
-        index++;
+        setPixelBuffer(x, y, color);
     }
-}
+  }
+ }
 
+ void RenderSky(){
+    for (int i = 0; i < MAX_FALLING_BARS; i++) {
+        uint8_t barX = rand() % BUFFER_WIDTH;
+        uint8_t yStartOffset = rand() % (SCREEN_HEIGHT / 2); // Random start within the sky
+        uint8_t length = 8 + i/2; // Random-ish length
+        uint16_t color = MATRIX_GLOW_GREEN + ((rand()%100 - 50) << 5);
 
+        uint8_t startY = SKY_HEIGHT_START + yStartOffset;
+        uint8_t endY = startY + length;
 
-
-// Declare these as global variables, outside the RenderSprite function
-int prevDrawStartX = -1;
-int prevDrawStartY = -1;
-int prevDrawEndX = -1;
-int prevDrawEndY = -1;
-
-void RenderSprite() {
-    // Sprite position relative to the player
-    double spriteX = targetSprite.x - posX;
-    double spriteY = targetSprite.y - posY;
-
-    // Inverse camera transformation
-    double invDet = 1.0 / (planeX * dirY - dirX * planeY);
-    double transformX = invDet * (dirY * spriteX - dirX * spriteY);
-    double transformY = invDet * (-planeY * spriteX + planeX * planeY);
-
-    // Ignore if behind player
-    if (transformY <= 0) return;
-
-    // Project sprite to screen
-    int spriteScreenX = (int)((SCREEN_WIDTH / 2) * (1 + transformX / (transformY + 0.0001)));
-
-    // Scale sprite based on distance
-    int spriteHeight = abs((int)(SCREEN_HEIGHT / transformY));
-    int spriteWidth = spriteHeight;
-
-    // Fix sprite height so it appears on the ground
-    int vMoveScreen = (int)(SCREEN_HEIGHT / transformY) / 4;
-    int drawStartY = -spriteHeight / 2 + SCREEN_HEIGHT / 2 + vMoveScreen;
-    if (drawStartY < 0) drawStartY = 0;
-    int drawEndY = spriteHeight / 2 + SCREEN_HEIGHT / 2 + vMoveScreen;
-    if (drawEndY >= SCREEN_HEIGHT) drawEndY = SCREEN_HEIGHT - 1;
-
-    int drawStartX = -spriteWidth / 2 + spriteScreenX;
-    if (drawStartX < 0) drawStartX = 0;
-    int drawEndX = spriteWidth / 2 + spriteScreenX;
-    if (drawEndX >= SCREEN_WIDTH) drawEndX = SCREEN_WIDTH - 1;
-
-    // Clear the previous sprite location, but only if the sprite was closer
-    if (prevDrawStartX != -1) {
-        for (int stripe = prevDrawStartX; stripe < prevDrawEndX; stripe++) {
-            if (stripe > 0 && stripe < SCREEN_WIDTH) {
-                //Check that we're within the bounds of the zbuffer
-                if(ZBuffer[stripe] > transformY) { // Is the sprite closer than what was previously drawn?
-                    for (int y = prevDrawStartY; y < prevDrawEndY; y++) {
-                         if(y > 0 && y < SCREEN_HEIGHT){
-                            int texX = (stripe - prevDrawStartX) * SPRITE_WIDTH / spriteWidth;
-                            int texY = (y - prevDrawStartY) * SPRITE_HEIGHT / spriteHeight;
-                            if (target[texY][texX] != BLACK) { // Only clear sprite pixels
-                                ST7735_DrawPixel(stripe, y, BLACK);
-                            }
-                        }
-                    }
+        for (int y = startY; y < endY && y < SCREEN_HEIGHT; y++) {
+            for (int xOffset = 0; xOffset < BAR_THICKNESS; xOffset++) {
+                int currentX = barX + xOffset;
+                if (currentX < BUFFER_WIDTH) {
+                    setPixelBuffer(currentX, y, color);
                 }
             }
         }
     }
+ }
 
-    // Draw sprite
-    for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
-        if (stripe > 0 && stripe < SCREEN_WIDTH && transformY < ZBuffer[stripe]) {
-            for (int y = drawStartY; y < drawEndY; y++) {
-                if(y > 0 && y < SCREEN_HEIGHT){
-                    int texX = (stripe - drawStartX) * SPRITE_WIDTH / spriteWidth;
-                    int texY = (y - drawStartY) * SPRITE_HEIGHT / spriteHeight;
-                    int pixelColor = target[texY][texX];
+void DrawMinimap() {
+    for (int y = SCREEN_HEIGHT - 24; y < SCREEN_HEIGHT; y++) {
+        for (int x = 0; x < 24; x++) {
+            int screenYOffset = y - (SCREEN_HEIGHT - 24); // Normalize y to 0-23 range for map indexing
+            if (screenYOffset < MAP_HEIGHT && x < MAP_WIDTH) {
+                int worldMapRow = MAP_WIDTH - 1 - screenYOffset;
+                int worldMapCol = x;
+                int index = worldMapRow * MAP_HEIGHT + worldMapCol;
 
-                    if (pixelColor != BLACK) {
-                        pixelColor = SwapRB(pixelColor); // Swap color if needed
-                        ST7735_DrawPixel(stripe, y, pixelColor);
-                    }
-                }
+                uint16_t mapColor = (miniMap[index] != 0) ? ST7735_WHITE : BACKGROUND_COLOR;
+                setPixelBuffer(x, y, mapColor);
             }
-            ZBuffer[stripe] = transformY; // Update depth buffer
         }
     }
 
-    // Store the current sprite location for the next frame
-    prevDrawStartX = drawStartX;
-    prevDrawStartY = drawStartY;
-    prevDrawEndX = drawEndX;
-    prevDrawEndY = drawEndY;
-}
+    // Draw player position on the minimap
+    int playerMinimapY = (SCREEN_HEIGHT - 24) + ((MAP_HEIGHT - 1) - (int)posX);
+    int playerMinimapX = (int)posY;
 
-void DrawCrosshair() {
-    int size = 6; // Half-length of crosshair arms
-    int thickness = 2; // Thickness of lines
-
-    uint16_t color = ST7735_BLACK;
-
-    // Draw upper vertical lines (above center)
-    for (int i = -thickness / 2; i <= thickness / 2; i++) {
-        ST7735_DrawFastVLine(centerX + i, centerY - size, size - 1, color);
-    }
-
-    // Draw lower vertical lines (below center)
-    for (int i = -thickness / 2; i <= thickness / 2; i++) {
-        ST7735_DrawFastVLine(centerX + i, centerY + 2, size - 1, color);
-    }
-
-    // Draw left horizontal lines
-    for (int i = -thickness / 2; i <= thickness / 2; i++) {
-        ST7735_DrawFastHLine(centerX - size, centerY + i, size - 1, color);
-    }
-
-    // Draw right horizontal lines
-    for (int i = -thickness / 2; i <= thickness / 2; i++) {
-        ST7735_DrawFastHLine(centerX + 2, centerY + i, size - 1, color);
+    if (playerMinimapY >= SCREEN_HEIGHT - 24 && playerMinimapY < SCREEN_HEIGHT && playerMinimapX >= 0 && playerMinimapX < 24) {
+        setPixelBuffer(playerMinimapX, playerMinimapY, MATRIX_GREEN);
     }
 }
 
 int lastHealth = 0;
 void DrawHealthBar(){
     int16_t barWidth = 50, barHeight = 10;
-    if (playerHealth < lastHealth){
-        ST7735_FillRect(156-barWidth + playerHealth, 6, lastHealth-playerHealth, barHeight, ST7735_BLACK);
-    }
+    int startX = SCREEN_WIDTH - barWidth - 6; // Top right, with 6 pixels margin
+    int startY = SCREEN_HEIGHT - barHeight - 6;
 
     uint16_t healthColor;
     if (playerHealth >= 30){
@@ -349,143 +217,209 @@ void DrawHealthBar(){
     else{
         healthColor = ST7735_RED;
     }
-    ST7735_FillRect(156-barWidth, 6, playerHealth, barHeight, healthColor);
+
+    // Draw the health bar
+    for (int y = startY; y < startY + barHeight; y++) {
+        for (int x = startX; x < startX + barWidth; x++) {
+            if (x >= 0 && x < startX + playerHealth && y >= 0 && y < SCREEN_HEIGHT) {
+                if (x < startX + playerHealth) {
+                    setPixelBuffer(x, y, healthColor);
+                }
+            }
+        }
+    }
     lastHealth = playerHealth;
 }
 
-void RenderHUD(){
-    DrawCrosshair();
-    // Draw minimap
-    ST7735_DrawBitmap(0, MAP_HEIGHT, miniMap, MAP_WIDTH, MAP_HEIGHT);
-    // Draw position on minimap
-    ST7735_DrawPixel((int16_t)posY, (int16_t)posX, MATRIX_GREEN);
-    DrawHealthBar();
-}
+void DrawCrosshair(int side, int spacing, uint16_t color) {
+    int size = 6;
+    int thickness = 2;
 
+    int centerX_fullScreen = SCREEN_WIDTH / 2;
+    int centerY = SCREEN_HEIGHT / 2;
 
-double fastSin(double x) {
-    return x - (x * x * x) / 6.0;
-}
-
-double fastCos(double x) {
-    return 1.0f - (x * x) / 2.0;
-}
-
-void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
-    // Rotate left or right
-    if (input & (1 << 1)){
-        double cosRot = fastCos(rotSpeed);
-        double sinRot = -fastSin(rotSpeed);
-
-        // Both camera direction and camera plane must be rotated
-        double oldDirX = dirX;
-        dirX = dirX * cosRot - dirY * sinRot;
-        dirY = oldDirX * sinRot + dirY * cosRot;
-
-        // Camera plane must be perpendicular to camera direction
-        planeX = dirY;
-        planeY = -dirX;
+    if (side == 0) { // Left side
+        // Upper vertical
+        for (int y = centerY - size; y < centerY - spacing; y++) {
+            for (int i = 0; i < thickness - 1; i++) {
+                setPixelBuffer(centerX_fullScreen - thickness + i + 1, y, color);
+            }
+        }
+        // Lower vertical
+        for (int y = centerY + 1 + spacing; y < centerY + 1 + size; y++) {
+            for (int i = 0; i < thickness - 1; i++) {
+                setPixelBuffer(centerX_fullScreen - thickness + i + 1, y, color);
+            }
+        }
+        // Left horizontal
+        for (int i = -thickness / 2; i <= thickness / 2; i++) {
+            for (int x = centerX_fullScreen - size; x < centerX_fullScreen - spacing; x++) {
+                setPixelBuffer(x, centerY + i, color);
+            }
+        }
+    } else if (side == 1) { // Right side
+        // Upper vertical
+        for (int y = centerY - size; y < centerY - spacing; y++) {
+            for (int i = 0; i < thickness; i++) {
+                setPixelBuffer(i, y, color);
+            }
+        }
+        // Lower vertical
+        for (int y = centerY + 1 + spacing; y < centerY + 1 + size; y++) {
+            for (int i = 0; i < thickness; i++) {
+                setPixelBuffer(i, y, color);
+            }
+        }
+        // Right horizontal
+        for (int i = -thickness / 2; i <= thickness / 2; i++) {
+            for (int x = 1 + spacing; x <= size; x++) {
+                setPixelBuffer(x, centerY + i, color);
+            }
+        }
     }
-
-    if (input & (1<<3)){
-        double cosRot = fastCos(rotSpeed);
-        double sinRot = fastSin(rotSpeed);
-
-        // Both camera direction and camera plane must be rotated
-        double oldDirX = dirX;
-        dirX = dirX * cosRot - dirY * sinRot;
-        dirY = oldDirX * sinRot + dirY * cosRot;
-
-        // Camera plane must be perpendicular to camera direction
-        planeX = dirY;
-        planeY = -dirX;
-    }
-    
-    // Move forward or backward, checking for walls
-    if(worldMap[(int)(posX + 2* dirX * moveSpeed_FB)][(int)posY] == 0) posX += dirX * moveSpeed_FB;
-    if(worldMap[(int)posX][(int)(posY + 2*dirY * moveSpeed_FB)] == 0) posY += dirY * moveSpeed_FB;
-
-    // Move left or right, checking for walls
-    if(worldMap[(int)(posX + 2* planeX * moveSpeed_LR)][(int)posY] == 0) posX += planeX * moveSpeed_LR;
-    if(worldMap[(int)posX][(int)(posY + 2*planeY * moveSpeed_LR)] == 0) posY += planeY * moveSpeed_LR;
 }
 
-int32_t Joy_x, Joy_y;
+ void RenderHUD(int side){
+    DrawCrosshair(side, 1, ST7735_BLACK);
+    if (side == 0){
+        DrawMinimap();
+    }
+    else{
+        DrawHealthBar();
+    }
+}
 
-void TIMG12_IRQHandler(void){
-  if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
-    GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
-    GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
-    // sample
-    uint32_t x, y;
-    Joy_In(&x, &y);
-    Joy_x = (int32_t)((x >> 9)+1)/2 - 2;
-    Joy_y = -(int32_t)((y >> 9)+1)/2 + 2;
-    // store data into mailbox
-    // set the semaphore
-
-    GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
+ 
+ void RenderScene(int side){
+  //Clear buffer
+  clearRenderBuffer(BACKGROUND_COLOR);
+  // Render random falling bars in the sky
+  RenderSky();
+  //Draw background elements like walls to renderBuffer
+  CastRays(side);
+  //RenderSprites(side);
+  RenderHUD(side);
+  RenderBuffer(side);
+ }
+ 
+ 
+ double fastSin(double x) {
+  return x - (x * x * x) / 6.0;
+ }
+ 
+ double fastCos(double x) {
+  return 1.0f - (x * x) / 2.0;
+ }
+ 
+ uint8_t lastTriggerIn = 0;
+ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
+  // Shoot sound
+  if (input & 1 && !lastTriggerIn){
+   Sound_Start(Sounds[0]);
+   lastTriggerIn = 1;
   }
-}
+  else if (!(input & 1)){
+   lastTriggerIn = 0;
+  }
+ 
+  // Rotate left or right
+  if (input & (1 << 1)){
+   double cosRot = fastCos(rotSpeed);
+   double sinRot = -fastSin(rotSpeed);
+   // Both camera direction and camera plane must be rotated
+   double oldDirX = dirX;
+   dirX = dirX * cosRot - dirY * sinRot;
+   dirY = oldDirX * sinRot + dirY * cosRot;
+   // Camera plane must be perpendicular to camera direction
+   planeX = dirY;
+   planeY = -dirX;
+  }
+ 
+  if (input & (1<<3)){
+   double cosRot = fastCos(rotSpeed);
+   double sinRot = fastSin(rotSpeed);
+   // Both camera direction and camera plane must be rotated
+   double oldDirX = dirX;
+   dirX = dirX * cosRot - dirY * sinRot;
+   dirY = oldDirX * sinRot + dirY * cosRot;
+   // Camera plane must be perpendicular to camera direction
+   planeX = dirY;
+   planeY = -dirX;
+  }
+ 
+  // Joystick input:
+  // Move forward or backward, checking for walls
+  uint8_t isCollision_X = worldMap[(int)(posX + 2* dirX * moveSpeed_FB)][(int)posY] != 0;
+  uint8_t isCollision_Y = worldMap[(int)posX][(int)(posY + 2*dirY * moveSpeed_FB)] != 0;
+  if(!isCollision_X) posX += dirX * moveSpeed_FB;
+  if(!isCollision_Y) posY += dirY * moveSpeed_FB;
+  // Move left or right, checking for walls
+  isCollision_X = worldMap[(int)(posX + 2* planeX * moveSpeed_LR)][(int)posY] != 0;
+  isCollision_Y = worldMap[(int)posX][(int)(posY + 2*planeY * moveSpeed_LR)] != 0;
+  if(!isCollision_X) posX += planeX * moveSpeed_LR;
+  if(!isCollision_Y) posY += planeY * moveSpeed_LR;
+ }
+ 
+ void Input_Init(){
+  TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
+  Joy_Init();
+ 
+  // Initialize buttons
+  IOMUX->SECCFG.PINCM[PA24INDEX] = 0x00040081; // regular GPIO input, shoot key
+  IOMUX->SECCFG.PINCM[PA25INDEX] = 0x00040081; // regular GPIO input, right key
+  IOMUX->SECCFG.PINCM[PA26INDEX] = 0x00040081; // regular GPIO input, down key
+  IOMUX->SECCFG.PINCM[PA27INDEX] = 0x00040081; // regular GPIO input, left key
+  IOMUX->SECCFG.PINCM[PA28INDEX] = 0x00040081; // regular GPIO input, up key
+ }
+ 
+ void Graphics_Init(){
+  SPI_Init();
+  ST7735_InitPrintf();
+  ST7735_SetRotation(1);
+  FillMap(OGMap);  // Pick map here
+  PrecalculateFloorGradient();
+ }
+ 
+ void SystemInit() {
+  __disable_irq();
+  Clock_Init80MHz(0);
+  LaunchPad_Init();
+  Sound_Init(80000000/11000, 0);
+  Input_Init();
+  Graphics_Init();
+  __enable_irq();
+ }
+ 
+ uint8_t ReadKeys(){
+  return (GPIOA->DIN31_0 >> 24) & 0x1F;
+ }
+ 
+ int32_t Joy_x, Joy_y;
+  int main() {
+  SystemInit();
+  int side = 0;
+  while(1) {
+   RenderScene(side);
+   //Renderscene called for both sides
+   side = 1 - side;
 
-void SystemInit(void) {
-    __disable_irq();
-    Clock_Init80MHz(0);
-    LaunchPad_Init();
-    SPI_Init();
-    ST7735_InitPrintf();
-    ST7735_SetRotation(1);
-    TimerG12_Init();
-    FillMap(OGMap); // Pick map here
-    TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
-    Joy_Init();
-    Textures_Init();
-
-    // Initialize buttons
-    IOMUX->SECCFG.PINCM[PA24INDEX] = 0x00040081; // regular GPIO input, shoot key
-    IOMUX->SECCFG.PINCM[PA25INDEX] = 0x00040081; // regular GPIO input, right key
-    IOMUX->SECCFG.PINCM[PA26INDEX] = 0x00040081; // regular GPIO input, down key
-    IOMUX->SECCFG.PINCM[PA27INDEX] = 0x00040081; // regular GPIO input, left key
-    IOMUX->SECCFG.PINCM[PA28INDEX] = 0x00040081; // regular GPIO input, up key
-
-    __enable_irq();
-}
-
-uint8_t ReadKeys(){
-    return (GPIOA->DIN31_0 >> 24) & 0x1F;
-}
-
-uint8_t buff[8];
-
-int main(void) {
-    SystemInit();
-    uint8_t buffIndex = 0;
-    while(1) {
-        CastRays();
-        RenderHUD();
-
-        oldTime = time;
-        time = TIMG12->COUNTERREGS.CTR;
-        double frameTime = (oldTime - time) * (12.5e-9); // Time this frame has taken, in seconds
-        double fps = 1/frameTime;
-
-        // Speed modifiers
-        double moveSpeed = .017 * 2.5; // squares/sec
-        double rotSpeed = .017 * 5.0; // rads/sec
-        double moveSpeed_FB = moveSpeed * -Joy_y;
-        double moveSpeed_LR = moveSpeed * -Joy_x;
-
-        // Add to buffer
-        buff[buffIndex] = (uint8_t)fps;
-        buffIndex = (buffIndex + 1) & 0x07;
-
-        MovePlayer(ReadKeys(), moveSpeed_FB, moveSpeed_LR, rotSpeed);
-
-        if (GPIOA->DIN31_0 & (1<<18) || !playerHealth){
-            ST7735_FillScreen(0);
-            printf("Game Over!\n");
-            printf("(You died lol)");
-            __asm volatile("bkpt; \n"); // breakpoint here
-        };
-    }
-}
+   if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
+ 
+   // Speed modifiers
+   double moveSpeed = .033 * 2.5; // squares/sec
+   double rotSpeed = .033 * 5.0;  // rads/sec
+   double moveSpeed_FB = moveSpeed * Joy_y;
+   double moveSpeed_LR = moveSpeed * Joy_x;
+ 
+   MovePlayer(ReadKeys(), moveSpeed_FB, moveSpeed_LR, rotSpeed);
+ 
+   // End in case of death or exit button
+   if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
+    ST7735_FillScreen(0);
+    printf("Game Over!\n");
+    printf("(You died lol)\n");
+    printf("get better lil bro\n");
+    __asm volatile("bkpt; \n"); // breakpoint here
+   };
+  }
+ }
