@@ -1,5 +1,5 @@
-#define TEX_WIDTH 16
-#define TEX_HEIGHT 16
+#define TEX_WIDTH 32
+#define TEX_HEIGHT 32
 
 #define CIRCUIT_BOARD_GREEN 0x06E0 // Example RGB565 color for circuit board green
 #define MATRIX_GREEN 0x07E0          // Standard bright green
@@ -9,6 +9,12 @@
 #define WIRE_COLOR2 0x04E0 
 #define COMPONENT_COLOR 0x03A0      // Darker color for components
 #define TRACE_COLOR 0x0770
+
+#define MATRIX 4
+#define MATRIX2 3
+#define SCBARKLEY 5
+#define CIRCUITBOARD 7
+#define CIRCUITBOARD2 6
 
 uint16_t textures[8][TEX_WIDTH * TEX_HEIGHT];
 
