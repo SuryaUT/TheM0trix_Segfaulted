@@ -10,6 +10,7 @@
 #include "../inc/LaunchPad.h"
 #include "maps.h"
 #include "sprites.h"
+#include "Textures.h"
 
 #define SCREEN_WIDTH 160
 #define SCREEN_HEIGHT 128
@@ -58,7 +59,6 @@ void InitSprites() {
     targetSprite.x = 12;
     targetSprite.y = 12;
 }
-
 
 const uint16_t wallColors[] = {
     MATRIX_DARK_GREEN,
@@ -177,40 +177,68 @@ void CastRays(void) {
         int drawEnd = lineHeight / 2 + SCREEN_HEIGHT/2;
         if(drawEnd > SCREEN_HEIGHT)drawEnd = SCREEN_HEIGHT;
 
-        // Choose wall color
-        uint16_t color = wallColors[worldMap[mapX][mapY] % 8];
+        // // Choose wall color
+        // uint16_t color = wallColors[worldMap[mapX][mapY] % 8];
 
-        // Give sides x and y different brightness
-        if (side == 1) color/=2;
+        // // Give sides x and y different brightness
+        // if (side == 1) color/=2;
 
-        // Draw pixels of the stripe as a vertical line
-        if (color == lastColor[index]){ // If we're seeing the same wall
-            // Only add to edge if it needs to be taller
-            if (lineHeight > lastDrawHeight[index]){
-                // Extend from the top
-                ST7735_FillRect(x, drawStart, RESOLUTION, lastDrawStart[index]-drawStart, color);
-                //Extend from the bottom
-                ST7735_FillRect(x, lastDrawEnd[index], RESOLUTION, drawEnd-lastDrawEnd[index], color);
-            }
-            // Only remove from edge if it needs to be shorter
-            else if (lineHeight < lastDrawHeight[index]){
-                // Erase from top
-                ST7735_FillRect(x, lastDrawStart[index], RESOLUTION, drawStart-lastDrawStart[index], ST7735_BLACK);
-                //Erase from bottom
-                ST7735_FillRect(x, drawEnd, RESOLUTION, lastDrawEnd[index]-drawEnd+1, ST7735_BLACK);
-            }
-        }
-        else { // If it's a different wall we need to redraw completely
-            // Erase only the column
-            ST7735_FillRect(x, lastDrawStart[index], RESOLUTION, lastDrawHeight[index], ST7735_BLACK);
-            // Draw only the changed part of the column
-            ST7735_FillRect(x, drawStart, RESOLUTION, lineHeight, color);
+        // // Draw pixels of the stripe as a vertical line
+        // if (color == lastColor[index]){ // If we're seeing the same wall
+        //     // Only add to edge if it needs to be taller
+        //     if (lineHeight > lastDrawHeight[index]){
+        //         // Extend from the top
+        //         ST7735_FillRect(x, drawStart, RESOLUTION, lastDrawStart[index]-drawStart, color);
+        //         //Extend from the bottom
+        //         ST7735_FillRect(x, lastDrawEnd[index], RESOLUTION, drawEnd-lastDrawEnd[index], color);
+        //     }
+        //     // Only remove from edge if it needs to be shorter
+        //     else if (lineHeight < lastDrawHeight[index]){
+        //         // Erase from top
+        //         ST7735_FillRect(x, lastDrawStart[index], RESOLUTION, drawStart-lastDrawStart[index], ST7735_BLACK);
+        //         //Erase from bottom
+        //         ST7735_FillRect(x, drawEnd, RESOLUTION, lastDrawEnd[index]-drawEnd+1, ST7735_BLACK);
+        //     }
+        // }
+        // else { // If it's a different wall we need to redraw completely
+        //     // Erase only the column
+        //     ST7735_FillRect(x, lastDrawStart[index], RESOLUTION, lastDrawHeight[index], ST7735_BLACK);
+        //     // Draw only the changed part of the column
+        //     ST7735_FillRect(x, drawStart, RESOLUTION, lineHeight, color);
+        // }
+
+        int texNum = (worldMap[mapX][mapY] % 9) - 1; // Texture index based on map value (0-7)
+
+        double wallX; // Where exactly the wall was hit
+        if (side == 0) wallX = posY + perpWallDist * rayDirY;
+        else           wallX = posX + perpWallDist * rayDirX;
+        wallX -= floor(wallX);
+
+        int texX = (int)(wallX * (double)TEX_WIDTH);
+        if (side == 0 && rayDirX > 0) texX = TEX_WIDTH - texX - 1;
+        if (side == 1 && rayDirY < 0) texX = TEX_WIDTH - texX - 1;
+
+        // Calculate how much to increase the texture coordinate per screen pixel
+        double step = 1.0 * TEX_HEIGHT / lineHeight;
+        // Starting texture coordinate
+        double texPos = (drawStart - SCREEN_HEIGHT / 2.0 + lineHeight / 2.0) * step; //SCREEN_HEIGHT might be h
+
+        for (int y = drawStart; y < drawEnd; y++) {
+            // Integer texture coordinate
+            int texY = (int)texPos & (TEX_HEIGHT - 1);
+            texPos += step;
+            uint16_t color = textures[texNum][texY * TEX_WIDTH + texX];
+
+            // Make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+           if (side == 1) color = (color >> 2) & 0x7BEF;
+
+            ST7735_DrawPixel(x, y, color);
         }
         // Store the new values for the next frame
         lastDrawStart[index] = drawStart;
         lastDrawEnd[index] = drawEnd;
         lastDrawHeight[index] = lineHeight;
-        lastColor[index] = color;
+        //lastColor[index] = color;
         index++;
     }
 }
@@ -439,6 +467,7 @@ void SystemInit(void) {
     FillMap(OGMap); // Pick map here
     TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
     Joy_Init();
+    Textures_Init();
 
     // Initialize buttons
     IOMUX->SECCFG.PINCM[PA24INDEX] = 0x00040081; // regular GPIO input, shoot key
@@ -471,8 +500,8 @@ int main(void) {
         // Speed modifiers
         double moveSpeed = .017 * 2.5; // squares/sec
         double rotSpeed = .017 * 5.0; // rads/sec
-        double moveSpeed_FB = moveSpeed * Joy_y;
-        double moveSpeed_LR = moveSpeed * Joy_x;
+        double moveSpeed_FB = moveSpeed * -Joy_y;
+        double moveSpeed_LR = moveSpeed * -Joy_x;
 
         // Add to buffer
         buff[buffIndex] = (uint8_t)fps;
