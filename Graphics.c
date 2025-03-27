@@ -86,6 +86,11 @@ void FillMap(const uint8_t map[MAP_WIDTH][MAP_HEIGHT]) {
 
 double ZBuffer[SCREEN_WIDTH];
 
+// Fix color swap issue if needed
+uint16_t SwapRB(uint16_t color) {
+    return ((color & 0xF800) >> 11) | ((color & 0x07E0)) | ((color & 0x001F) << 11);
+}
+
 // Player state
 double posX = 22, posY = 12;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
@@ -177,36 +182,6 @@ void CastRays(void) {
         int drawEnd = lineHeight / 2 + SCREEN_HEIGHT/2;
         if(drawEnd > SCREEN_HEIGHT)drawEnd = SCREEN_HEIGHT;
 
-        // // Choose wall color
-        // uint16_t color = wallColors[worldMap[mapX][mapY] % 8];
-
-        // // Give sides x and y different brightness
-        // if (side == 1) color/=2;
-
-        // // Draw pixels of the stripe as a vertical line
-        // if (color == lastColor[index]){ // If we're seeing the same wall
-        //     // Only add to edge if it needs to be taller
-        //     if (lineHeight > lastDrawHeight[index]){
-        //         // Extend from the top
-        //         ST7735_FillRect(x, drawStart, RESOLUTION, lastDrawStart[index]-drawStart, color);
-        //         //Extend from the bottom
-        //         ST7735_FillRect(x, lastDrawEnd[index], RESOLUTION, drawEnd-lastDrawEnd[index], color);
-        //     }
-        //     // Only remove from edge if it needs to be shorter
-        //     else if (lineHeight < lastDrawHeight[index]){
-        //         // Erase from top
-        //         ST7735_FillRect(x, lastDrawStart[index], RESOLUTION, drawStart-lastDrawStart[index], ST7735_BLACK);
-        //         //Erase from bottom
-        //         ST7735_FillRect(x, drawEnd, RESOLUTION, lastDrawEnd[index]-drawEnd+1, ST7735_BLACK);
-        //     }
-        // }
-        // else { // If it's a different wall we need to redraw completely
-        //     // Erase only the column
-        //     ST7735_FillRect(x, lastDrawStart[index], RESOLUTION, lastDrawHeight[index], ST7735_BLACK);
-        //     // Draw only the changed part of the column
-        //     ST7735_FillRect(x, drawStart, RESOLUTION, lineHeight, color);
-        // }
-
         int texNum = (worldMap[mapX][mapY] % 9) - 1; // Texture index based on map value (0-7)
 
         double wallX; // Where exactly the wall was hit
@@ -217,7 +192,7 @@ void CastRays(void) {
         int texX = (int)(wallX * (double)TEX_WIDTH);
         if (side == 0 && rayDirX > 0) texX = TEX_WIDTH - texX - 1;
         if (side == 1 && rayDirY < 0) texX = TEX_WIDTH - texX - 1;
-
+        
         // Calculate how much to increase the texture coordinate per screen pixel
         double step = 1.0 * TEX_HEIGHT / lineHeight;
         // Starting texture coordinate
@@ -230,8 +205,8 @@ void CastRays(void) {
             uint16_t color = textures[texNum][texY * TEX_WIDTH + texX];
 
             // Make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-           if (side == 1) color = (color >> 2) & 0x7BEF;
-
+            if (side == 1) {color = (color >> 1) & 0x7BEF;}
+            
             ST7735_DrawPixel(x, y, color);
         }
         // Store the new values for the next frame
@@ -244,10 +219,7 @@ void CastRays(void) {
 }
 
 
-// Fix color swap issue if needed
-uint16_t SwapRB(uint16_t color) {
-    return ((color & 0xF800) >> 11) | ((color & 0x07E0)) | ((color & 0x001F) << 11);
-}
+
 
 // Declare these as global variables, outside the RenderSprite function
 int prevDrawStartX = -1;
