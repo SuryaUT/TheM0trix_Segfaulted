@@ -1,6 +1,10 @@
 from PIL import Image
 import os
 
+
+#C:\CCS\MSPM0_ValvanoWare\Game\Textures
+#C:\CCS\MSPM0_ValvanoWare\Game\Textures\TexArrays.txt
+
 IMAGE_HEIGHT = 64
 IMAGE_WIDTH = 64
 
