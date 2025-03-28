@@ -1,25 +1,29 @@
 from PIL import Image
 
+IMAGE_HEIGHT = 64
+IMAGE_WIDTH = 64
+
 def bmp_to_c_array_direct_color_scaled(bmp_file_path):
     """
-    Converts a 32x32 pixel image to a 1D C array of uint16_t in BGR565 format,
+    Converts a bitmap image of anysize to a 64 x 64 1D C array of uint16_t in BGR565 format,
     using the direct color values from the image with explicit scaling to bit depths.
 
     Args:
-        bmp_file_path (str): The path to the 32x32 image file.
+        bmp_file_path (str): The path to the bitmap image file.
 
     Returns:
         str: A string representing the C array in BGR565 format.
     """
+
     try:
         img = Image.open(bmp_file_path)
-        img = img.resize((32, 32))
+        img = img.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
         img = img.convert("RGB")
         pixels = img.load()
 
         c_array_values = []
-        for y in range(32):
-            for x in range(32):
+        for y in range(IMAGE_HEIGHT):
+            for x in range(IMAGE_WIDTH):
                 r, g, b = pixels[x, y]
 
                 # Scale 8-bit values to their respective bit depths
