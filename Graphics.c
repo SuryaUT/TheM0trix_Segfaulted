@@ -21,11 +21,6 @@
  #include "Buffer.h"
  #include "Textures.h"
  
- const uint16_t wallColors[] = {MATRIX_DARK_GREEN, MATRIX_GREEN,
-                                 MATRIX_NEON_GREEN, MATRIX_LIME_GREEN,
-                                 MATRIX_EMERALD, MATRIX_SOFT_GREEN,
-                                 MATRIX_GLOW_GREEN, MATRIX_HACKER_GREEN};
- 
  uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
  uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT] = {0};
  
@@ -44,6 +39,8 @@
  double dirX = -1, dirY = 0;    // initial direction vector
  double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
  int playerHealth = 50;
+ uint8_t isOnTarget = 0;
+ uint8_t accuracyRad = 6;
  
  double ZBuffer[SCREEN_WIDTH];
  
@@ -160,7 +157,7 @@
     for (int i = 0; i < MAX_FALLING_BARS; i++) {
         uint8_t barX = rand() % BUFFER_WIDTH;
         uint8_t yStartOffset = rand() % (SCREEN_HEIGHT / 2); // Random start within the sky
-        uint8_t length = 8 + i/2; // Random-ish length
+        uint8_t length = 24 + i/2; // Random-ish length
         uint16_t color = MATRIX_GLOW_GREEN + ((rand()%100 - 50) << 5);
 
         uint8_t startY = SKY_HEIGHT_START + yStartOffset;
@@ -280,7 +277,8 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
 }
 
  void RenderHUD(int side){
-    DrawCrosshair(side, 1, ST7735_BLACK);
+    uint16_t crosshair_color = (isOnTarget) ? ST7735_RED : ST7735_WHITE;
+    DrawCrosshair(side, 1, crosshair_color);
     if (side == 0){
         DrawMinimap();
     }
@@ -297,7 +295,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
   RenderSky();
   //Draw background elements like walls to renderBuffer
   CastRays(side);
-  //RenderSprites(side);
+  RenderSprites(side);
   RenderHUD(side);
   RenderBuffer(side);
  }
@@ -394,7 +392,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
   return (GPIOA->DIN31_0 >> 24) & 0x1F;
  }
  
- int32_t Joy_x, Joy_y;
+ int Joy_x, Joy_y;
   int main() {
   SystemInit();
   int side = 0;
@@ -406,8 +404,8 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
    if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
  
    // Speed modifiers
-   double moveSpeed = .033 * 2.5; // squares/sec
-   double rotSpeed = .033 * 5.0;  // rads/sec
+   double moveSpeed = .05 * 2.5; // squares/sec
+   double rotSpeed = .05 * 3.0;  // rads/sec
    double moveSpeed_FB = moveSpeed * Joy_y;
    double moveSpeed_LR = moveSpeed * Joy_x;
  
