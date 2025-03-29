@@ -2,10 +2,10 @@
 <link_info>
    <banner>TI ARM Clang Linker PC v4.0.1.LTS</banner>
    <copyright>Copyright (c) 1996-2018 Texas Instruments Incorporated</copyright>
-   <command_line>C:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\bin\tiarmlnk -IC:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib -o Pibbox.out -mPibbox.map --heap_size=512 --stack_size=512 -iC:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg -iC:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib --diag_wrap=off --display_error_number --warn_sections --xml_link_info=Pibbox_linkInfo.xml --rom_model ./ADC.o ./Buffer.o ./Clock.o ./DAC.o ./Graphics.o ./Joy.o ./LaunchPad.o ./SPI.o ./ST7735.o ./Sounds.o ./Timer.o ./UART.o ./UARTbusywait.o ./sprites.o ./ticlang/startup_mspm0g3507_ticlang.o ../mspm0g3507.cmd -lC:/ti/mspm0_sdk_2_03_00_07/source/ti/driverlib/lib/ticlang/m0p/mspm0g1x0x_g3x0x/driverlib.a -llibc.a --start-group -llibc++.a -llibc++abi.a -llibc.a -llibsys.a -llibsysbm.a -llibclang_rt.builtins.a -llibclang_rt.profile.a --end-group --cg_opt_level=0</command_line>
+   <command_line>C:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\bin\tiarmlnk -IC:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib -o TheM0+rix_Segfaulted.out -mTheM0+rix_Segfaulted.map --heap_size=512 --stack_size=512 -iC:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg -iC:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib --diag_wrap=off --display_error_number --warn_sections --xml_link_info=TheM0+rix_Segfaulted_linkInfo.xml --rom_model ./ADC.o ./Buffer.o ./Clock.o ./DAC.o ./Graphics.o ./Joy.o ./LaunchPad.o ./SPI.o ./ST7735.o ./Sounds.o ./Timer.o ./UART.o ./UARTbusywait.o ./sprites.o ./ticlang/startup_mspm0g3507_ticlang.o ../mspm0g3507.cmd -lC:/ti/mspm0_sdk_2_03_00_07/source/ti/driverlib/lib/ticlang/m0p/mspm0g1x0x_g3x0x/driverlib.a -llibc.a --start-group -llibc++.a -llibc++abi.a -llibc.a -llibsys.a -llibsysbm.a -llibclang_rt.builtins.a -llibclang_rt.profile.a --end-group --cg_opt_level=0</command_line>
    <link_time>0x67e83925</link_time>
    <link_errors>0x0</link_errors>
-   <output_file>C:\Users\elsil\OneDrive\Development\ECE 319K\Valvanoware\TheM0trix_Segfaulted\Debug\Pibbox.out</output_file>
+   <output_file>C:\Users\elsil\OneDrive\Development\ECE 319K\Valvanoware\TheM0trix_Segfaulted\Debug\TheM0+rix_Segfaulted.out</output_file>
    <entry_point>
       <name>_c_int00_noargs</name>
       <address>0x11699</address>
