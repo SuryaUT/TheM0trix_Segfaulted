@@ -5,8 +5,8 @@ import os
 #C:\CCS\MSPM0_ValvanoWare\Game\Textures
 #C:\CCS\MSPM0_ValvanoWare\Game\Textures\TexArrays.txt
 
-IMAGE_HEIGHT = 64
-IMAGE_WIDTH = 64
+IMAGE_HEIGHT = 16
+IMAGE_WIDTH = 16
 
 def bmp_to_c_array_direct_color_scaled(image_file_path):
     """
