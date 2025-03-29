@@ -21,11 +21,6 @@
  #include "Buffer.h"
  #include "Textures.h"
  
- const uint16_t wallColors[] = {MATRIX_DARK_GREEN, MATRIX_GREEN,
-                                 MATRIX_NEON_GREEN, MATRIX_LIME_GREEN,
-                                 MATRIX_EMERALD, MATRIX_SOFT_GREEN,
-                                 MATRIX_GLOW_GREEN, MATRIX_HACKER_GREEN};
- 
  uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
  uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT] = {0};
  
@@ -44,6 +39,8 @@
  double dirX = -1, dirY = 0;    // initial direction vector
  double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
  int playerHealth = 50;
+ uint8_t isOnTarget = 0;
+ uint8_t accuracyRad = 6;
  
  double ZBuffer[SCREEN_WIDTH];
  
@@ -297,7 +294,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
   RenderSky();
   //Draw background elements like walls to renderBuffer
   CastRays(side);
-  //RenderSprites(side);
+  RenderSprites(side);
   RenderHUD(side);
   RenderBuffer(side);
  }
