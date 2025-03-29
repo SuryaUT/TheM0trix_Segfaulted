@@ -69,7 +69,7 @@ if __name__ == "__main__":
             if filename_and_array:
                 filename, c_array_output = filename_and_array
                 outfile.write(f"// Array for image: {image_file}\n")
-                outfile.write(f"const uint16_t {filename}[64 * 64] = {c_array_output}\n\n")
+                outfile.write(f"const uint16_t {filename}[{IMAGE_HEIGHT} * {IMAGE_WIDTH}] = {c_array_output}\n\n")
             else:
                 error_message = filename_and_array[1]
                 outfile.write(f"// {error_message}\n\n")

@@ -15,7 +15,7 @@ extern uint8_t isOnTarget;
 #define NUMSPRITES 2
 Sprite Sprites[NUMSPRITES] = {
     {12, 12, target, 1, 32, 32, 3},
-    {18, 12, Ammo, 0, 16, 16, 4}
+    {18, 12, Ammo, 0, 16, 16, 1}
 };
 
 // Helper structure for sorting sprites
