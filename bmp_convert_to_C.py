@@ -5,12 +5,9 @@ import os
 #C:\CCS\MSPM0_ValvanoWare\Game\Textures
 #C:\CCS\MSPM0_ValvanoWare\Game\Textures\TexArrays.txt
 
-IMAGE_HEIGHT = 16
-IMAGE_WIDTH = 16
-
-def bmp_to_c_array_direct_color_scaled(image_file_path):
+def bmp_to_c_array_direct_color_scaled(image_file_path, resolution):
     """
-    Converts a bitmap or png image of any size to a 64 x 64 1D C array of uint16_t in BGR565 format.
+    Converts a bitmap or png image of any size to a 1D C array of uint16_t in BGR565 format.
 
     Args:
         image_file_path (str): The path to the bitmap or png image file.
@@ -21,13 +18,13 @@ def bmp_to_c_array_direct_color_scaled(image_file_path):
     """
     try:
         img = Image.open(image_file_path)
-        img = img.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
+        img = img.resize((resolution, resolution))
         img = img.convert("RGB")
         pixels = img.load()
 
         c_array_values = []
-        for y in range(IMAGE_HEIGHT):
-            for x in range(IMAGE_WIDTH):
+        for y in range(resolution):
+            for x in range(resolution):
                 r, g, b = pixels[x, y]
 
                 blue5bit = b >> 3
@@ -49,6 +46,7 @@ def bmp_to_c_array_direct_color_scaled(image_file_path):
 if __name__ == "__main__":
     input_folder_path = input("Enter the path to the folder containing the BMP and/or PNG files: ")
     output_file_path = input("Enter the desired output text file path (.txt): ")
+    resolution = int(input("Enter your desired resolution (Ex. 32 for 32x32): "))
 
     try:
         image_files = [f for f in os.listdir(input_folder_path) if f.lower().endswith(('.bmp', '.png'))]
@@ -62,14 +60,14 @@ if __name__ == "__main__":
         print(f"An error occurred while accessing the folder: {e}")
         exit()
 
-    with open(output_file_path, 'a') as outfile:  # Changed 'w' to 'a' for append mode
+    with open(output_file_path, 'w') as outfile:  # Changed 'w' to 'a' for append mode
         for image_file in image_files:
             image_path = os.path.join(input_folder_path, image_file)
-            filename_and_array = bmp_to_c_array_direct_color_scaled(image_path)
+            filename_and_array = bmp_to_c_array_direct_color_scaled(image_path, resolution)
             if filename_and_array:
                 filename, c_array_output = filename_and_array
                 outfile.write(f"// Array for image: {image_file}\n")
-                outfile.write(f"const uint16_t {filename}[{IMAGE_HEIGHT} * {IMAGE_WIDTH}] = {c_array_output}\n\n")
+                outfile.write(f"const uint16_t {filename}[{resolution} * {resolution}] = {c_array_output}\n\n")
             else:
                 error_message = filename_and_array[1]
                 outfile.write(f"// {error_message}\n\n")

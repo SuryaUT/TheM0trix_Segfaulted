@@ -1,3 +1,6 @@
+#ifndef SPRITES_H_
+#define SPRITES_H_
+
 #include <stdint.h>
 
 typedef struct{
@@ -11,3 +14,7 @@ typedef struct{
 } Sprite;
 
 void RenderSprites(int side);
+
+void RenderForegroundSprites(int side);
+
+#endif /* SPRITES_H_ */

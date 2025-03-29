@@ -1,7 +1,22 @@
+#ifndef BUFFER_H_
+#define BUFFER_H_
+
+#include "Graphics.h"
+#include "sprites.h"
+#include <stdint.h>
+
+#define BUFFER_WIDTH SCREEN_WIDTH / 2
+#define BUFFER_HEIGHT SCREEN_HEIGHT
+
+extern uint16_t renderBuffer[BUFFER_WIDTH * BUFFER_HEIGHT];
+
 void PrecalculateFloorGradient();
-
 void clearRenderBuffer(uint16_t color);
-
 void setPixelBuffer(int x, int y, uint16_t color);
-
 void RenderBuffer(int side);
+
+void drawForegroundSpriteToBuffer(int side, Sprite sprite);
+
+void blitBufferToRenderBuffer(uint16_t* srcBuffer, int srcWidth, int srcHeight, int destX, int destY);
+
+#endif /* BUFFER_H_ */

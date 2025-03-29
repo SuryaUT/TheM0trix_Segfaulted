@@ -28,8 +28,8 @@
   for (int i = MAP_WIDTH - 1; i >= 0; i--) {
    for (int j = 0; j < MAP_HEIGHT; j++) {
     worldMap[i][j] = map[i][j];
-    //int index = (MAP_WIDTH - 1 - i) * MAP_HEIGHT + j;
-    miniMap[i*MAP_HEIGHT+j] = (map[i][j] != 0) ? ST7735_WHITE : 0;
+    int index = (MAP_WIDTH - 1 - i) * MAP_HEIGHT + j;
+    miniMap[index] = (map[i][j] != 0) ? ST7735_WHITE : 0;
    }
   }
  }
@@ -175,21 +175,12 @@
  }
 
 void DrawMinimap() {
-    for (int y = SCREEN_HEIGHT - 24; y < SCREEN_HEIGHT; y++) {
-        for (int x = 0; x < 24; x++) {
-            int screenYOffset = y - (SCREEN_HEIGHT - 24); // Normalize y to 0-23 range for map indexing
-            if (screenYOffset < MAP_HEIGHT && x < MAP_WIDTH) {
-                int worldMapRow = MAP_WIDTH - 1 - screenYOffset;
-                int worldMapCol = x;
-                int index = worldMapRow * MAP_HEIGHT + worldMapCol;
+    int minimapDestX = 0;
+    int minimapDestY = SCREEN_HEIGHT - 24;
 
-                uint16_t mapColor = (miniMap[index] != 0) ? ST7735_WHITE : BACKGROUND_COLOR;
-                setPixelBuffer(x, y, mapColor);
-            }
-        }
-    }
+    blitBufferToRenderBuffer(miniMap, MAP_WIDTH, MAP_HEIGHT, minimapDestX, minimapDestY);
 
-    // Draw player position on the minimap
+    // Draw player position on the minimap (remains the same)
     int playerMinimapY = (SCREEN_HEIGHT - 24) + ((MAP_HEIGHT - 1) - (int)posX);
     int playerMinimapX = (int)posY;
 
@@ -285,6 +276,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
     else{
         DrawHealthBar();
     }
+    RenderForegroundSprites(side);
 }
 
  

@@ -33,7 +33,7 @@ int compareSprites(const void *a, const void *b) {
     return 0;
 }
 
-void RenderSpriteInternal(Sprite sprite, int side) {
+void RenderSprite(Sprite sprite, int side) {
     if (sprite.image == target) isOnTarget = 0;
     // Sprite position relative to the player
     double spriteX = sprite.x - posX;
@@ -116,6 +116,12 @@ void RenderSprites(int side) {
     qsort(spriteOrder, NUMSPRITES, sizeof(SpriteDistancePair), compareSprites);
 
     for (int i = 0; i < NUMSPRITES; i++) {
-        RenderSpriteInternal(Sprites[spriteOrder[i].index], side);
+        RenderSprite(Sprites[spriteOrder[i].index], side);
     }
+}
+
+
+Sprite weapon = {SCREEN_WIDTH/2 + 24, SCREEN_HEIGHT, Shotgun, 0, 32, 32, 3};
+void RenderForegroundSprites(int side){
+    drawForegroundSpriteToBuffer(side, weapon);
 }
