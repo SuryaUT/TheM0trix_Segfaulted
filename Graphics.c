@@ -41,6 +41,7 @@
  int playerHealth = 50;
  uint8_t isOnTarget = 0;
  uint8_t accuracyRad = 6;
+ uint8_t ammo = 8, max_ammo = 8;
  
  double ZBuffer[SCREEN_WIDTH];
  
@@ -267,6 +268,16 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
     }
 }
 
+void printAmmo(int side) {
+    char buffer[10];
+
+    // Format the ammo string using sprintf
+    sprintf(buffer, "Ammo: %d/%d", ammo, max_ammo);
+
+    // Call your existing printToBuffer function to display the ammo
+    printToBuffer(buffer, 0, SCREEN_HEIGHT-24, ST7735_WHITE, side);
+}
+
  void RenderHUD(int side){
     uint16_t crosshair_color = (isOnTarget) ? ST7735_RED : ST7735_WHITE;
     DrawCrosshair(side, 1, crosshair_color);
@@ -277,6 +288,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
         DrawHealthBar();
     }
     RenderForegroundSprites(side);
+    printAmmo(side);
 }
 
  
@@ -310,7 +322,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
   __enable_irq();
  }
  
-  int main() {
+int main() {
   SystemInit();
   int side = 0;
   while(1) {

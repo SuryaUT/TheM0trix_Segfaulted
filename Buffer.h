@@ -13,10 +13,9 @@ extern uint16_t renderBuffer[BUFFER_WIDTH * BUFFER_HEIGHT];
 void PrecalculateFloorGradient();
 void clearRenderBuffer();
 void setPixelBuffer(int x, int y, uint16_t color);
-void RenderBuffer(int side);
-
 void drawForegroundSpriteToBuffer(int side, Sprite sprite);
-
 void blitBufferToRenderBuffer(uint16_t* srcBuffer, int srcWidth, int srcHeight, int destX, int destY);
+void printToBuffer(const char *text, int screenX, int screenY, uint16_t color, int side);
+void RenderBuffer(int side);
 
 #endif /* BUFFER_H_ */

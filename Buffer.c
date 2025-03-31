@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Buffer.h"
 #include "../inc/ST7735.h"
+#include "Font.h"
 
 uint16_t renderBuffer[BUFFER_WIDTH * BUFFER_HEIGHT];
 
@@ -105,6 +106,55 @@ void drawForegroundSpriteToBuffer(int side, Sprite sprite) {
                 }
             }
         }
+    }
+}
+
+void drawCharToBuffer(char ch, int screenX, int screenY, uint16_t color, int side) {
+    if (ch < 0 || ch > (sizeof(Font) / FONT_BYTES_PER_CHAR) - 1) return;
+
+    int charIndex = ch * FONT_BYTES_PER_CHAR;
+    int bufferBoundary = SCREEN_WIDTH / 2;
+    int bufferX = -1;
+
+    if (side == 0 && screenX >= 0 && screenX < bufferBoundary) {
+        bufferX = screenX;
+    } else if (side == 1 && screenX >= bufferBoundary && screenX < SCREEN_WIDTH) {
+        bufferX = screenX - bufferBoundary;
+    }
+
+    if (bufferX != -1) {
+        for (int col = 0; col < FONT_WIDTH; col++) {
+            uint8_t colData = Font[charIndex + col];
+            for (int row = 0; row < FONT_HEIGHT; row++) {
+                if ((colData >> row) & 0x01) {
+                    setPixelBuffer(bufferX + col, BUFFER_HEIGHT - 1 - (screenY + row), color);
+                }
+            }
+        }
+    }
+}
+
+void printToBuffer(const char *text, int screenX, int screenY, uint16_t color, int side) {
+    int currentScreenX = screenX;
+    int bufferBoundary = SCREEN_WIDTH / 2;
+
+    for (int i = 0; text[i] != '\0'; i++) {
+        // Calculate the screen range for the current character
+        int charStartX = currentScreenX;
+        int charEndX = currentScreenX + FONT_WIDTH + FONT_SPACE - 1; // End of character + space
+
+        // Check if any part of the character falls within the current side's screen range
+        if ((side == 0 && charStartX < bufferBoundary) || (side == 1 && charStartX >= bufferBoundary && charStartX < SCREEN_WIDTH)) {
+            // Calculate the effective screenX for drawing on the current side
+            int drawScreenX = currentScreenX;
+            if (side == 1) {
+                drawScreenX = currentScreenX - bufferBoundary;
+            }
+            if (drawScreenX >= 0 && drawScreenX < BUFFER_WIDTH) {
+                drawCharToBuffer(text[i], currentScreenX, screenY, color, side);
+            }
+        }
+        currentScreenX += FONT_WIDTH + FONT_SPACE;
     }
 }
 

@@ -30,15 +30,16 @@ double fastSin(double x) {
   return 1.0f - (x * x) / 2.0;
  }
 
-uint8_t lastTriggerIn = 0;
+uint8_t lastInput = 0;
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Shoot sound
-  if (input & 1 && !lastTriggerIn){
-   Sound_Start(Sounds[0]);
-   lastTriggerIn = 1;
+  if (input & 1 && !(lastInput & 1) && ammo){
+   Sound_Start(SoundEffects[SHOTGUN_SOUND]);
+   ammo--;
   }
-  else if (!(input & 1)){
-   lastTriggerIn = 0;
+  if (input & (1<<4) && !(lastInput & (1<<4))){
+    Sound_Start(SoundEffects[RELOAD_SOUND]);
+    ammo = max_ammo;
   }
  
   // Rotate left or right
@@ -77,6 +78,8 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   isCollision_Y = worldMap[(int)posX][(int)(posY + 2*planeY * moveSpeed_LR)] != 0;
   if(!isCollision_X) posX += planeX * moveSpeed_LR;
   if(!isCollision_Y) posY += planeY * moveSpeed_LR;
+
+  lastInput = input;
  }
 
 void TIMG12_IRQHandler(void){
