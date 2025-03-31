@@ -34,7 +34,7 @@ uint8_t lastInput = 0;
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Shoot sound
   if (input & 1 && !(lastInput & 1) && ammo){
-   Sound_Start(SoundEffects[SHOTGUN_SOUND]);
+   Sound_Start(SoundEffects[PISTOL_SOUND]);
    ammo--;
   }
   if (input & (1<<4) && !(lastInput & (1<<4))){

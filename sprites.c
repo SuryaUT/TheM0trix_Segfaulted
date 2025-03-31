@@ -120,8 +120,13 @@ void RenderSprites(int side) {
     }
 }
 
+Sprite inventory = {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1};
+void RenderInventory(int side){
+    drawForegroundSpriteToBuffer(side, inventory);
+}
 
-Sprite weapon = {SCREEN_WIDTH/2 + 24, SCREEN_HEIGHT, Shotgun, 0, 32, 32, 3};
+Sprite weapon = {SCREEN_WIDTH/2, SCREEN_HEIGHT, Pistol, 0, 32, 32, 3};
 void RenderForegroundSprites(int side){
     drawForegroundSpriteToBuffer(side, weapon);
+    RenderInventory(side);
 }
