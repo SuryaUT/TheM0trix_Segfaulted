@@ -14,6 +14,7 @@ C_SRCS += \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../DAC.c \
 ../Graphics.c \
+../Input.c \
 ../Joy.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
@@ -30,6 +31,7 @@ C_DEPS += \
 ./Clock.d \
 ./DAC.d \
 ./Graphics.d \
+./Input.d \
 ./Joy.d \
 ./LaunchPad.d \
 ./SPI.d \
@@ -46,6 +48,7 @@ OBJS += \
 ./Clock.o \
 ./DAC.o \
 ./Graphics.o \
+./Input.o \
 ./Joy.o \
 ./LaunchPad.o \
 ./SPI.o \
@@ -62,6 +65,7 @@ OBJS__QUOTED += \
 "Clock.o" \
 "DAC.o" \
 "Graphics.o" \
+"Input.o" \
 "Joy.o" \
 "LaunchPad.o" \
 "SPI.o" \
@@ -78,6 +82,7 @@ C_DEPS__QUOTED += \
 "Clock.d" \
 "DAC.d" \
 "Graphics.d" \
+"Input.d" \
 "Joy.d" \
 "LaunchPad.d" \
 "SPI.d" \
@@ -94,6 +99,7 @@ C_SRCS__QUOTED += \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Clock.c" \
 "../DAC.c" \
 "../Graphics.c" \
+"../Input.c" \
 "../Joy.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \

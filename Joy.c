@@ -24,15 +24,3 @@ void Joy_In(uint32_t* x, uint32_t* y){
     // sample ADC
     ADC_InDual(ADC1, x, y);
 }
-
-void TIMG12_IRQHandler(void){
-  if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
-    
-    uint32_t x, y;
-    Joy_In(&x, &y);
-
-    Joy_x = -((int32_t)((x>>9) +1)/2 - 2);
-    Joy_y = (int32_t)((y>>9)+1)/2 - 2;
-    
-  }
-}

@@ -3,6 +3,7 @@
 "./Clock.o"
 "./DAC.o"
 "./Graphics.o"
+"./Input.o"
 "./Joy.o"
 "./LaunchPad.o"
 "./SPI.o"

@@ -11,7 +11,7 @@
 extern uint16_t renderBuffer[BUFFER_WIDTH * BUFFER_HEIGHT];
 
 void PrecalculateFloorGradient();
-void clearRenderBuffer(uint16_t color);
+void clearRenderBuffer();
 void setPixelBuffer(int x, int y, uint16_t color);
 void RenderBuffer(int side);
 

@@ -14,12 +14,12 @@
  #include "../inc/Timer.h"
  #include "../inc/LaunchPad.h"
  #include "Graphics.h"
- #include "Joy.h"
  #include "maps.h"
  #include "Sounds.h"
  #include "sprites.h"
  #include "Buffer.h"
  #include "Textures.h"
+ #include "Input.h"
  
  uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
  uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT] = {0};
@@ -282,7 +282,7 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
  
  void RenderScene(int side){
   //Clear buffer
-  clearRenderBuffer(BACKGROUND_COLOR);
+  clearRenderBuffer();
   // Render random falling bars in the sky
   RenderSky();
   //Draw background elements like walls to renderBuffer
@@ -292,79 +292,9 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
   RenderBuffer(side);
  }
  
- 
- double fastSin(double x) {
-  return x - (x * x * x) / 6.0;
- }
- 
- double fastCos(double x) {
-  return 1.0f - (x * x) / 2.0;
- }
- 
- uint8_t lastTriggerIn = 0;
- void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
-  // Shoot sound
-  if (input & 1 && !lastTriggerIn){
-   Sound_Start(Sounds[0]);
-   lastTriggerIn = 1;
-  }
-  else if (!(input & 1)){
-   lastTriggerIn = 0;
-  }
- 
-  // Rotate left or right
-  if (input & (1 << 1)){
-   double cosRot = fastCos(rotSpeed);
-   double sinRot = -fastSin(rotSpeed);
-   // Both camera direction and camera plane must be rotated
-   double oldDirX = dirX;
-   dirX = dirX * cosRot - dirY * sinRot;
-   dirY = oldDirX * sinRot + dirY * cosRot;
-   // Camera plane must be perpendicular to camera direction
-   planeX = dirY;
-   planeY = -dirX;
-  }
- 
-  if (input & (1<<3)){
-   double cosRot = fastCos(rotSpeed);
-   double sinRot = fastSin(rotSpeed);
-   // Both camera direction and camera plane must be rotated
-   double oldDirX = dirX;
-   dirX = dirX * cosRot - dirY * sinRot;
-   dirY = oldDirX * sinRot + dirY * cosRot;
-   // Camera plane must be perpendicular to camera direction
-   planeX = dirY;
-   planeY = -dirX;
-  }
- 
-  // Joystick input:
-  // Move forward or backward, checking for walls
-  uint8_t isCollision_X = worldMap[(int)(posX + 2* dirX * moveSpeed_FB)][(int)posY] != 0;
-  uint8_t isCollision_Y = worldMap[(int)posX][(int)(posY + 2*dirY * moveSpeed_FB)] != 0;
-  if(!isCollision_X) posX += dirX * moveSpeed_FB;
-  if(!isCollision_Y) posY += dirY * moveSpeed_FB;
-  // Move left or right, checking for walls
-  isCollision_X = worldMap[(int)(posX + 2* planeX * moveSpeed_LR)][(int)posY] != 0;
-  isCollision_Y = worldMap[(int)posX][(int)(posY + 2*planeY * moveSpeed_LR)] != 0;
-  if(!isCollision_X) posX += planeX * moveSpeed_LR;
-  if(!isCollision_Y) posY += planeY * moveSpeed_LR;
- }
- 
- void Input_Init(){
-  TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
-  Joy_Init();
- 
-  // Initialize buttons
-  IOMUX->SECCFG.PINCM[PA24INDEX] = 0x00040081; // regular GPIO input, shoot key
-  IOMUX->SECCFG.PINCM[PA25INDEX] = 0x00040081; // regular GPIO input, right key
-  IOMUX->SECCFG.PINCM[PA26INDEX] = 0x00040081; // regular GPIO input, down key
-  IOMUX->SECCFG.PINCM[PA27INDEX] = 0x00040081; // regular GPIO input, left key
-  IOMUX->SECCFG.PINCM[PA28INDEX] = 0x00040081; // regular GPIO input, up key
- }
- 
  void Graphics_Init(){
   SPI_Init();
-  ST7735_InitPrintf();
+  ST7735_InitR(INITR_REDTAB);
   ST7735_SetRotation(1);
   FillMap(OGMap);  // Pick map here
   PrecalculateFloorGradient();
@@ -380,11 +310,6 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
   __enable_irq();
  }
  
- uint8_t ReadKeys(){
-  return (GPIOA->DIN31_0 >> 24) & 0x1F;
- }
- 
- int Joy_x, Joy_y;
   int main() {
   SystemInit();
   int side = 0;
@@ -394,14 +319,6 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
    side = 1 - side;
 
    if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
- 
-   // Speed modifiers
-   double moveSpeed = .05 * 2.5; // squares/sec
-   double rotSpeed = .05 * 3.0;  // rads/sec
-   double moveSpeed_FB = moveSpeed * Joy_y;
-   double moveSpeed_LR = moveSpeed * Joy_x;
- 
-   MovePlayer(ReadKeys(), moveSpeed_FB, moveSpeed_LR, rotSpeed);
  
    // End in case of death or exit button
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){

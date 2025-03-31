@@ -15,7 +15,7 @@ void PrecalculateFloorGradient() {
     }
 }
 
-void clearRenderBuffer(uint16_t color) {
+void clearRenderBuffer() {
     // Render pre-calculated floor gradient in the bottom half of the buffer
     for (int y = 0; y < SCREEN_HEIGHT / 2; y++) {
         uint16_t floorColor = floorGradient[y];
