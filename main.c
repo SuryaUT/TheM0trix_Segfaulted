@@ -41,7 +41,7 @@ Inventory inventory = {0, 3, {}, 0};
 int numsprites = 3;
 Sprite Sprites[MAX_SPRITES] = {
     {12, 12, target, 1, 32, 32, 3},
-    {18, 12, pistolsprite, 0xFFFF, 16, 16, 1, PISTOL2},
+    {18, 12, Shotgunsprite, 0, 16, 16, 1, SHOTGUN},
 };
 
 Item pistol = {
@@ -52,9 +52,9 @@ Item pistol = {
   };
 
 Item pistol2 = {
-    PISTOL2,
-    {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1, PISTOL2},
-    {SCREEN_WIDTH/2, SCREEN_HEIGHT, PistolImage, 0, 32, 32, 3},
+    SHOTGUN,
+    {8, SCREEN_HEIGHT, Shotgunsprite, 0, 16, 16, 1, SHOTGUN},
+    {SCREEN_WIDTH/2 + 24, SCREEN_HEIGHT, ShotgunImage, 0, 32, 32, 3},
     SoundEffects + SHOTGUN_SOUND
   };
 

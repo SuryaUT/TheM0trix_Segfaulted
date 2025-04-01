@@ -9,7 +9,7 @@ const uint8_t* SoundPt;
 
 sound_t SoundEffects[] = {
   {pistolSound, 10932},
-  {shotgunSound, 14183},
+  {shotgunSound, 7800},
   {weaploadSound, 2394},
   {outofammoSound, 2383},
   {reloadSound, 18688}

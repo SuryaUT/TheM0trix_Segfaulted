@@ -6,7 +6,7 @@
 #include "sprites.h"
 
 #define PISTOL 0
-#define PISTOL2 1
+#define SHOTGUN 1
 
 typedef struct{
     int8_t type;
