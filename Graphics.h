@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#define MAP_WIDTH 24
+#define MAP_HEIGHT 24
 #define SCREEN_WIDTH 160
 #define SCREEN_HEIGHT 128
 #define BUFFER_WIDTH SCREEN_WIDTH / 2
@@ -19,3 +21,6 @@
 #define SKY_HEIGHT_START (SCREEN_HEIGHT / 2)
 #define MAX_FALLING_BARS 10
 #define BAR_THICKNESS 2
+
+void Graphics_Init();
+void RenderScene();

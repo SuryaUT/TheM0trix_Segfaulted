@@ -8,11 +8,11 @@ uint32_t Length;
 const uint8_t* SoundPt;
 
 sound_t SoundEffects[] = {
-  {pistol, 10932},
-  {shotgun, 14183},
-  {weapload, 2394},
-  {outofammo, 2383},
-  {reload, 18688}
+  {pistolSound, 10932},
+  {shotgunSound, 14183},
+  {weaploadSound, 2394},
+  {outofammoSound, 2383},
+  {reloadSound, 18688}
 };
 
 void Sound_Init(uint32_t period, uint32_t priority){

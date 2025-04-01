@@ -22,7 +22,7 @@
  #include "Input.h"
  
  uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
- uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT] = {0};
+ uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT];
  
  void FillMap(const uint8_t map[MAP_WIDTH][MAP_HEIGHT]) {
   for (int i = MAP_WIDTH - 1; i >= 0; i--) {
@@ -33,15 +33,14 @@
    }
   }
  }
- 
- // Player state
- double posX = 22, posY = 12;    // x and y start position
- double dirX = -1, dirY = 0;    // initial direction vector
- double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
- int playerHealth = 50;
- uint8_t isOnTarget = 0;
- uint8_t accuracyRad = 6;
- uint8_t ammo = 8, max_ammo = 8;
+
+extern double posX, posY;
+extern double dirX, dirY;
+extern double planeX, planeY;
+extern uint8_t accuracyRad;
+extern uint8_t isOnTarget;
+extern uint8_t ammo, max_ammo;
+extern int playerHealth;
  
  double ZBuffer[SCREEN_WIDTH];
  
@@ -292,7 +291,8 @@ void printAmmo(int side) {
 }
 
  
- void RenderScene(int side){
+ void RenderScene(){
+  static int side = 0;
   //Clear buffer
   clearRenderBuffer();
   // Render random falling bars in the sky
@@ -302,6 +302,7 @@ void printAmmo(int side) {
   RenderSprites(side);
   RenderHUD(side);
   RenderBuffer(side);
+  side = !side;
  }
  
  void Graphics_Init(){
@@ -310,35 +311,4 @@ void printAmmo(int side) {
   ST7735_SetRotation(1);
   FillMap(OGMap);  // Pick map here
   PrecalculateFloorGradient();
- }
- 
- void SystemInit() {
-  __disable_irq();
-  Clock_Init80MHz(0);
-  LaunchPad_Init();
-  Sound_Init(80000000/11000, 0);
-  Input_Init();
-  Graphics_Init();
-  __enable_irq();
- }
- 
-int main() {
-  SystemInit();
-  int side = 0;
-  while(1) {
-   RenderScene(side);
-   //Renderscene called for both sides
-   side = 1 - side;
-
-   if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
- 
-   // End in case of death or exit button
-   if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
-    ST7735_FillScreen(0);
-    printf("Game Over!\n");
-    printf("(You died lol)\n");
-    printf("get better lil bro\n");
-    __asm volatile("bkpt; \n"); // breakpoint here
-   };
-  }
  }

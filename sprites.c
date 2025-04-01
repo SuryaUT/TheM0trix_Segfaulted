@@ -1,7 +1,7 @@
 #include "sprites.h"
 #include "Graphics.h"
-#include "images.h"
 #include "Buffer.h"
+#include "Items.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -12,11 +12,11 @@ extern double ZBuffer[SCREEN_WIDTH];
 extern uint8_t accuracyRad;
 extern uint8_t isOnTarget;
 
-#define NUMSPRITES 2
-Sprite Sprites[NUMSPRITES] = {
-    {12, 12, target, 1, 32, 32, 3},
-    {18, 12, Ammo, 0, 16, 16, 1}
-};
+extern int numsprites;
+extern Sprite Sprites[];
+extern const uint16_t target[];
+extern Inventory inventory;
+extern Item* items[];
 
 // Helper structure for sorting sprites
 typedef struct {
@@ -33,7 +33,7 @@ int compareSprites(const void *a, const void *b) {
     return 0;
 }
 
-void RenderSprite(Sprite sprite, int side) {
+void RenderSprite(Sprite sprite, int side, int sprite_index) {
     if (sprite.image == target) isOnTarget = 0;
     // Sprite position relative to the player
     double spriteX = sprite.x - posX;
@@ -43,6 +43,12 @@ void RenderSprite(Sprite sprite, int side) {
     double invDet = 1.0 / (planeX * dirY - dirX * planeY);
     double transformX = invDet * (dirY * spriteX - dirX * spriteY);
     double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+
+    // Pick up sprite if it's an item
+    if (sprite.image != target && transformY <= .5 && transformY > 0){
+        Sprites[sprite_index].scale = 0;
+        Inventory_add(&inventory, items[sprite.type]);
+    }
 
     // Ignore if behind player
     if (transformY <= 0.1) return;
@@ -107,26 +113,32 @@ void RenderSprite(Sprite sprite, int side) {
 
 
 void RenderSprites(int side) {
-    SpriteDistancePair spriteOrder[NUMSPRITES];
-    for (int i = 0; i < NUMSPRITES; i++) {
+    SpriteDistancePair spriteOrder[numsprites];
+    for (int i = 0; i < numsprites; i++) {
         spriteOrder[i].index = i;
         spriteOrder[i].distance = pow(posX - Sprites[i].x, 2) + pow(posY - Sprites[i].y, 2);
     }
 
-    qsort(spriteOrder, NUMSPRITES, sizeof(SpriteDistancePair), compareSprites);
+    qsort(spriteOrder, numsprites, sizeof(SpriteDistancePair), compareSprites);
 
-    for (int i = 0; i < NUMSPRITES; i++) {
-        RenderSprite(Sprites[spriteOrder[i].index], side);
+    for (int i = 0; i < numsprites; i++) {
+        if (Sprites[spriteOrder[i].index].scale > 0) RenderSprite(Sprites[spriteOrder[i].index], side, spriteOrder[i].index);
     }
 }
 
-Sprite inventory = {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1};
 void RenderInventory(int side){
-    drawForegroundSpriteToBuffer(side, inventory);
+    for (int i = 0; i < inventory.size; i++){
+        drawForegroundSpriteToBuffer(side, inventory.items[i]->invent_sprite);
+    }
+
+    if (side == 0){
+         for (int i = 0; i < 16; i++){
+             setPixelBuffer(i+(inventory.index*16), 1, MATRIX_NEON_GREEN);
+         }
+    }
 }
 
-Sprite weapon = {SCREEN_WIDTH/2, SCREEN_HEIGHT, Pistol, 0, 32, 32, 3};
 void RenderForegroundSprites(int side){
-    drawForegroundSpriteToBuffer(side, weapon);
+    drawForegroundSpriteToBuffer(side, inventory.items[inventory.index]->holding_sprite);
     RenderInventory(side);
 }

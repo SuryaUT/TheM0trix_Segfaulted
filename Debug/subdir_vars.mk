@@ -15,6 +15,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../DAC.c \
 ../Graphics.c \
 ../Input.c \
+../Items.c \
 ../Joy.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
@@ -23,6 +24,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../UART.c \
 ../UARTbusywait.c \
+../main.c \
 ../sprites.c 
 
 C_DEPS += \
@@ -32,6 +34,7 @@ C_DEPS += \
 ./DAC.d \
 ./Graphics.d \
 ./Input.d \
+./Items.d \
 ./Joy.d \
 ./LaunchPad.d \
 ./SPI.d \
@@ -40,6 +43,7 @@ C_DEPS += \
 ./Timer.d \
 ./UART.d \
 ./UARTbusywait.d \
+./main.d \
 ./sprites.d 
 
 OBJS += \
@@ -49,6 +53,7 @@ OBJS += \
 ./DAC.o \
 ./Graphics.o \
 ./Input.o \
+./Items.o \
 ./Joy.o \
 ./LaunchPad.o \
 ./SPI.o \
@@ -57,6 +62,7 @@ OBJS += \
 ./Timer.o \
 ./UART.o \
 ./UARTbusywait.o \
+./main.o \
 ./sprites.o 
 
 OBJS__QUOTED += \
@@ -66,6 +72,7 @@ OBJS__QUOTED += \
 "DAC.o" \
 "Graphics.o" \
 "Input.o" \
+"Items.o" \
 "Joy.o" \
 "LaunchPad.o" \
 "SPI.o" \
@@ -74,6 +81,7 @@ OBJS__QUOTED += \
 "Timer.o" \
 "UART.o" \
 "UARTbusywait.o" \
+"main.o" \
 "sprites.o" 
 
 C_DEPS__QUOTED += \
@@ -83,6 +91,7 @@ C_DEPS__QUOTED += \
 "DAC.d" \
 "Graphics.d" \
 "Input.d" \
+"Items.d" \
 "Joy.d" \
 "LaunchPad.d" \
 "SPI.d" \
@@ -91,6 +100,7 @@ C_DEPS__QUOTED += \
 "Timer.d" \
 "UART.d" \
 "UARTbusywait.d" \
+"main.d" \
 "sprites.d" 
 
 C_SRCS__QUOTED += \
@@ -100,6 +110,7 @@ C_SRCS__QUOTED += \
 "../DAC.c" \
 "../Graphics.c" \
 "../Input.c" \
+"../Items.c" \
 "../Joy.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
@@ -108,6 +119,7 @@ C_SRCS__QUOTED += \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
 "../UART.c" \
 "../UARTbusywait.c" \
+"../main.c" \
 "../sprites.c" 
 
 

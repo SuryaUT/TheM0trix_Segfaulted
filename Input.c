@@ -5,6 +5,9 @@
 #include "../inc/LaunchPad.h"
 #include "Sounds.h"
 #include "Input.h"
+#include "Items.h"
+
+extern Inventory inventory;
 
 void Input_Init(){
   TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
@@ -33,13 +36,22 @@ double fastSin(double x) {
 uint8_t lastInput = 0;
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Shoot sound
-  if (input & 1 && !(lastInput & 1) && ammo){
-   Sound_Start(SoundEffects[PISTOL_SOUND]);
-   ammo--;
+  if (input & 1 && !(lastInput & 1)){
+    if (ammo){
+      Sound_Start(*inventory.items[inventory.index]->sound);
+      ammo--;
+    }
+    else{
+      Sound_Start(SoundEffects[OUTOFAMMO_SOUND]);
+    }
   }
   if (input & (1<<4) && !(lastInput & (1<<4))){
     Sound_Start(SoundEffects[RELOAD_SOUND]);
     ammo = max_ammo;
+  }
+  if (input & (1<<2) && !(lastInput & (1<<2))){
+    Sound_Start(SoundEffects[WEAPLOAD_SOUND]);
+    Inventory_next(&inventory);
   }
  
   // Rotate left or right

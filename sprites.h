@@ -11,6 +11,7 @@ typedef struct{
     int width;
     int height;
     int scale;
+    int8_t type;
 } Sprite;
 
 void RenderSprites(int side);
