@@ -37,23 +37,23 @@ uint8_t lastInput = 0;
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Sprint using joystick button
   if (Joy_InButton()){
-    moveSpeed_FB *=2;
-    moveSpeed_LR *= 2;
+    moveSpeed_FB *= 2.5;
+    moveSpeed_LR *= 2.5;
   }
 
   // Shoot sound
   if (input & 1 && !(lastInput & 1)){
-    if (ammo){
+    if (!Item_isSpent(Inventory_currentItem(&inventory))){
       Sound_Start(*Inventory_currentItem(&inventory)->sound);
-      ammo--;
+      Inventory_currentItem(&inventory)->ammo--;
     }
     else{
       Sound_Start(SoundEffects[OUTOFAMMO_SOUND]);
     }
   }
-  if (input & (1<<4) && !(lastInput & (1<<4))){
+  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(Inventory_currentItem(&inventory))){
     Sound_Start(SoundEffects[RELOAD_SOUND]);
-    ammo = max_ammo;
+    Inventory_currentItem(&inventory)->ammo = Inventory_currentItem(&inventory)->max_ammo;
   }
   if (input & (1<<2) && !(lastInput & (1<<2))){
     Sound_Start(SoundEffects[WEAPLOAD_SOUND]);

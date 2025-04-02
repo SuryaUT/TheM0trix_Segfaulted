@@ -23,3 +23,11 @@ void Inventory_next(Inventory* invent){
 Item* Inventory_currentItem(Inventory* invent){
     return invent->items[invent->index];
 }
+
+uint8_t Item_isWeapon(Item* item){
+    return item->type < NUMWEAPONS;
+}
+
+uint8_t Item_isSpent(Item* item){
+    return item->ammo == 0;
+}

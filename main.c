@@ -24,7 +24,6 @@
  int playerHealth = 50;
  uint8_t isOnTarget = 0;
  uint8_t accuracyRad = 6;
- uint8_t ammo = 8, max_ammo = 8;
 
 void SystemInit() {
   __disable_irq();

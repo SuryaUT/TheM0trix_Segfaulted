@@ -5,14 +5,14 @@
 #include "Sounds.h"
 #include "sprites.h"
 
-#define PISTOL 0
-#define SHOTGUN 1
-
 typedef struct{
+    char* name;
     int8_t type;
     Sprite invent_sprite;
     Sprite holding_sprite;
     sound_t* sound;
+    uint8_t ammo;
+    uint8_t max_ammo;
 } Item;
 
 typedef struct {
@@ -29,5 +29,11 @@ void Inventory_replace(Inventory* invent, Item* item);
 void Inventory_next(Inventory* invent);
 
 Item* Inventory_currentItem(Inventory* invent);
+
+#define NUMWEAPONS 2
+
+uint8_t Item_isWeapon(Item* item);
+
+uint8_t Item_isSpent(Item* item);
 
 #endif

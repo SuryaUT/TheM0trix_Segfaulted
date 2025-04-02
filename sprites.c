@@ -44,13 +44,13 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     double transformX = invDet * (dirY * spriteX - dirX * spriteY);
     double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
 
-    // Pick up sprite if it's an item
-    if (sprite.image != target && transformY <= .5 && transformY > 0 && Inventory_add(&inventory, items[sprite.type])){ // Inventory_add() will return 0 if inventory is full
-        Sprites[sprite_index].scale = 0;
-    }
-
     // Ignore if behind player
     if (transformY <= 0.1) return;
+
+    // Pick up sprite if it's an item and we're close enough
+    if (sprite.image != target && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8 && Inventory_add(&inventory, items[sprite.type])){ // Inventory_add() will return 0 if inventory is full
+        Sprites[sprite_index].scale = 0;
+    }
 
     // Project sprite to screen
     int spriteScreenX = (int)((SCREEN_WIDTH / 2) * (1 + transformX / transformY));

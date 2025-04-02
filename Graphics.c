@@ -7,6 +7,7 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
+#include "Inventory.h"
  #include "ti/devices/msp/msp.h"
  #include "../inc/ST7735.h"
  #include "../inc/SPI.h"
@@ -39,8 +40,8 @@ extern double dirX, dirY;
 extern double planeX, planeY;
 extern uint8_t accuracyRad;
 extern uint8_t isOnTarget;
-extern uint8_t ammo, max_ammo;
 extern int playerHealth;
+extern Inventory inventory;
  
  double ZBuffer[SCREEN_WIDTH];
  
@@ -269,12 +270,15 @@ void DrawCrosshair(int side, int spacing, uint16_t color) {
 
 void printAmmo(int side) {
     char buffer[10];
-
     // Format the ammo string using sprintf
-    sprintf(buffer, "Ammo: %d/%d", ammo, max_ammo);
-
+    sprintf(buffer, "Ammo: %d/%d", Inventory_currentItem(&inventory)->ammo, Inventory_currentItem(&inventory)->max_ammo);
     // Call your existing printToBuffer function to display the ammo
     printToBuffer(buffer, 0, SCREEN_HEIGHT-24, ST7735_WHITE, side);
+}
+
+void printItem(int side){
+    // Display item you're holding
+    if (side == 0) printToBuffer(Inventory_currentItem(&inventory)->name, 0, SCREEN_HEIGHT-32, ST7735_WHITE, side);
 }
 
  void RenderHUD(int side){
@@ -287,7 +291,8 @@ void printAmmo(int side) {
         DrawHealthBar();
     }
     RenderForegroundSprites(side);
-    printAmmo(side);
+    printItem(side);
+    if (Item_isWeapon(Inventory_currentItem(&inventory))) printAmmo(side);
 }
 
  

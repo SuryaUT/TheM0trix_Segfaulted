@@ -57,6 +57,7 @@ void setPixelBuffer(int x, int y, uint16_t color) {
 }
 
 void drawForegroundSpriteToBuffer(int side, Sprite sprite) {
+    if (sprite.image == 0) return;
     // Let's say scale of 1 makes it a certain fraction of screen height
     double sizeFactor = sprite.scale / 8.0;
 
