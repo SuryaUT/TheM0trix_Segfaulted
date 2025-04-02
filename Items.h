@@ -1,31 +1,29 @@
-#ifndef __ITEMS_H
-#define __ITEMS_H
-
-#include <stdint.h>
-#include "Sounds.h"
+#ifndef ITEMS_H
+#define ITEMS_H
+#include "Inventory.h"
 #include "sprites.h"
 
-#define PISTOL 0
-#define SHOTGUN 1
+#define MAX_SPRITES 10
+int numsprites = 2;
+Sprite Sprites[MAX_SPRITES] = {
+    {12, 12, target, 1, 32, 32, 6},
+    {18, 12, Shotgunsprite, 0, 16, 16, 2, SHOTGUN}
+};
 
-typedef struct{
-    int8_t type;
-    Sprite invent_sprite;
-    Sprite holding_sprite;
-    sound_t* sound;
-} Item;
+Item pistol = {
+    PISTOL,
+    {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1, PISTOL},
+    {SCREEN_WIDTH/2, SCREEN_HEIGHT, PistolImage, 0, 32, 32, 3},
+    SoundEffects + PISTOL_SOUND
+  };
 
-typedef struct {
-    uint8_t size;
-    uint8_t cap;
-    Item* items[3];
-    uint8_t index;
-} Inventory;
+Item shotgun = {
+    SHOTGUN,
+    {8, SCREEN_HEIGHT, Shotgunsprite, 0, 16, 16, 1, SHOTGUN},
+    {SCREEN_WIDTH/2 + 24, SCREEN_HEIGHT, ShotgunImage, 0, 32, 32, 3},
+    SoundEffects + SHOTGUN_SOUND
+  };
 
-uint8_t Inventory_add(Inventory* invent, Item* item);
-
-void Inventory_replace(Inventory* invent, Item* item);
-
-void Inventory_next(Inventory* invent);
+Item* items[2] = {&pistol, &shotgun};
 
 #endif

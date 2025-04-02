@@ -1,7 +1,7 @@
 #include "sprites.h"
 #include "Graphics.h"
 #include "Buffer.h"
-#include "Items.h"
+#include "Inventory.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -45,9 +45,8 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
 
     // Pick up sprite if it's an item
-    if (sprite.image != target && transformY <= .5 && transformY > 0){
+    if (sprite.image != target && transformY <= .5 && transformY > 0 && Inventory_add(&inventory, items[sprite.type])){ // Inventory_add() will return 0 if inventory is full
         Sprites[sprite_index].scale = 0;
-        Inventory_add(&inventory, items[sprite.type]);
     }
 
     // Ignore if behind player
@@ -61,8 +60,8 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     int originalSpriteWidth = abs((int)(SCREEN_HEIGHT / transformY * sprite.width / sprite.height));
 
     // Scale sprite based on size
-    int spriteHeight = originalSpriteHeight *sprite.scale/4.0;
-    int spriteWidth = originalSpriteWidth * sprite.scale/4.0;
+    int spriteHeight = originalSpriteHeight *sprite.scale/8.0;
+    int spriteWidth = originalSpriteWidth * sprite.scale/8.0;
 
     double pushdown = (originalSpriteHeight - spriteHeight) / 2.0;
 
@@ -139,6 +138,6 @@ void RenderInventory(int side){
 }
 
 void RenderForegroundSprites(int side){
-    drawForegroundSpriteToBuffer(side, inventory.items[inventory.index]->holding_sprite);
+    drawForegroundSpriteToBuffer(side, Inventory_currentItem(&inventory)->holding_sprite);
     RenderInventory(side);
 }

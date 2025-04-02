@@ -1,5 +1,5 @@
 #include "Graphics.h"
-#include "Items.h"
+#include "Inventory.h"
 
 uint8_t Inventory_add(Inventory* invent, Item* item){
     if (invent->size == invent->cap) return 0;
@@ -18,4 +18,8 @@ void Inventory_replace(Inventory* invent, Item* item){
 void Inventory_next(Inventory* invent){
     invent->index++;
     if (invent->index >= invent->size) invent->index = 0;
+}
+
+Item* Inventory_currentItem(Inventory* invent){
+    return invent->items[invent->index];
 }

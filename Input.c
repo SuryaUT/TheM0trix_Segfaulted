@@ -5,7 +5,7 @@
 #include "../inc/LaunchPad.h"
 #include "Sounds.h"
 #include "Input.h"
-#include "Items.h"
+#include "Inventory.h"
 
 extern Inventory inventory;
 
@@ -35,10 +35,16 @@ double fastSin(double x) {
 
 uint8_t lastInput = 0;
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
+  // Sprint using joystick button
+  if (Joy_InButton()){
+    moveSpeed_FB *=2;
+    moveSpeed_LR *= 2;
+  }
+
   // Shoot sound
   if (input & 1 && !(lastInput & 1)){
     if (ammo){
-      Sound_Start(*inventory.items[inventory.index]->sound);
+      Sound_Start(*Inventory_currentItem(&inventory)->sound);
       ammo--;
     }
     else{
@@ -104,7 +110,7 @@ void TIMG12_IRQHandler(void){
     Joy_y = (int32_t)((y>>9)+1)/2 - 2;
 
     // Speed modifiers
-   double moveSpeed = .033* 2.5; // squares/sec
+   double moveSpeed = .033 * 1; // squares/sec
    double rotSpeed = .033 * 3.0;  // rads/sec
    double moveSpeed_FB = moveSpeed * Joy_y;
    double moveSpeed_LR = moveSpeed * Joy_x;

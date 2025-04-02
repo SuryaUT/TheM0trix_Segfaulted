@@ -4,7 +4,7 @@
 // Initialize Sparkfun Joystick
 void Joy_Init();
 
-// 0 if joystick is pressed, 1 if not
+// 1 if joystick is pressed, 0 if not
 uint8_t Joy_InButton();
 
 // Read joystick

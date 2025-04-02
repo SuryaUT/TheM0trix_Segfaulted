@@ -5,9 +5,6 @@
 #include "../inc/LaunchPad.h"
 #include "ti/devices/msp/m0p/mspm0g350x.h"
 
-extern int Joy_x;
-extern int Joy_y;
-
 void Joy_Init(){
     // Initialize x and y analog inputs
     ADC_InitDual(ADC1, 2, 1, ADCVREF_VDDA);
@@ -17,7 +14,7 @@ void Joy_Init(){
 }
 
 uint8_t Joy_InButton(){
-    return GPIOB->DIN31_0 & (1<<16);
+    return (GPIOB->DIN31_0 >> 16) & 1;
 }
 
 void Joy_In(uint32_t* x, uint32_t* y){

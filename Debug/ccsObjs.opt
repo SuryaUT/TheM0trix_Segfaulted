@@ -4,7 +4,7 @@
 "./DAC.o"
 "./Graphics.o"
 "./Input.o"
-"./Items.o"
+"./Inventory.o"
 "./Joy.o"
 "./LaunchPad.o"
 "./SPI.o"

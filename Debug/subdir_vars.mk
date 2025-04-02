@@ -15,7 +15,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../DAC.c \
 ../Graphics.c \
 ../Input.c \
-../Items.c \
+../Inventory.c \
 ../Joy.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
@@ -34,7 +34,7 @@ C_DEPS += \
 ./DAC.d \
 ./Graphics.d \
 ./Input.d \
-./Items.d \
+./Inventory.d \
 ./Joy.d \
 ./LaunchPad.d \
 ./SPI.d \
@@ -53,7 +53,7 @@ OBJS += \
 ./DAC.o \
 ./Graphics.o \
 ./Input.o \
-./Items.o \
+./Inventory.o \
 ./Joy.o \
 ./LaunchPad.o \
 ./SPI.o \
@@ -72,7 +72,7 @@ OBJS__QUOTED += \
 "DAC.o" \
 "Graphics.o" \
 "Input.o" \
-"Items.o" \
+"Inventory.o" \
 "Joy.o" \
 "LaunchPad.o" \
 "SPI.o" \
@@ -91,7 +91,7 @@ C_DEPS__QUOTED += \
 "DAC.d" \
 "Graphics.d" \
 "Input.d" \
-"Items.d" \
+"Inventory.d" \
 "Joy.d" \
 "LaunchPad.d" \
 "SPI.d" \
@@ -110,7 +110,7 @@ C_SRCS__QUOTED += \
 "../DAC.c" \
 "../Graphics.c" \
 "../Input.c" \
-"../Items.c" \
+"../Inventory.c" \
 "../Joy.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
