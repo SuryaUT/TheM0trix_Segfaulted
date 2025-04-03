@@ -11,6 +11,7 @@
 #define RELOAD_TIME 2000
 
 extern Inventory inventory;
+extern int playerHealth;
 
 void Input_Init(){
   TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
@@ -56,6 +57,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   if (input & 1 && !(lastInput & 1) && current->enabled){
     if (!Item_isSpent(current)){
       if (Item_isWeapon(current)) isShooting = 1;
+      if (current->type == MEDKIT) playerHealth += 20;
       Sound_Start(*current->sound);
       current->ammo--;
       if (Item_isSpent(current) && current->type == MEDKIT){
@@ -68,7 +70,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   }
 
   // Reload
-  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo != current->max_ammo)){
+  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo != current->mag_ammo)){
     Sound_Start(SoundEffects[RELOAD_SOUND]);
     reloaded = 0;
     current->enabled = 0;
@@ -76,7 +78,14 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   }
   if (reloaded){
     current->enabled = 1; // Enable weapon use and switching
-    current->ammo = current->max_ammo;
+    if (current->tot_ammo >= current->mag_ammo){
+      current->tot_ammo -= current->mag_ammo - current->ammo;
+      current->ammo = current->mag_ammo;
+    }
+    else{
+      current->ammo = current->tot_ammo;
+      current->tot_ammo = 0;
+    }
     reloaded = 0;
   }
 

@@ -125,7 +125,7 @@ extern Inventory inventory;
    int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
    if (drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
  
-   int texNum = (worldMap[mapX][mapY] % 6) - 1; // Texture index based on map value (0-7)
+   int texNum = (worldMap[mapX][mapY] % 5) - 1; // Texture index based on map value (0-4)
     double wallX; // Where exactly the wall was hit
     if (sideHit == 0) wallX = posY + perpWallDist * rayDirY;
     else           wallX = posX + perpWallDist * rayDirX;
@@ -138,7 +138,7 @@ extern Inventory inventory;
     // Calculate how much to increase the texture coordinate per screen pixel
     double step = 1.0 * TEX_HEIGHT / lineHeight;
     // Starting texture coordinate
-    double texPos = (drawStart - SCREEN_HEIGHT / 2.0 + lineHeight / 2.0) * step; //SCREEN_HEIGHT might be h
+    double texPos = (drawStart - SCREEN_HEIGHT / 2.0 + lineHeight / 2.0) * step;
 
     for (int y = drawStart; y < drawEnd; y++) {
         // Integer texture coordinate
@@ -272,7 +272,7 @@ void DrawCrosshair(int side, uint16_t color) {
 void printAmmo(int side) {
     char buffer[10];
     // Format the ammo string using sprintf
-    sprintf(buffer, "Ammo: %d/%d", Inventory_currentItem(&inventory)->ammo, Inventory_currentItem(&inventory)->max_ammo);
+    sprintf(buffer, "Ammo: %d/%d", Inventory_currentItem(&inventory)->ammo, Inventory_currentItem(&inventory)->tot_ammo);
     // Call your existing printToBuffer function to display the ammo
     printToBuffer(buffer, 0, SCREEN_HEIGHT-24, ST7735_WHITE, side);
 }

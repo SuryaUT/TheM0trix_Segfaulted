@@ -22,7 +22,6 @@
  double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
  int playerHealth = 50;
  uint8_t isOnTarget = 0;
- uint8_t accuracyRad = 6;
 
 void SystemInit() {
   __disable_irq();

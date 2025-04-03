@@ -47,8 +47,11 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     if (transformY <= 0.1) return;
 
     // Pick up sprite if it's an item and we're close enough
-    if (sprite.image != target && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8 && Inventory_add(&inventory, items[sprite.type])){ // Inventory_add() will return 0 if inventory is full
-        Sprites[sprite_index].scale = 0;
+    if (sprite.image != target && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8){
+        uint8_t pickup_code = Inventory_add(&inventory, items[sprite.type]); // Inventory_add() will return 0 if inventory is full
+        if (pickup_code) Sprites[sprite_index].scale = 0; // if pickup was successful, remove sprite from map
+        if (pickup_code == AMMO_SMALL) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo;
+        if (pickup_code == AMMO_BIG) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo*3;
     }
 
     // Project sprite to screen

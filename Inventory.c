@@ -2,6 +2,8 @@
 #include "Inventory.h"
 
 uint8_t Inventory_add(Inventory* invent, Item* item){
+    if (item->type == AMMO_SMALL) return AMMO_SMALL; // codes for ammo
+    if (item->type == AMMO_BIG) return AMMO_BIG;
     if (invent->size == invent->cap) return 0;
     item->invent_sprite.scale = 1;
     invent->items[invent->size] = item;
