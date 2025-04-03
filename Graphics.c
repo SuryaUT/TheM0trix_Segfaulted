@@ -220,8 +220,9 @@ void DrawHealthBar(){
     lastHealth = playerHealth;
 }
 
-void DrawCrosshair(int side, int spacing, uint16_t color) {
-    int size = 6;
+void DrawCrosshair(int side, uint16_t color) {
+    int size = Inventory_currentItem(&inventory)->crosshair_size;
+    int spacing = size/6;
     int thickness = 2;
 
     int centerX_fullScreen = SCREEN_WIDTH / 2;
@@ -283,7 +284,7 @@ void printItem(int side){
 
  void RenderHUD(int side){
     uint16_t crosshair_color = (isOnTarget) ? ST7735_RED : ST7735_WHITE;
-    DrawCrosshair(side, 1, crosshair_color);
+    DrawCrosshair(side, crosshair_color);
     if (side == 0){
         DrawMinimap();
     }

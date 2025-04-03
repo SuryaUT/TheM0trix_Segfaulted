@@ -6,6 +6,9 @@
 #include "Sounds.h"
 #include "Input.h"
 #include "Inventory.h"
+#include "Async_Delay.h"
+
+#define RELOAD_TIME 2000
 
 extern Inventory inventory;
 
@@ -34,6 +37,13 @@ double fastSin(double x) {
  }
 
 uint8_t lastInput = 0;
+uint8_t isShooting;
+uint8_t reloaded; // Reload flag
+
+void beginReload(){
+
+}
+
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Sprint using joystick button
   if (Joy_InButton()){
@@ -41,21 +51,37 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
     moveSpeed_LR *= 2.5;
   }
 
-  // Shoot sound
-  if (input & 1 && !(lastInput & 1)){
-    if (!Item_isSpent(Inventory_currentItem(&inventory))){
-      Sound_Start(*Inventory_currentItem(&inventory)->sound);
-      Inventory_currentItem(&inventory)->ammo--;
+  // Shoot weapon
+  Item* current = Inventory_currentItem(&inventory);
+  if (input & 1 && !(lastInput & 1) && current->enabled){
+    if (!Item_isSpent(current)){
+      if (Item_isWeapon(current)) isShooting = 1;
+      Sound_Start(*current->sound);
+      current->ammo--;
+      if (Item_isSpent(current) && current->type == MEDKIT){
+        Inventory_removeCurrent(&inventory);
+      }
     }
     else{
       Sound_Start(SoundEffects[OUTOFAMMO_SOUND]);
     }
   }
-  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(Inventory_currentItem(&inventory))){
+
+  // Reload
+  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo != current->max_ammo)){
     Sound_Start(SoundEffects[RELOAD_SOUND]);
-    Inventory_currentItem(&inventory)->ammo = Inventory_currentItem(&inventory)->max_ammo;
+    reloaded = 0;
+    current->enabled = 0;
+    start_delay(RELOAD_TIME, &reloaded);
   }
-  if (input & (1<<2) && !(lastInput & (1<<2))){
+  if (reloaded){
+    current->enabled = 1; // Enable weapon use and switching
+    current->ammo = current->max_ammo;
+    reloaded = 0;
+  }
+
+  // Switch Weapons
+  if (input & (1<<2) && !(lastInput & (1<<2)) && current->enabled){
     Sound_Start(SoundEffects[WEAPLOAD_SOUND]);
     Inventory_next(&inventory);
   }

@@ -3,11 +3,8 @@
 #include "Inventory.h"
 #include "Sounds.h"
 #include "images.h"
+#include "Graphics.h"
 #include "sprites.h"
-
-#define PISTOL 0
-#define SHOTGUN 1
-#define MEDKIT 2
 
 #define MAX_SPRITES 10
 int numsprites = 3;
@@ -17,14 +14,20 @@ Sprite Sprites[MAX_SPRITES] = {
     {18, 18, Medkitsprite, 0, 16, 16, 3, MEDKIT}
 };
 
+Sprite gunFlash = {SCREEN_HEIGHT/2, SCREEN_WIDTH/2, ExplosionImage, 0xFFFF, 32, 32, 1};
+
 Item pistol = {
     "Pistol",
     PISTOL,
     {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1, PISTOL},
-    {SCREEN_WIDTH/2, SCREEN_HEIGHT, PistolImage, 0, 32, 32, 3},
+    {SCREEN_WIDTH/2 + 8, SCREEN_HEIGHT, PistolImage, 0, 32, 32, 3},
     SoundEffects + PISTOL_SOUND,
     8,
-    8
+    8,
+    6,
+    1,
+    SCREEN_HEIGHT/2 + 24,
+    SCREEN_WIDTH/2 + 8
   };
 
 Item shotgun = {
@@ -34,7 +37,11 @@ Item shotgun = {
     {SCREEN_WIDTH/2 + 24, SCREEN_HEIGHT, ShotgunImage, 0, 32, 32, 3},
     SoundEffects + SHOTGUN_SOUND,
     5,
-    5
+    5,
+    12,
+    1,
+    SCREEN_HEIGHT/2 + 24,
+    SCREEN_WIDTH/2 + 16
   };
 
 Item medkit = {
@@ -44,7 +51,9 @@ Item medkit = {
     {SCREEN_WIDTH-32, SCREEN_HEIGHT+16, Medkitsprite, 0, 16, 16, 3},
     SoundEffects + RELOAD_SOUND,
     1,
-    1
+    1,
+    0,
+    1,
 };
 
 Item* items[3] = {&pistol, &shotgun, &medkit};

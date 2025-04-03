@@ -15,6 +15,14 @@ void Inventory_replace(Inventory* invent, Item* item){
     invent->items[invent->index] = item;
 }
 
+void Inventory_removeCurrent(Inventory* invent){
+    for (int i = invent->index; i < invent->size; i++){
+        invent->items[i] = invent->items[i+1];
+    }
+    invent->index--;
+    invent->size--;
+}
+
 void Inventory_next(Inventory* invent){
     invent->index++;
     if (invent->index >= invent->size) invent->index = 0;

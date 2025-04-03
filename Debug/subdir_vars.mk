@@ -10,6 +10,7 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../ADC.c \
+../Async_Delay.c \
 ../Buffer.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../DAC.c \
@@ -29,6 +30,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 
 C_DEPS += \
 ./ADC.d \
+./Async_Delay.d \
 ./Buffer.d \
 ./Clock.d \
 ./DAC.d \
@@ -48,6 +50,7 @@ C_DEPS += \
 
 OBJS += \
 ./ADC.o \
+./Async_Delay.o \
 ./Buffer.o \
 ./Clock.o \
 ./DAC.o \
@@ -67,6 +70,7 @@ OBJS += \
 
 OBJS__QUOTED += \
 "ADC.o" \
+"Async_Delay.o" \
 "Buffer.o" \
 "Clock.o" \
 "DAC.o" \
@@ -86,6 +90,7 @@ OBJS__QUOTED += \
 
 C_DEPS__QUOTED += \
 "ADC.d" \
+"Async_Delay.d" \
 "Buffer.d" \
 "Clock.d" \
 "DAC.d" \
@@ -105,6 +110,7 @@ C_DEPS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../ADC.c" \
+"../Async_Delay.c" \
 "../Buffer.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Clock.c" \
 "../DAC.c" \

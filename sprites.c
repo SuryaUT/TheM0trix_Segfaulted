@@ -9,7 +9,6 @@ extern double posX, posY;
 extern double dirX, dirY;
 extern double planeX, planeY;
 extern double ZBuffer[SCREEN_WIDTH];
-extern uint8_t accuracyRad;
 extern uint8_t isOnTarget;
 
 extern int numsprites;
@@ -86,7 +85,7 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         }
 
         if (bufferX != -1 && transformY < ZBuffer[stripe]) {
-            if ((stripe >= SCREEN_WIDTH/2 - accuracyRad && stripe <= SCREEN_WIDTH/2 + accuracyRad) && sprite.image == target) isOnTarget = 1;
+            if ((stripe >= SCREEN_WIDTH/2 - Inventory_currentItem(&inventory)->crosshair_size && stripe <= SCREEN_WIDTH/2 + Inventory_currentItem(&inventory)->crosshair_size) && sprite.image == target) isOnTarget = 1;
             // Calculate texture x coordinate
             int texX = (stripe - drawStartX) * sprite.width / spriteWidth;
             if (texX >= 0 && texX < sprite.width) {
@@ -137,7 +136,26 @@ void RenderInventory(int side){
     }
 }
 
+extern uint8_t isShooting;
+extern Sprite gunFlash;
 void RenderForegroundSprites(int side){
-    drawForegroundSpriteToBuffer(side, Inventory_currentItem(&inventory)->holding_sprite);
+    Item* current = Inventory_currentItem(&inventory);
+    static uint8_t sidesDrawn = 0; // To ensure flash gets drawn regardless of side, weird synchronization fix
+    // Draw flash first if we're shooting
+    if (isShooting){
+        // To ensure flash shows up in the right spot
+        gunFlash.x = current->muzzleX;
+        gunFlash.y = current->muzzleY;
+
+        drawForegroundSpriteToBuffer(side, gunFlash);
+        sidesDrawn++;
+        if (sidesDrawn == 2){
+            isShooting = 0; // Only clear flag if both sides have been drawn
+            sidesDrawn = 0;
+        }
+    }
+
+    // Draw current item we're holding
+    drawForegroundSpriteToBuffer(side, current->holding_sprite);
     RenderInventory(side);
 }

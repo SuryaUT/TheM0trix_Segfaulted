@@ -2,7 +2,6 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
-#include "images.h"
  #include "ti/devices/msp/msp.h"
  #include "../inc/ST7735.h"
  #include "../inc/SPI.h"

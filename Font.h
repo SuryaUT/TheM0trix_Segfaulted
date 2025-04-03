@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define FONT_WIDTH 5
-#define FONT_HEIGHT 7
+#define FONT_HEIGHT 8
 #define FONT_BYTES_PER_CHAR 5
 #define FONT_SPACE 1 // Space between characters
 
