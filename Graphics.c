@@ -41,6 +41,7 @@ extern double planeX, planeY;
 extern uint8_t accuracyRad;
 extern uint8_t isOnTarget;
 extern int playerHealth;
+extern int otherHealth;
 extern Inventory inventory;
  
  double ZBuffer[SCREEN_WIDTH];
@@ -190,10 +191,9 @@ void DrawMinimap() {
     }
 }
 
-int lastHealth = 0;
 void DrawHealthBar(){
-    int16_t barWidth = 50, barHeight = 10;
-    int startX = SCREEN_WIDTH - barWidth - 6; // Top right, with 6 pixels margin
+    int16_t barWidth = 50, barHeight = 8;
+    int startX = SCREEN_WIDTH - barWidth; // Top right, with 6 pixels margin
     int startY = SCREEN_HEIGHT - barHeight - 6;
 
     uint16_t healthColor;
@@ -217,7 +217,33 @@ void DrawHealthBar(){
             }
         }
     }
-    lastHealth = playerHealth;
+
+    // Draw other player's health bar
+    if (otherHealth >= 30){
+        healthColor = MATRIX_DARK_GREEN;
+    }
+    else if (otherHealth >= 15){
+        healthColor = ST7735_YELLOW;
+    }
+    else{
+        healthColor = ST7735_RED;
+    }
+
+    // Draw the health bar
+    startY -= 12;
+    for (int y = startY; y < startY + barHeight; y++) {
+        for (int x = startX; x < startX + barWidth; x++) {
+            if (x >= 0 && x < startX + otherHealth && y >= 0 && y < SCREEN_HEIGHT) {
+                if (x < startX + otherHealth) {
+                    setPixelBuffer(x, y, healthColor);
+                }
+            }
+        }
+    }
+
+    // Labels
+    printToBuffer("Neo", SCREEN_WIDTH - barWidth - 30, 6, ST7735_WHITE, 1);
+    printToBuffer("Agent", SCREEN_WIDTH - barWidth - 30, 18, ST7735_WHITE, 1);
 }
 
 void DrawCrosshair(int side, uint16_t color) {
