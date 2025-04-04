@@ -70,7 +70,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   }
 
   // Reload
-  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo != current->mag_ammo)){
+  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo < current->mag_ammo)){
     Sound_Start(SoundEffects[RELOAD_SOUND]);
     reloaded = 0;
     current->enabled = 0;
@@ -78,12 +78,12 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   }
   if (reloaded){
     current->enabled = 1; // Enable weapon use and switching
-    if (current->tot_ammo >= current->mag_ammo){
-      current->tot_ammo -= current->mag_ammo - current->ammo;
-      current->ammo = current->mag_ammo;
+    if (current->tot_ammo >= (current->mag_ammo - current->ammo)){
+      current->tot_ammo -= (current->mag_ammo - current->ammo);
+      current->ammo  = current->mag_ammo;
     }
     else{
-      current->ammo = current->tot_ammo;
+      current->ammo += current->tot_ammo;
       current->tot_ammo = 0;
     }
     reloaded = 0;
