@@ -14,6 +14,7 @@ C_SRCS += \
 ../Buffer.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../DAC.c \
+../FIFO.c \
 ../Graphics.c \
 ../Input.c \
 ../Inventory.c \
@@ -24,6 +25,8 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
 ../Sounds.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../UART.c \
+../UART1.c \
+../UART2.c \
 ../UARTbusywait.c \
 ../main.c \
 ../sprites.c 
@@ -34,6 +37,7 @@ C_DEPS += \
 ./Buffer.d \
 ./Clock.d \
 ./DAC.d \
+./FIFO.d \
 ./Graphics.d \
 ./Input.d \
 ./Inventory.d \
@@ -44,6 +48,8 @@ C_DEPS += \
 ./Sounds.d \
 ./Timer.d \
 ./UART.d \
+./UART1.d \
+./UART2.d \
 ./UARTbusywait.d \
 ./main.d \
 ./sprites.d 
@@ -54,6 +60,7 @@ OBJS += \
 ./Buffer.o \
 ./Clock.o \
 ./DAC.o \
+./FIFO.o \
 ./Graphics.o \
 ./Input.o \
 ./Inventory.o \
@@ -64,6 +71,8 @@ OBJS += \
 ./Sounds.o \
 ./Timer.o \
 ./UART.o \
+./UART1.o \
+./UART2.o \
 ./UARTbusywait.o \
 ./main.o \
 ./sprites.o 
@@ -74,6 +83,7 @@ OBJS__QUOTED += \
 "Buffer.o" \
 "Clock.o" \
 "DAC.o" \
+"FIFO.o" \
 "Graphics.o" \
 "Input.o" \
 "Inventory.o" \
@@ -84,6 +94,8 @@ OBJS__QUOTED += \
 "Sounds.o" \
 "Timer.o" \
 "UART.o" \
+"UART1.o" \
+"UART2.o" \
 "UARTbusywait.o" \
 "main.o" \
 "sprites.o" 
@@ -94,6 +106,7 @@ C_DEPS__QUOTED += \
 "Buffer.d" \
 "Clock.d" \
 "DAC.d" \
+"FIFO.d" \
 "Graphics.d" \
 "Input.d" \
 "Inventory.d" \
@@ -104,6 +117,8 @@ C_DEPS__QUOTED += \
 "Sounds.d" \
 "Timer.d" \
 "UART.d" \
+"UART1.d" \
+"UART2.d" \
 "UARTbusywait.d" \
 "main.d" \
 "sprites.d" 
@@ -114,6 +129,7 @@ C_SRCS__QUOTED += \
 "../Buffer.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Clock.c" \
 "../DAC.c" \
+"../FIFO.c" \
 "../Graphics.c" \
 "../Input.c" \
 "../Inventory.c" \
@@ -124,6 +140,8 @@ C_SRCS__QUOTED += \
 "../Sounds.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
 "../UART.c" \
+"../UART1.c" \
+"../UART2.c" \
 "../UARTbusywait.c" \
 "../main.c" \
 "../sprites.c" 
