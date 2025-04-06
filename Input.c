@@ -1,3 +1,4 @@
+
 #include <stdint.h>
 #include "Joy.h"
 #include "../inc/Timer.h"
@@ -7,11 +8,17 @@
 #include "Input.h"
 #include "Inventory.h"
 #include "Async_Delay.h"
+#include "UART1.h"
+#include "UART2.h"
 
 #define RELOAD_TIME 2000
 
 extern Inventory inventory;
-extern int playerHealth;
+extern uint8_t playerHealth;
+extern uint8_t otherHealth;
+
+extern double otherposX, otherposY;
+extern double otherdirX, otherdirY;
 
 void Input_Init(){
   TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz

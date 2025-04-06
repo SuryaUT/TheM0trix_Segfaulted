@@ -3,7 +3,7 @@
  * date
  */
  
- #include <stdio.h>
+#include <stdio.h>
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
@@ -40,8 +40,8 @@ extern double dirX, dirY;
 extern double planeX, planeY;
 extern uint8_t accuracyRad;
 extern uint8_t isOnTarget;
-extern int playerHealth;
-extern int otherHealth;
+extern uint8_t playerHealth;
+extern uint8_t otherHealth;
 extern Inventory inventory;
  
  double ZBuffer[SCREEN_WIDTH];
@@ -339,7 +339,7 @@ void printItem(int side){
  
  void Graphics_Init(){
   SPI_Init();
-  ST7735_InitR(INITR_REDTAB);
+  ST7735_InitPrintf();
   ST7735_SetRotation(1);
   FillMap(OGMap);  // Pick map here
   PrecalculateFloorGradient();

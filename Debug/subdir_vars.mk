@@ -12,19 +12,18 @@ C_SRCS += \
 ../ADC.c \
 ../Async_Delay.c \
 ../Buffer.c \
-C:/CCS/MSPM0_ValvanoWare/inc/Clock.c \
+C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../DAC.c \
 ../FIFO.c \
 ../Graphics.c \
 ../Input.c \
 ../Inventory.c \
 ../Joy.c \
-C:/CCS/MSPM0_ValvanoWare/inc/LaunchPad.c \
-C:/CCS/MSPM0_ValvanoWare/inc/SPI.c \
-C:/CCS/MSPM0_ValvanoWare/inc/ST7735.c \
+C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
+C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
+C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
 ../Sounds.c \
-C:/CCS/MSPM0_ValvanoWare/inc/Timer.c \
-../UART.c \
+C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../UART1.c \
 ../UART2.c \
 ../UARTbusywait.c \
@@ -47,7 +46,6 @@ C_DEPS += \
 ./ST7735.d \
 ./Sounds.d \
 ./Timer.d \
-./UART.d \
 ./UART1.d \
 ./UART2.d \
 ./UARTbusywait.d \
@@ -70,7 +68,6 @@ OBJS += \
 ./ST7735.o \
 ./Sounds.o \
 ./Timer.o \
-./UART.o \
 ./UART1.o \
 ./UART2.o \
 ./UARTbusywait.o \
@@ -93,7 +90,6 @@ OBJS__QUOTED += \
 "ST7735.o" \
 "Sounds.o" \
 "Timer.o" \
-"UART.o" \
 "UART1.o" \
 "UART2.o" \
 "UARTbusywait.o" \
@@ -116,7 +112,6 @@ C_DEPS__QUOTED += \
 "ST7735.d" \
 "Sounds.d" \
 "Timer.d" \
-"UART.d" \
 "UART1.d" \
 "UART2.d" \
 "UARTbusywait.d" \
@@ -127,19 +122,18 @@ C_SRCS__QUOTED += \
 "../ADC.c" \
 "../Async_Delay.c" \
 "../Buffer.c" \
-"C:/CCS/MSPM0_ValvanoWare/inc/Clock.c" \
+"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Clock.c" \
 "../DAC.c" \
 "../FIFO.c" \
 "../Graphics.c" \
 "../Input.c" \
 "../Inventory.c" \
 "../Joy.c" \
-"C:/CCS/MSPM0_ValvanoWare/inc/LaunchPad.c" \
-"C:/CCS/MSPM0_ValvanoWare/inc/SPI.c" \
-"C:/CCS/MSPM0_ValvanoWare/inc/ST7735.c" \
+"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
+"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
+"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/ST7735.c" \
 "../Sounds.c" \
-"C:/CCS/MSPM0_ValvanoWare/inc/Timer.c" \
-"../UART.c" \
+"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
 "../UART1.c" \
 "../UART2.c" \
 "../UARTbusywait.c" \

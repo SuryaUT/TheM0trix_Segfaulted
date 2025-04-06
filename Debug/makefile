@@ -25,7 +25,6 @@ ORDERED_OBJS += \
 "./ST7735.o" \
 "./Sounds.o" \
 "./Timer.o" \
-"./UART.o" \
 "./UART1.o" \
 "./UART2.o" \
 "./UARTbusywait.o" \
@@ -158,15 +157,15 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 TheM0+rix_Segfaulted.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"TheM0+rix_Segfaulted.map" -Wl,--heap_size=512 -Wl,--stack_size=512 -Wl,-i"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug/syscfg" -Wl,-i"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="TheM0+rix_Segfaulted_linkInfo.xml" -Wl,--rom_model -o "TheM0+rix_Segfaulted.out" $(ORDERED_OBJS)
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"TheM0+rix_Segfaulted.map" -Wl,--heap_size=512 -Wl,--stack_size=512 -Wl,-i"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg" -Wl,-i"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="TheM0+rix_Segfaulted_linkInfo.xml" -Wl,--rom_model -o "TheM0+rix_Segfaulted.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC.o" "Async_Delay.o" "Buffer.o" "Clock.o" "DAC.o" "FIFO.o" "Graphics.o" "Input.o" "Inventory.o" "Joy.o" "LaunchPad.o" "SPI.o" "ST7735.o" "Sounds.o" "Timer.o" "UART.o" "UART1.o" "UART2.o" "UARTbusywait.o" "main.o" "sprites.o" "ticlang\startup_mspm0g3507_ticlang.o" 
-	-$(RM) "ADC.d" "Async_Delay.d" "Buffer.d" "Clock.d" "DAC.d" "FIFO.d" "Graphics.d" "Input.d" "Inventory.d" "Joy.d" "LaunchPad.d" "SPI.d" "ST7735.d" "Sounds.d" "Timer.d" "UART.d" "UART1.d" "UART2.d" "UARTbusywait.d" "main.d" "sprites.d" "ticlang\startup_mspm0g3507_ticlang.d" 
+	-$(RM) "ADC.o" "Async_Delay.o" "Buffer.o" "Clock.o" "DAC.o" "FIFO.o" "Graphics.o" "Input.o" "Inventory.o" "Joy.o" "LaunchPad.o" "SPI.o" "ST7735.o" "Sounds.o" "Timer.o" "UART1.o" "UART2.o" "UARTbusywait.o" "main.o" "sprites.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "ADC.d" "Async_Delay.d" "Buffer.d" "Clock.d" "DAC.d" "FIFO.d" "Graphics.d" "Input.d" "Inventory.d" "Joy.d" "LaunchPad.d" "SPI.d" "ST7735.d" "Sounds.d" "Timer.d" "UART1.d" "UART2.d" "UARTbusywait.d" "main.d" "sprites.d" "ticlang\startup_mspm0g3507_ticlang.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

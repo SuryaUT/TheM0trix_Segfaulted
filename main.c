@@ -2,6 +2,8 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
+#include "UART1.h"
+#include "UART2.h"
  #include "ti/devices/msp/msp.h"
  #include "../inc/ST7735.h"
  #include "../inc/SPI.h"
@@ -31,12 +33,23 @@ void SystemInit() {
   Sound_Init(80000000/11000, 0);
   Input_Init();
   Graphics_Init();
+  UART1_Init();
+  UART2_Init();
   __enable_irq();
  }
 
 Inventory inventory = {0, 3, {}, 0};
 
-int main() {
+int main(){
+  SystemInit();
+  while (1){
+    UART1_OutChar('O');
+    Clock_Delay1ms(100);
+    ST7735_OutChar(UART2_InChar());
+  }
+}
+
+int main1() {
   SystemInit();
 
   Inventory_add(&inventory, &pistol);

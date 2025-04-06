@@ -33,8 +33,8 @@ void UART2_Init(void){
     UART2->CTL0 &= ~0x01; // disable UART2
     UART2->CTL0 = 0x00020018;
   // assumes an 80 MHz bus clock
-    UART2->IBRD = 1052;//   divider = 1052+40/64 = 1052.625
-    UART2->FBRD = 5; // baud =2,500,000/1052.625 = 2735
+    UART2->IBRD = 21;//   divider = 21+45/64 = 21.703125
+    UART2->FBRD = 45; // baud =2,500,000/21.703125 = 115,191
     UART2->LCRH = 0x00000030;
     UART2->CPU_INT.IMASK = 0x0001;
     // bit 0  Receive timeout
