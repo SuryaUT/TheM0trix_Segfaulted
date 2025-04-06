@@ -2,7 +2,6 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
-#include "FIFO.h"
 #include "UART1.h"
 #include "UART2.h"
  #include "ti/devices/msp/msp.h"
@@ -66,7 +65,16 @@ int main1() {//uart test main
   }
 }
 
-int main() {
+int main(){
+  SystemInit();
+  while (1){
+    UART1_OutChar('O');
+    Clock_Delay1ms(100);
+    ST7735_OutChar(UART2_InChar());
+  }
+}
+
+int main1() {
   SystemInit();
 
   Inventory_add(&inventory, &pistol);

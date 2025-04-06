@@ -35,7 +35,7 @@ void UART1_Init(void){
 //------------UART1_OutChar------------
 // Output 8-bit to serial port
 // blind synchronization
-// 10 bit frame, 2000 baud, 5ms per frame
+// 10 bit frame, 115,200 baud
 // Input: letter is an 8-bit ASCII character to be transferred
 // Output: none
 void UART1_OutChar(char data){

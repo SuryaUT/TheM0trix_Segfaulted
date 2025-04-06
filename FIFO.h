@@ -79,7 +79,7 @@ uint32_t TxFifo_Size(void);
  * \brief RXFIFOSIZE the size of the receive FIFO, which can hold 0 to RXFIFOSIZE-1 elements
  * The size must be a power of 2.
  */
-#define RXFIFOSIZE 16 // must be a power of 2
+#define RXFIFOSIZE 64 // must be a power of 2
 
 /**
  * Initialize the receive FIFO 
