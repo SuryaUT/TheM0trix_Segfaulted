@@ -2,6 +2,9 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
+#include "FIFO.h"
+#include "UART1.h"
+#include "UART2.h"
  #include "ti/devices/msp/msp.h"
  #include "../inc/ST7735.h"
  #include "../inc/SPI.h"
@@ -31,10 +34,37 @@ void SystemInit() {
   Sound_Init(80000000/11000, 0);
   Input_Init();
   Graphics_Init();
+  UART1_Init();
+  UART2_Init();
   __enable_irq();
- }
+}
 
 Inventory inventory = {0, 3, {}, 0};
+uint8_t outX = 0;
+uint8_t outY = 0;
+int main1() {//uart test main
+  SystemInit();
+  while(1){
+    
+    if(outY != 0){
+      ST7735_SetCursor(0, 0);
+      ST7735_OutChar('(');
+      ST7735_OutChar((outX/100)+0x30);
+      ST7735_OutChar(((outX%100)/10)+0x30);
+      ST7735_OutChar('.');
+      ST7735_OutChar(outX%10+0x30);
+      ST7735_OutChar(',');
+      ST7735_OutChar(' ');
+      ST7735_OutChar((outY/100)+0x30);
+      ST7735_OutChar(((outY%100)/10)+0x30);
+      ST7735_OutChar('.');
+      ST7735_OutChar(outY%10+0x30);
+      ST7735_OutChar(')');
+    }
+    //Clock_Delay1ms(100);
+    
+  }
+}
 
 int main() {
   SystemInit();
@@ -45,7 +75,7 @@ int main() {
    RenderScene();
 
    if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
- 
+   
    // End in case of death or exit button
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
     ST7735_FillScreen(0);

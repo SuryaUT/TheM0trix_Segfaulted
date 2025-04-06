@@ -7,11 +7,15 @@
 #include "Input.h"
 #include "Inventory.h"
 #include "Async_Delay.h"
+#include "UART1.h"
+#include "UART2.h"
 
 #define RELOAD_TIME 2000
 
 extern Inventory inventory;
 extern int playerHealth;
+extern uint8_t outX;
+extern uint8_t outY;
 
 void Input_Init(){
   TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
@@ -137,6 +141,12 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   if(!isCollision_X) posX += planeX * moveSpeed_LR;
   if(!isCollision_Y) posY += planeY * moveSpeed_LR;
 
+  uint8_t sendX = (uint8_t) ((posX+0.05)*10);//convert into Uart form
+  uint8_t sendY = (uint8_t) ((posY+0.05)*10);//convert into Uart form
+
+  UART1_OutChar(sendX);
+  UART1_OutChar(sendY);
+
   lastInput = input;
  }
 
@@ -154,7 +164,8 @@ void TIMG12_IRQHandler(void){
    double rotSpeed = .033 * 3.0;  // rads/sec
    double moveSpeed_FB = moveSpeed * Joy_y;
    double moveSpeed_LR = moveSpeed * Joy_x;
- 
+  //  outX = UART2_InChar();
+  //  outY = UART2_InChar();
    MovePlayer(ReadKeys(), moveSpeed_FB, moveSpeed_LR, rotSpeed);
   }
 }

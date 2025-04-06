@@ -63,7 +63,7 @@ void RxFifo_Init(void){
   RxPutI = RxGetI = 0;  // empty
 }
 int RxFifo_Put(char data){
-uint32_t newPutI = (RxPutI+1)&(RXFIFOSIZE-1);
+  uint32_t newPutI = (RxPutI+1)&(RXFIFOSIZE-1);
   if(newPutI == RxGetI) return 0; // fail if full
   RxFifo[RxPutI] = data;          // save in Fifo
   RxPutI = newPutI;               // next place to put

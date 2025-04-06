@@ -13,7 +13,6 @@
 "./ST7735.o"
 "./Sounds.o"
 "./Timer.o"
-"./UART.o"
 "./UART1.o"
 "./UART2.o"
 "./UARTbusywait.o"

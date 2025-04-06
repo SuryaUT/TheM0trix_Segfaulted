@@ -1,17 +1,17 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.1                      
 ******************************************************************************
->> Linked Fri Apr  4 22:55:19 2025
+>> Linked Sun Apr  6 15:25:11 2025
 
 OUTPUT FILE NAME:   <TheM0+rix_Segfaulted.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001b091
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001b269
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00020000  0001b5b8  00004a48  R  X
+  FLASH                 00000000   00020000  0001b7c8  00004838  R  X
   SRAM                  20200000   00008000  0000682b  000017d5  RW X
   BCR_CONFIG            41c00000   00000080  00000000  00000080  R   
   BSL_CONFIG            41c00100   00000080  00000000  00000080  R   
@@ -24,9 +24,9 @@ run origin  load origin   length   init length attrs members
 00000000    00000000    000155f8   000155f8    r--
   00000000    00000000    000000c0   000000c0    r-- .intvecs
   000000c0    000000c0    00015538   00015538    r-- .rodata
-00015600    00015600    00005fc0   00005fc0    r-x
-  00015600    00015600    00005e00   00005e00    r-x .text
-  0001b400    0001b400    000001c0   000001c0    r-- .cinit
+00015600    00015600    000061d0   000061d0    r-x
+  00015600    00015600    00006010   00006010    r-x .text
+  0001b610    0001b610    000001c0   000001c0    r-- .cinit
 20200000    20200000    00006638   00000000    rw-
   20200000    20200000    00005e4a   00000000    rw- .bss
   20205e50    20205e50    000005e1   00000000    rw- .data
@@ -43,195 +43,198 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    000000c0     
                   00000000    000000c0     startup_mspm0g3507_ticlang.o (.intvecs)
 
-.text      0    00015600    00005e00     
+.text      0    00015600    00006010     
                   00015600    00000a48     libc.a : e_pow.c.obj (.text.pow)
-                  00016048    00000618     Input.o (.text.MovePlayer)
-                  00016660    0000057c     sprites.o (.text.RenderSprite)
-                  00016bdc    00000524     Graphics.o (.text.CastRays)
-                  00017100    00000284     libc.a : _printfi.c.obj (.text:__TI_printfi_minimal)
-                  00017384    00000238     Graphics.o (.text.DrawCrosshair)
-                  000175bc    00000218     Buffer.o (.text.drawForegroundSpriteToBuffer)
-                  000177d4    00000210     ST7735.o (.text.ST7735_DrawBitmap)
-                  000179e4    000001f4     Graphics.o (.text.DrawHealthBar)
-                  00017bd8    000001b4     Clock.o (.text.Clock_Init80MHz)
-                  00017d8c    00000192     libclang_rt.builtins.a : adddf3.S.obj (.text.adddf3_subdf3)
-                  00017f1e    00000002                            : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  00017f20    0000018c     sprites.o (.text.RenderSprites)
-                  000180ac    00000170     libc.a : e_sqrt.c.obj (.text.sqrt)
-                  0001821c    00000144            : s_floor.c.obj (.text.floor)
-                  00018360    00000134            : qsort.c.obj (.text.qsort)
-                  00018494    00000124     ADC.o (.text.ADC_InitDual)
-                  000185b8    00000118     ST7735.o (.text.ST7735_FillRect)
-                  000186d0    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
-                  000187e4    0000010c     libclang_rt.builtins.a : divdf3.S.obj (.text.__divdf3)
-                  000188f0    00000100     Buffer.o (.text.drawCharToBuffer)
-                  000189f0    000000f8     SPI.o (.text.SPI_Init)
-                  00018ae8    000000f8     libc.a : fputs.c.obj (.text.fputs)
-                  00018be0    000000f4     sprites.o (.text.RenderForegroundSprites)
-                  00018cd4    000000f4     Graphics.o (.text.RenderSky)
-                  00018dc8    000000f4     ST7735.o (.text.ST7735_SetRotation)
-                  00018ebc    000000e8     libc.a : memory.c.obj (.text.free)
-                  00018fa4    000000e4     libclang_rt.builtins.a : muldf3.S.obj (.text.__muldf3)
-                  00019088    000000e0     libc.a : setvbuf.c.obj (.text.setvbuf)
-                  00019168    000000d8            : s_scalbn.c.obj (.text.scalbn)
-                  00019240    000000d0     Inventory.o (.text.Inventory_add)
-                  00019310    000000cc     Input.o (.text.TIMG12_IRQHandler)
-                  000193dc    000000b4     Buffer.o (.text.printToBuffer)
-                  00019490    000000a8     DAC.o (.text.DAC_Init)
-                  00019538    000000a8     sprites.o (.text.RenderInventory)
-                  000195e0    000000a4     Timer.o (.text.TimerG0_IntArm)
-                  00019684    000000a2     ST7735.o (.text.commandList)
-                  00019726    00000002     libc.a : _lock.c.obj (.text._nop)
-                  00019728    000000a0     Buffer.o (.text.blitBufferToRenderBuffer)
-                  000197c8    0000009c     libc.a : fputc.c.obj (.text.fputc)
-                  00019864    00000098     ST7735.o (.text.ST7735_InitR)
-                  000198fc    00000094     Timer.o (.text.TimerG12_IntArm)
-                  00019990    00000090     Graphics.o (.text.FillMap)
-                  00019a20    00000090     main.o (.text.main)
-                  00019ab0    0000008c     Buffer.o (.text.clearRenderBuffer)
-                  00019b3c    00000088     ST7735.o (.text.setAddrWindow)
-                  00019bc4    0000000c     Clock.o (.text.Clock_Freq)
-                  00019bd0    00000088     libc.a : strcmp-armv6m.S.obj (.text:strcmp)
-                  00019c58    00000084     Buffer.o (.text.PrecalculateFloorGradient)
-                  00019cdc    0000007c     LaunchPad.o (.text.LaunchPad_Init)
-                  00019d58    0000007c     libc.a : fclose.c.obj (.text.__TI_closefile)
-                  00019dd4    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
-                  00019e50    00000078     Graphics.o (.text.DrawMinimap)
-                  00019ec8    00000074     Inventory.o (.text.Inventory_removeCurrent)
-                  00019f3c    00000074     libclang_rt.builtins.a : comparedf2.c.obj (.text.__gedf2)
-                  00019fb0    00000070     Graphics.o (.text.RenderHUD)
-                  0001a020    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
-                  0001a08c    0000006c                : hostrename.c.obj (.text.HOSTrename)
-                  0001a0f8    0000006c     UART2.o (.text.UART2_IRQHandler)
-                  0001a164    0000006c     libc.a : fseek.c.obj (.text.fseeko)
-                  0001a1d0    0000006c            : getdevice.c.obj (.text.getdevice)
-                  0001a23c    00000068     libclang_rt.builtins.a : comparedf2.c.obj (.text.__ledf2)
-                  0001a2a4    00000064     ADC.o (.text.ADC_InDual)
-                  0001a308    00000064     libc.a : _io_perm.c.obj (.text.__TI_wrt_ok)
-                  0001a36c    00000064            : memory.c.obj (.text.split)
-                  0001a3d0    00000062     libclang_rt.builtins.a : aeabi_dcmp.S.obj (.text.__aeabi_dcmp)
-                  0001a432    00000002     --HOLE-- [fill = 0]
-                  0001a434    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
-                  0001a494    0000005c     libc.a : printf.c.obj (.text.printf)
-                  0001a4f0    0000005c     Buffer.o (.text.setPixelBuffer)
-                  0001a54c    00000058     libsysbm.a : hostread.c.obj (.text.HOSTread)
-                  0001a5a4    00000058                : hostwrite.c.obj (.text.HOSTwrite)
-                  0001a5fc    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
-                  0001a652    00000056     sprites.o (.text.compareSprites)
-                  0001a6a8    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
-                  0001a6fa    00000002     --HOLE-- [fill = 0]
-                  0001a6fc    00000050     libsysbm.a : close.c.obj (.text.close)
-                  0001a74c    0000004c     FIFO.o (.text.RxFifo_Put)
-                  0001a798    0000004c     Inventory.o (.text.inInventory)
-                  0001a7e4    0000004c     Graphics.o (.text.printAmmo)
-                  0001a830    0000004a     libclang_rt.builtins.a : fixdfsi.S.obj (.text.__fixdfsi)
-                  0001a87a    00000002     --HOLE-- [fill = 0]
-                  0001a87c    00000048     libsysbm.a : hostclose.c.obj (.text.HOSTclose)
-                  0001a8c4    00000048                : hostunlink.c.obj (.text.HOSTunlink)
-                  0001a90c    00000048     SPI.o (.text.SPI_OutCommand)
-                  0001a954    00000048     Sounds.o (.text.Sound_Init)
-                  0001a99c    00000048     Async_Delay.o (.text.TIMG0_IRQHandler)
-                  0001a9e4    00000044     Input.o (.text.Input_Init)
-                  0001aa28    00000044     Sounds.o (.text.SysTick_Handler)
-                  0001aa6c    00000040     Graphics.o (.text.RenderScene)
-                  0001aaac    00000040     SPI.o (.text.SPI_Reset)
-                  0001aaec    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  0001ab2c    0000003c     Input.o (.text.fastSin)
-                  0001ab68    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
-                  0001aba4    0000003a     libclang_rt.builtins.a : muldsi3.S.obj (.text.__muldsi3)
-                  0001abde    00000002     --HOLE-- [fill = 0]
-                  0001abe0    00000038     LaunchPad.o (.text.ActivatePortA_B)
-                  0001ac18    00000038     Buffer.o (.text.RenderBuffer)
-                  0001ac50    00000038     SPI.o (.text.SPI_OutData)
-                  0001ac88    00000038     Sounds.o (.text.Sound_Start)
-                  0001acc0    00000038     libc.a : rand.c.obj (.text.rand)
-                  0001acf8    00000038            : sprintf.c.obj (.text.sprintf)
-                  0001ad30    00000038     Async_Delay.o (.text.start_delay)
-                  0001ad68    00000034     Clock.o (.text.Clock_Delay1ms)
-                  0001ad9c    00000034     ST7735.o (.text.ST7735_SetCursor)
-                  0001add0    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
-                  0001ae04    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
-                  0001ae38    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
-                  0001ae6c    00000034     libc.a : exit.c.obj (.text.exit)
-                  0001aea0    00000034            : getdevice.c.obj (.text.finddevice)
-                  0001aed4    00000034     Graphics.o (.text.printItem)
-                  0001af08    00000030     ST7735.o (.text.commonInit)
-                  0001af38    00000030     Input.o (.text.fastCos)
-                  0001af68    0000002c     ST7735.o (.text.ST7735_FillScreen)
-                  0001af94    0000002c     main.o (.text.SystemInit)
-                  0001afc0    0000002c     libclang_rt.builtins.a : floatsidf.S.obj (.text.__floatsidf)
-                  0001afec    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
-                  0001b018    00000028     libc.a : memory.c.obj (.text.free_list_insert)
-                  0001b040    00000028     libsysbm.a : lseek.c.obj (.text.lseek)
-                  0001b068    00000028                : write.c.obj (.text.write)
-                  0001b090    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  0001b0b8    00000024     Graphics.o (.text.Graphics_Init)
-                  0001b0dc    00000024     Inventory.o (.text.Inventory_next)
-                  0001b100    00000024     Joy.o (.text.Joy_Init)
-                  0001b124    00000024     libclang_rt.builtins.a : floatunsidf.S.obj (.text.__floatunsidf)
-                  0001b148    00000022     libc.a : memccpy.c.obj (.text.memccpy)
-                  0001b16a    00000020     Inventory.o (.text.Item_isWeapon)
-                  0001b18a    00000002     --HOLE-- [fill = 0]
-                  0001b18c    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
-                  0001b1a8    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
-                  0001b1c4    0000001c     Joy.o (.text.Joy_In)
-                  0001b1e0    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
-                  0001b1fc    00000018            : sprintf.c.obj (.text._outs)
-                  0001b214    00000014     DAC.o (.text.DAC_Out)
-                  0001b228    00000012     Inventory.o (.text.Inventory_currentItem)
-                  0001b23a    00000012     Inventory.o (.text.Item_isSpent)
-                  0001b24c    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
-                  0001b25e    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
-                  0001b270    00000010     Clock.o (.text.Clock_Delay)
-                  0001b280    00000010     LaunchPad.o (.text.Delay)
-                  0001b290    00000010     Joy.o (.text.Joy_InButton)
-                  0001b2a0    00000010     Input.o (.text.ReadKeys)
-                  0001b2b0    00000010     libc.a : copy_zero_init.c.obj (.text:decompress:ZI)
-                  0001b2c0    0000000e            : memory.c.obj (.text.OUTLINED_FUNCTION_0)
-                  0001b2ce    00000002     --HOLE-- [fill = 0]
-                  0001b2d0    0000000e     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memset)
-                  0001b2de    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
-                  0001b2ec    0000000e     libc.a : _printfi.c.obj (.text.strlen)
-                  0001b2fa    0000000e     libsysbm.a : hostrename.c.obj (.text.strlen)
-                  0001b308    0000000e     libc.a : memset16.S.obj (.text:TI_memset_small)
-                  0001b316    00000002     --HOLE-- [fill = 0]
-                  0001b318    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  0001b324    0000000c     libc.a : memory.c.obj (.text.malloc)
-                  0001b330    0000000a            : e_pow.c.obj (.text.OUTLINED_FUNCTION_0)
-                  0001b33a    00000002     --HOLE-- [fill = 0]
-                  0001b33c    00000010     libclang_rt.builtins.a : muldf3.S.obj (.tramp.__aeabi_dmul.1)
-                  0001b34c    0000000a     libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_1)
-                  0001b356    0000000a            : e_pow.c.obj (.text.OUTLINED_FUNCTION_6)
-                  0001b360    0000000a            : sprintf.c.obj (.text._outc)
-                  0001b36a    00000008            : e_pow.c.obj (.text.OUTLINED_FUNCTION_2)
-                  0001b372    00000002     --HOLE-- [fill = 0]
-                  0001b374    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dsub.1)
-                  0001b384    00000008     libc.a : aeabi_portable.c.obj (.text.__aeabi_errno_addr)
-                  0001b38c    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  0001b394    00000008     libc.a : printf.c.obj (.text._outc)
-                  0001b39c    00000008            : printf.c.obj (.text._outs)
-                  0001b3a4    00000008            : fseek.c.obj (.text.fseek)
-                  0001b3ac    00000008     libsysbm.a : remove.c.obj (.text.remove)
-                  0001b3b4    00000006     libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_3)
-                  0001b3ba    00000002     --HOLE-- [fill = 0]
-                  0001b3bc    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dadd.1)
-                  0001b3cc    00000006     libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_4)
-                  0001b3d2    00000006            : e_pow.c.obj (.text.OUTLINED_FUNCTION_5)
-                  0001b3d8    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_10)
-                  0001b3dc    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_7)
-                  0001b3e0    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_8)
-                  0001b3e4    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_9)
-                  0001b3e8    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
-                  0001b3ec    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  0001b3f0    00000004            : exit.c.obj (.text:abort)
-                  0001b3f4    0000000c     --HOLE-- [fill = 0]
+                  00016048    000006a0     Input.o (.text.MovePlayer)
+                  000166e8    0000057c     sprites.o (.text.RenderSprite)
+                  00016c64    00000524     Graphics.o (.text.CastRays)
+                  00017188    00000284     libc.a : _printfi.c.obj (.text:__TI_printfi_minimal)
+                  0001740c    00000238     Graphics.o (.text.DrawCrosshair)
+                  00017644    00000218     Buffer.o (.text.drawForegroundSpriteToBuffer)
+                  0001785c    00000210     ST7735.o (.text.ST7735_DrawBitmap)
+                  00017a6c    000001f4     Graphics.o (.text.DrawHealthBar)
+                  00017c60    000001b4     Clock.o (.text.Clock_Init80MHz)
+                  00017e14    00000192     libclang_rt.builtins.a : adddf3.S.obj (.text.adddf3_subdf3)
+                  00017fa6    00000002                            : aeabi_div0.c.obj (.text.__aeabi_idiv0)
+                  00017fa8    0000018c     sprites.o (.text.RenderSprites)
+                  00018134    00000170     libc.a : e_sqrt.c.obj (.text.sqrt)
+                  000182a4    00000144            : s_floor.c.obj (.text.floor)
+                  000183e8    00000134            : qsort.c.obj (.text.qsort)
+                  0001851c    00000124     ADC.o (.text.ADC_InitDual)
+                  00018640    00000118     ST7735.o (.text.ST7735_FillRect)
+                  00018758    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
+                  0001886c    0000010c     libclang_rt.builtins.a : divdf3.S.obj (.text.__divdf3)
+                  00018978    00000100     Buffer.o (.text.drawCharToBuffer)
+                  00018a78    000000f8     SPI.o (.text.SPI_Init)
+                  00018b70    000000f8     libc.a : fputs.c.obj (.text.fputs)
+                  00018c68    000000f4     sprites.o (.text.RenderForegroundSprites)
+                  00018d5c    000000f4     Graphics.o (.text.RenderSky)
+                  00018e50    000000f4     ST7735.o (.text.ST7735_SetRotation)
+                  00018f44    000000e8     libc.a : memory.c.obj (.text.free)
+                  0001902c    000000e4     libclang_rt.builtins.a : muldf3.S.obj (.text.__muldf3)
+                  00019110    000000e0     libc.a : setvbuf.c.obj (.text.setvbuf)
+                  000191f0    000000d8            : s_scalbn.c.obj (.text.scalbn)
+                  000192c8    000000d4     UART2.o (.text.UART2_Init)
+                  0001939c    000000d0     Inventory.o (.text.Inventory_add)
+                  0001946c    000000cc     Input.o (.text.TIMG12_IRQHandler)
+                  00019538    000000b4     Buffer.o (.text.printToBuffer)
+                  000195ec    000000a8     DAC.o (.text.DAC_Init)
+                  00019694    000000a8     sprites.o (.text.RenderInventory)
+                  0001973c    000000a4     Timer.o (.text.TimerG0_IntArm)
+                  000197e0    000000a2     ST7735.o (.text.commandList)
+                  00019882    00000002     libc.a : _lock.c.obj (.text._nop)
+                  00019884    000000a0     Buffer.o (.text.blitBufferToRenderBuffer)
+                  00019924    0000009c     libc.a : fputc.c.obj (.text.fputc)
+                  000199c0    00000098     ST7735.o (.text.ST7735_InitR)
+                  00019a58    00000094     Timer.o (.text.TimerG12_IntArm)
+                  00019aec    00000090     Graphics.o (.text.FillMap)
+                  00019b7c    00000090     main.o (.text.main)
+                  00019c0c    0000008c     Buffer.o (.text.clearRenderBuffer)
+                  00019c98    00000088     ST7735.o (.text.setAddrWindow)
+                  00019d20    00000088     libc.a : strcmp-armv6m.S.obj (.text:strcmp)
+                  00019da8    00000084     Buffer.o (.text.PrecalculateFloorGradient)
+                  00019e2c    00000080     UART1.o (.text.UART1_Init)
+                  00019eac    0000007c     LaunchPad.o (.text.LaunchPad_Init)
+                  00019f28    0000007c     libc.a : fclose.c.obj (.text.__TI_closefile)
+                  00019fa4    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
+                  0001a020    00000078     Graphics.o (.text.DrawMinimap)
+                  0001a098    00000074     Inventory.o (.text.Inventory_removeCurrent)
+                  0001a10c    00000074     libclang_rt.builtins.a : comparedf2.c.obj (.text.__gedf2)
+                  0001a180    00000070     Graphics.o (.text.RenderHUD)
+                  0001a1f0    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
+                  0001a25c    0000006c                : hostrename.c.obj (.text.HOSTrename)
+                  0001a2c8    0000006c     UART2.o (.text.UART2_IRQHandler)
+                  0001a334    0000006c     libc.a : fseek.c.obj (.text.fseeko)
+                  0001a3a0    0000006c            : getdevice.c.obj (.text.getdevice)
+                  0001a40c    00000068     libclang_rt.builtins.a : comparedf2.c.obj (.text.__ledf2)
+                  0001a474    00000064     ADC.o (.text.ADC_InDual)
+                  0001a4d8    00000064     libc.a : _io_perm.c.obj (.text.__TI_wrt_ok)
+                  0001a53c    00000064            : memory.c.obj (.text.split)
+                  0001a5a0    00000062     libclang_rt.builtins.a : aeabi_dcmp.S.obj (.text.__aeabi_dcmp)
+                  0001a602    00000002     --HOLE-- [fill = 0]
+                  0001a604    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
+                  0001a664    0000005c     libc.a : printf.c.obj (.text.printf)
+                  0001a6c0    0000005c     Buffer.o (.text.setPixelBuffer)
+                  0001a71c    00000058     libsysbm.a : hostread.c.obj (.text.HOSTread)
+                  0001a774    00000058                : hostwrite.c.obj (.text.HOSTwrite)
+                  0001a7cc    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
+                  0001a822    00000056     sprites.o (.text.compareSprites)
+                  0001a878    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
+                  0001a8ca    00000002     --HOLE-- [fill = 0]
+                  0001a8cc    00000050     libsysbm.a : close.c.obj (.text.close)
+                  0001a91c    0000004c     FIFO.o (.text.RxFifo_Put)
+                  0001a968    0000004c     Inventory.o (.text.inInventory)
+                  0001a9b4    0000004c     Graphics.o (.text.printAmmo)
+                  0001aa00    0000004a     libclang_rt.builtins.a : fixdfsi.S.obj (.text.__fixdfsi)
+                  0001aa4a    00000002     --HOLE-- [fill = 0]
+                  0001aa4c    00000048     libsysbm.a : hostclose.c.obj (.text.HOSTclose)
+                  0001aa94    00000048                : hostunlink.c.obj (.text.HOSTunlink)
+                  0001aadc    00000048     SPI.o (.text.SPI_OutCommand)
+                  0001ab24    00000048     Sounds.o (.text.Sound_Init)
+                  0001ab6c    00000048     Async_Delay.o (.text.TIMG0_IRQHandler)
+                  0001abb4    00000044     Input.o (.text.Input_Init)
+                  0001abf8    00000044     Sounds.o (.text.SysTick_Handler)
+                  0001ac3c    00000040     Graphics.o (.text.RenderScene)
+                  0001ac7c    00000040     SPI.o (.text.SPI_Reset)
+                  0001acbc    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
+                  0001acfc    0000003c     Input.o (.text.fastSin)
+                  0001ad38    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
+                  0001ad74    0000003a     libclang_rt.builtins.a : muldsi3.S.obj (.text.__muldsi3)
+                  0001adae    00000002     --HOLE-- [fill = 0]
+                  0001adb0    00000038     LaunchPad.o (.text.ActivatePortA_B)
+                  0001ade8    00000038     Buffer.o (.text.RenderBuffer)
+                  0001ae20    00000038     SPI.o (.text.SPI_OutData)
+                  0001ae58    00000038     Sounds.o (.text.Sound_Start)
+                  0001ae90    00000038     libc.a : rand.c.obj (.text.rand)
+                  0001aec8    00000038            : sprintf.c.obj (.text.sprintf)
+                  0001af00    00000038     Async_Delay.o (.text.start_delay)
+                  0001af38    00000034     Clock.o (.text.Clock_Delay1ms)
+                  0001af6c    00000034     ST7735.o (.text.ST7735_SetCursor)
+                  0001afa0    00000034     main.o (.text.SystemInit)
+                  0001afd4    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
+                  0001b008    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
+                  0001b03c    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
+                  0001b070    00000034     libc.a : exit.c.obj (.text.exit)
+                  0001b0a4    00000034            : getdevice.c.obj (.text.finddevice)
+                  0001b0d8    00000034     Graphics.o (.text.printItem)
+                  0001b10c    00000030     ST7735.o (.text.commonInit)
+                  0001b13c    00000030     Input.o (.text.fastCos)
+                  0001b16c    0000002c     ST7735.o (.text.ST7735_FillScreen)
+                  0001b198    0000002c     libclang_rt.builtins.a : floatsidf.S.obj (.text.__floatsidf)
+                  0001b1c4    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
+                  0001b1f0    00000028     libc.a : memory.c.obj (.text.free_list_insert)
+                  0001b218    00000028     libsysbm.a : lseek.c.obj (.text.lseek)
+                  0001b240    00000028                : write.c.obj (.text.write)
+                  0001b268    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
+                  0001b290    00000024     Graphics.o (.text.Graphics_Init)
+                  0001b2b4    00000024     Inventory.o (.text.Inventory_next)
+                  0001b2d8    00000024     Joy.o (.text.Joy_Init)
+                  0001b2fc    00000024     libclang_rt.builtins.a : floatunsidf.S.obj (.text.__floatunsidf)
+                  0001b320    00000022     libc.a : memccpy.c.obj (.text.memccpy)
+                  0001b342    00000020     Inventory.o (.text.Item_isWeapon)
+                  0001b362    00000002     --HOLE-- [fill = 0]
+                  0001b364    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
+                  0001b380    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
+                  0001b39c    0000001c     Joy.o (.text.Joy_In)
+                  0001b3b8    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
+                  0001b3d4    00000018     UART1.o (.text.UART1_OutChar)
+                  0001b3ec    00000018     libc.a : sprintf.c.obj (.text._outs)
+                  0001b404    00000014     DAC.o (.text.DAC_Out)
+                  0001b418    00000014     FIFO.o (.text.RxFifo_Init)
+                  0001b42c    00000012     Inventory.o (.text.Inventory_currentItem)
+                  0001b43e    00000012     Inventory.o (.text.Item_isSpent)
+                  0001b450    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
+                  0001b462    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
+                  0001b474    00000010     Clock.o (.text.Clock_Delay)
+                  0001b484    00000010     LaunchPad.o (.text.Delay)
+                  0001b494    00000010     Joy.o (.text.Joy_InButton)
+                  0001b4a4    00000010     Input.o (.text.ReadKeys)
+                  0001b4b4    00000010     libc.a : copy_zero_init.c.obj (.text:decompress:ZI)
+                  0001b4c4    0000000e            : memory.c.obj (.text.OUTLINED_FUNCTION_0)
+                  0001b4d2    00000002     --HOLE-- [fill = 0]
+                  0001b4d4    0000000e     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memset)
+                  0001b4e2    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
+                  0001b4f0    0000000e     libc.a : _printfi.c.obj (.text.strlen)
+                  0001b4fe    0000000e     libsysbm.a : hostrename.c.obj (.text.strlen)
+                  0001b50c    0000000e     libc.a : memset16.S.obj (.text:TI_memset_small)
+                  0001b51a    00000002     --HOLE-- [fill = 0]
+                  0001b51c    0000000c     Clock.o (.text.Clock_Freq)
+                  0001b528    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
+                  0001b534    0000000c     libc.a : memory.c.obj (.text.malloc)
+                  0001b540    0000000a            : e_pow.c.obj (.text.OUTLINED_FUNCTION_0)
+                  0001b54a    00000002     --HOLE-- [fill = 0]
+                  0001b54c    00000010     libclang_rt.builtins.a : muldf3.S.obj (.tramp.__aeabi_dmul.1)
+                  0001b55c    0000000a     libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_1)
+                  0001b566    0000000a            : e_pow.c.obj (.text.OUTLINED_FUNCTION_6)
+                  0001b570    0000000a            : sprintf.c.obj (.text._outc)
+                  0001b57a    00000008            : e_pow.c.obj (.text.OUTLINED_FUNCTION_2)
+                  0001b582    00000002     --HOLE-- [fill = 0]
+                  0001b584    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dsub.1)
+                  0001b594    00000008     libc.a : aeabi_portable.c.obj (.text.__aeabi_errno_addr)
+                  0001b59c    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
+                  0001b5a4    00000008     libc.a : printf.c.obj (.text._outc)
+                  0001b5ac    00000008            : printf.c.obj (.text._outs)
+                  0001b5b4    00000008            : fseek.c.obj (.text.fseek)
+                  0001b5bc    00000008     libsysbm.a : remove.c.obj (.text.remove)
+                  0001b5c4    00000006     libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_3)
+                  0001b5ca    00000002     --HOLE-- [fill = 0]
+                  0001b5cc    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dadd.1)
+                  0001b5dc    00000006     libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_4)
+                  0001b5e2    00000006            : e_pow.c.obj (.text.OUTLINED_FUNCTION_5)
+                  0001b5e8    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_10)
+                  0001b5ec    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_7)
+                  0001b5f0    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_8)
+                  0001b5f4    00000004            : e_pow.c.obj (.text.OUTLINED_FUNCTION_9)
+                  0001b5f8    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
+                  0001b5fc    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
+                  0001b600    00000004            : exit.c.obj (.text:abort)
+                  0001b604    0000000c     --HOLE-- [fill = 0]
 
-.cinit     0    0001b400    000001c0     
-                  0001b400    0000019a     (.cinit..data.load) [load image, compression = lzss]
-                  0001b59a    00000002     --HOLE-- [fill = 0]
-                  0001b59c    0000000c     (__TI_handler_table)
-                  0001b5a8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  0001b5b0    00000010     (__TI_cinit_table)
+.cinit     0    0001b610    000001c0     
+                  0001b610    0000019c     (.cinit..data.load) [load image, compression = lzss]
+                  0001b7ac    0000000c     (__TI_handler_table)
+                  0001b7b8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  0001b7c0    00000010     (__TI_cinit_table)
 
 .rodata    0    000000c0    00015538     
                   000000c0    00004900     Sounds.o (.rodata.reloadSound)
@@ -370,23 +373,24 @@ MODULE SUMMARY
        Sounds.o                       196     42197     48     
        Graphics.o                     3232    33366     3036   
        Buffer.o                       1552    1275      20608  
-       main.o                         188     10311     953    
+       main.o                         196     10311     953    
        sprites.o                      2298    0         1      
-       Input.o                        1956    0         3      
+       Input.o                        2092    0         3      
        ST7735.o                       1646    128       18     
        Clock.o                        516     0         4      
        Inventory.o                    504     0         0      
        SPI.o                          440     0         0      
        ADC.o                          392     0         0      
+       UART2.o                        320     0         4      
        Timer.o                        312     0         0      
        LaunchPad.o                    196     0         0      
        DAC.o                          188     0         0      
+       UART1.o                        152     0         0      
        Async_Delay.o                  128     0         12     
-       UART2.o                        108     0         4      
-       FIFO.o                         76      0         24     
+       FIFO.o                         96      0         24     
        Joy.o                          80      0         0      
     +--+------------------------------+-------+---------+---------+
-       Total:                         14008   87277     24711  
+       Total:                         14536   87277     24711  
                                                                
     .\ticlang\
        startup_mspm0g3507_ticlang.o   60      192       0      
@@ -468,21 +472,21 @@ MODULE SUMMARY
                                                                
        Heap:                          0       0         512    
        Stack:                         0       0         512    
-       Linker Generated:              0       446       0      
+       Linker Generated:              0       448       0      
     +--+------------------------------+-------+---------+---------+
-       Grand Total:                   24032   87980     26664  
+       Grand Total:                   24560   87982     26664  
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0001b5b0 records: 2, size/record: 8, table size: 16
-	.data: load addr=0001b400, load size=0000019a bytes, run addr=20205e50, run size=000005e1 bytes, compression=lzss
-	.bss: load addr=0001b5a8, load size=00000008 bytes, run addr=20200000, run size=00005e4a bytes, compression=zero_init
+__TI_cinit_table @ 0001b7c0 records: 2, size/record: 8, table size: 16
+	.data: load addr=0001b610, load size=0000019c bytes, run addr=20205e50, run size=000005e1 bytes, compression=lzss
+	.bss: load addr=0001b7b8, load size=00000008 bytes, run addr=20200000, run size=00005e4a bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0001b59c records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 0001b7ac records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -494,19 +498,19 @@ callee name               trampoline name
    callee addr  tramp addr   call addr  call info
 --------------  -----------  ---------  ----------------
 __aeabi_dmul              $Tramp$TT$L$PI$$__aeabi_dmul
-   00018fa5     0001b33c     0001b338   libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_0)
-                             0001b354          : e_pow.c.obj (.text.OUTLINED_FUNCTION_1)
-                             0001b35e          : e_pow.c.obj (.text.OUTLINED_FUNCTION_6)
-                             0001b3d0          : e_pow.c.obj (.text.OUTLINED_FUNCTION_4)
-                             0001b3d6          : e_pow.c.obj (.text.OUTLINED_FUNCTION_5)
-                             0001b3e2          : e_pow.c.obj (.text.OUTLINED_FUNCTION_8)
+   0001902d     0001b54c     0001b548   libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_0)
+                             0001b564          : e_pow.c.obj (.text.OUTLINED_FUNCTION_1)
+                             0001b56e          : e_pow.c.obj (.text.OUTLINED_FUNCTION_6)
+                             0001b5e0          : e_pow.c.obj (.text.OUTLINED_FUNCTION_4)
+                             0001b5e6          : e_pow.c.obj (.text.OUTLINED_FUNCTION_5)
+                             0001b5f2          : e_pow.c.obj (.text.OUTLINED_FUNCTION_8)
 __aeabi_dsub              $Tramp$TT$L$PI$$__aeabi_dsub
-   00017d8d     0001b374     0001b370   libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_2)
+   00017e15     0001b584     0001b580   libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_2)
 __aeabi_dadd              $Tramp$TT$L$PI$$__aeabi_dadd
-   00017d97     0001b3bc     0001b3b8   libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_3)
-                             0001b3da          : e_pow.c.obj (.text.OUTLINED_FUNCTION_10)
-                             0001b3de          : e_pow.c.obj (.text.OUTLINED_FUNCTION_7)
-                             0001b3e6          : e_pow.c.obj (.text.OUTLINED_FUNCTION_9)
+   00017e1f     0001b5cc     0001b5c8   libc.a : e_pow.c.obj (.text.OUTLINED_FUNCTION_3)
+                             0001b5ea          : e_pow.c.obj (.text.OUTLINED_FUNCTION_10)
+                             0001b5ee          : e_pow.c.obj (.text.OUTLINED_FUNCTION_7)
+                             0001b5f6          : e_pow.c.obj (.text.OUTLINED_FUNCTION_9)
 
 [3 trampolines]
 [11 trampoline calls]
@@ -516,123 +520,127 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                          
 -------   ----                          
-0001b18d  ADC0_IRQHandler               
-0001b18d  ADC1_IRQHandler               
-0001a2a5  ADC_InDual                    
-00018495  ADC_InitDual                  
-0001b18d  AES_IRQHandler                
-0001abe1  ActivatePortA_B               
+0001b365  ADC0_IRQHandler               
+0001b365  ADC1_IRQHandler               
+0001a475  ADC_InDual                    
+0001851d  ADC_InitDual                  
+0001b365  AES_IRQHandler                
+0001adb1  ActivatePortA_B               
 00014cd2  Ammosprite                    
 202063c4  BusFreq                       
-0001b3f0  C$$EXIT                       
-0001ae65  C$$IO$$                       
-0001b18d  CANFD0_IRQHandler             
-00016bdd  CastRays                      
-0001b271  Clock_Delay                   
-0001ad69  Clock_Delay1ms                
-00019bc5  Clock_Freq                    
-00017bd9  Clock_Init80MHz               
-0001b18d  DAC0_IRQHandler               
-00019491  DAC_Init                      
-0001b215  DAC_Out                       
-0001b18d  DMA_IRQHandler                
-0001b18d  Default_Handler               
-0001b281  Delay                         
-00017385  DrawCrosshair                 
-000179e5  DrawHealthBar                 
-00019e51  DrawMinimap                   
+0001b600  C$$EXIT                       
+0001b069  C$$IO$$                       
+0001b365  CANFD0_IRQHandler             
+00016c65  CastRays                      
+0001b475  Clock_Delay                   
+0001af39  Clock_Delay1ms                
+0001b51d  Clock_Freq                    
+00017c61  Clock_Init80MHz               
+0001b365  DAC0_IRQHandler               
+000195ed  DAC_Init                      
+0001b405  DAC_Out                       
+0001b365  DMA_IRQHandler                
+0001b365  Default_Handler               
+0001b485  Delay                         
+0001740d  DrawCrosshair                 
+00017a6d  DrawHealthBar                 
+0001a021  DrawMinimap                   
 00012596  ExplosionImage                
-00019991  FillMap                       
-0001b18d  GROUP0_IRQHandler             
-0001b18d  GROUP1_IRQHandler             
-0001b0b9  Graphics_Init                 
-0001a87d  HOSTclose                     
-0001a021  HOSTlseek                     
-0001a435  HOSTopen                      
-0001a54d  HOSTread                      
-0001a08d  HOSTrename                    
-0001a8c5  HOSTunlink                    
-0001a5a5  HOSTwrite                     
-0001b1a9  HardFault_Handler             
-0001b18d  I2C0_IRQHandler               
-0001b18d  I2C1_IRQHandler               
-0001a9e5  Input_Init                    
-00019241  Inventory_add                 
-0001b229  Inventory_currentItem         
-0001b0dd  Inventory_next                
-00019ec9  Inventory_removeCurrent       
-0001b23b  Item_isSpent                  
-0001b16b  Item_isWeapon                 
-0001b1c5  Joy_In                        
-0001b291  Joy_InButton                  
-0001b101  Joy_Init                      
+00019aed  FillMap                       
+0001b365  GROUP0_IRQHandler             
+0001b365  GROUP1_IRQHandler             
+0001b291  Graphics_Init                 
+0001aa4d  HOSTclose                     
+0001a1f1  HOSTlseek                     
+0001a605  HOSTopen                      
+0001a71d  HOSTread                      
+0001a25d  HOSTrename                    
+0001aa95  HOSTunlink                    
+0001a775  HOSTwrite                     
+0001b381  HardFault_Handler             
+0001b365  I2C0_IRQHandler               
+0001b365  I2C1_IRQHandler               
+0001abb5  Input_Init                    
+0001939d  Inventory_add                 
+0001b42d  Inventory_currentItem         
+0001b2b5  Inventory_next                
+0001a099  Inventory_removeCurrent       
+0001b43f  Item_isSpent                  
+0001b343  Item_isWeapon                 
+0001b39d  Joy_In                        
+0001b495  Joy_InButton                  
+0001b2d9  Joy_Init                      
 20205e1c  Joy_x                         
 20205e20  Joy_y                         
-00019cdd  LaunchPad_Init                
+00019ead  LaunchPad_Init                
 20205e24  Length                        
 20205e28  LostData                      
 00014ed2  Medkitsprite                  
 00016049  MovePlayer                    
-0001b18d  NMI_Handler                   
+0001b365  NMI_Handler                   
 00014a91  OGMap                         
-0001b18d  PendSV_Handler                
+0001b365  PendSV_Handler                
 00012d96  PistolImage                   
-00019c59  PrecalculateFloorGradient     
-0001b18d  RTC_IRQHandler                
-0001b2a1  ReadKeys                      
-0001ac19  RenderBuffer                  
-00018be1  RenderForegroundSprites       
-00019fb1  RenderHUD                     
-00019539  RenderInventory               
-0001aa6d  RenderScene                   
-00018cd5  RenderSky                     
-00016661  RenderSprite                  
-00017f21  RenderSprites                 
-0001b3e9  Reset_Handler                 
-0001a74d  RxFifo_Put                    
+00019da9  PrecalculateFloorGradient     
+0001b365  RTC_IRQHandler                
+0001b4a5  ReadKeys                      
+0001ade9  RenderBuffer                  
+00018c69  RenderForegroundSprites       
+0001a181  RenderHUD                     
+00019695  RenderInventory               
+0001ac3d  RenderScene                   
+00018d5d  RenderSky                     
+000166e9  RenderSprite                  
+00017fa9  RenderSprites                 
+0001b5f9  Reset_Handler                 
+0001b419  RxFifo_Init                   
+0001a91d  RxFifo_Put                    
 20205e2c  RxGetI                        
 20205e30  RxPutI                        
 00007474  SCBarkley                     
-0001b18d  SPI0_IRQHandler               
-0001b18d  SPI1_IRQHandler               
-000189f1  SPI_Init                      
-0001a90d  SPI_OutCommand                
-0001ac51  SPI_OutData                   
-0001aaad  SPI_Reset                     
-000177d5  ST7735_DrawBitmap             
-000185b9  ST7735_FillRect               
-0001af69  ST7735_FillScreen             
-00019865  ST7735_InitR                  
-0001ad9d  ST7735_SetCursor              
-00018dc9  ST7735_SetRotation            
-0001b18d  SVC_Handler                   
+0001b365  SPI0_IRQHandler               
+0001b365  SPI1_IRQHandler               
+00018a79  SPI_Init                      
+0001aadd  SPI_OutCommand                
+0001ae21  SPI_OutData                   
+0001ac7d  SPI_Reset                     
+0001785d  ST7735_DrawBitmap             
+00018641  ST7735_FillRect               
+0001b16d  ST7735_FillScreen             
+000199c1  ST7735_InitR                  
+0001af6d  ST7735_SetCursor              
+00018e51  ST7735_SetRotation            
+0001b365  SVC_Handler                   
 00013596  ShotgunImage                  
 000150d2  Shotgunsprite                 
 20206338  SoundEffects                  
 20205e34  SoundPt                       
-0001a955  Sound_Init                    
-0001ac89  Sound_Start                   
+0001ab25  Sound_Init                    
+0001ae59  Sound_Start                   
 20205e50  Sprites                       
 20206424  StTextColor                   
 202063fc  StX                           
 20206400  StY                           
-0001aa29  SysTick_Handler               
-0001af95  SystemInit                    
-0001b18d  TIMA0_IRQHandler              
-0001b18d  TIMA1_IRQHandler              
-0001a99d  TIMG0_IRQHandler              
-00019311  TIMG12_IRQHandler             
-0001b18d  TIMG6_IRQHandler              
-0001b18d  TIMG7_IRQHandler              
-0001b18d  TIMG8_IRQHandler              
-0001b24d  TI_memcpy_small               
-0001b309  TI_memset_small               
-000195e1  TimerG0_IntArm                
-000198fd  TimerG12_IntArm               
-0001b18d  UART0_IRQHandler              
-0001b18d  UART1_IRQHandler              
-0001a0f9  UART2_IRQHandler              
-0001b18d  UART3_IRQHandler              
+0001abf9  SysTick_Handler               
+0001afa1  SystemInit                    
+0001b365  TIMA0_IRQHandler              
+0001b365  TIMA1_IRQHandler              
+0001ab6d  TIMG0_IRQHandler              
+0001946d  TIMG12_IRQHandler             
+0001b365  TIMG6_IRQHandler              
+0001b365  TIMG7_IRQHandler              
+0001b365  TIMG8_IRQHandler              
+0001b451  TI_memcpy_small               
+0001b50d  TI_memset_small               
+0001973d  TimerG0_IntArm                
+00019a59  TimerG12_IntArm               
+0001b365  UART0_IRQHandler              
+0001b365  UART1_IRQHandler              
+00019e2d  UART1_Init                    
+0001b3d5  UART1_OutChar                 
+0001a2c9  UART2_IRQHandler              
+000192c9  UART2_Init                    
+0001b365  UART3_IRQHandler              
 20205000  ZBuffer                       
 20205bc0  _CIOBUF_                      
 20205bc0  __CIOBUF_                     
@@ -648,135 +656,135 @@ address   name
 00000000  __TI_ATRegion2_region_sz      
 00000000  __TI_ATRegion2_src_addr       
 00000000  __TI_ATRegion2_trg_addr       
-0001b5b0  __TI_CINIT_Base               
-0001b5c0  __TI_CINIT_Limit              
-0001b5c0  __TI_CINIT_Warm               
-0001b59c  __TI_Handler_Table_Base       
-0001b5a8  __TI_Handler_Table_Limit      
-0001ab69  __TI_auto_init_nobinit_nopinit
-0001add1  __TI_cleanup                  
+0001b7c0  __TI_CINIT_Base               
+0001b7d0  __TI_CINIT_Limit              
+0001b7d0  __TI_CINIT_Warm               
+0001b7ac  __TI_Handler_Table_Base       
+0001b7b8  __TI_Handler_Table_Limit      
+0001ad39  __TI_auto_init_nobinit_nopinit
+0001afd5  __TI_cleanup                  
 202063bc  __TI_cleanup_ptr              
-00019d59  __TI_closefile                
-00019dd5  __TI_decompress_lzss          
-0001b25f  __TI_decompress_none          
-0001a6a9  __TI_doflush                  
+00019f29  __TI_closefile                
+00019fa5  __TI_decompress_lzss          
+0001b463  __TI_decompress_none          
+0001a879  __TI_doflush                  
 202063c0  __TI_dtors_ptr                
 20206404  __TI_ft_end                   
 ffffffff  __TI_pprof_out_hndl           
-00017101  __TI_printfi_minimal          
+00017189  __TI_printfi_minimal          
 ffffffff  __TI_prof_data_size           
 ffffffff  __TI_prof_data_start          
-0001ae05  __TI_readmsg                  
+0001b009  __TI_readmsg                  
 00000000  __TI_static_base__            
 20205ce0  __TI_tmpnams                  
-0001ae39  __TI_writemsg                 
-0001a309  __TI_wrt_ok                   
-0001b2b1  __TI_zero_init                
-00017d97  __adddf3                      
-0001a831  __aeabi_d2iz                  
-00017d97  __aeabi_dadd                  
-0001a3d1  __aeabi_dcmpeq                
-0001a40d  __aeabi_dcmpge                
-0001a421  __aeabi_dcmpgt                
-0001a3f9  __aeabi_dcmple                
-0001a3e5  __aeabi_dcmplt                
-000187e5  __aeabi_ddiv                  
-00018fa5  __aeabi_dmul                  
-00017d8d  __aeabi_dsub                  
+0001b03d  __TI_writemsg                 
+0001a4d9  __TI_wrt_ok                   
+0001b4b5  __TI_zero_init                
+00017e1f  __adddf3                      
+0001aa01  __aeabi_d2iz                  
+00017e1f  __aeabi_dadd                  
+0001a5a1  __aeabi_dcmpeq                
+0001a5dd  __aeabi_dcmpge                
+0001a5f1  __aeabi_dcmpgt                
+0001a5c9  __aeabi_dcmple                
+0001a5b5  __aeabi_dcmplt                
+0001886d  __aeabi_ddiv                  
+0001902d  __aeabi_dmul                  
+00017e15  __aeabi_dsub                  
 20206408  __aeabi_errno                 
-0001b385  __aeabi_errno_addr            
-0001afc1  __aeabi_i2d                   
-0001a5fd  __aeabi_idiv                  
-00017f1f  __aeabi_idiv0                 
-0001a5fd  __aeabi_idivmod               
-0001b319  __aeabi_memclr                
-0001b319  __aeabi_memclr4               
-0001b319  __aeabi_memclr8               
-0001b38d  __aeabi_memcpy                
-0001b38d  __aeabi_memcpy4               
-0001b38d  __aeabi_memcpy8               
-0001b2d1  __aeabi_memset                
-0001b2d1  __aeabi_memset4               
-0001b2d1  __aeabi_memset8               
-0001b125  __aeabi_ui2d                  
-0001aaed  __aeabi_uidiv                 
-0001aaed  __aeabi_uidivmod              
+0001b595  __aeabi_errno_addr            
+0001b199  __aeabi_i2d                   
+0001a7cd  __aeabi_idiv                  
+00017fa7  __aeabi_idiv0                 
+0001a7cd  __aeabi_idivmod               
+0001b529  __aeabi_memclr                
+0001b529  __aeabi_memclr4               
+0001b529  __aeabi_memclr8               
+0001b59d  __aeabi_memcpy                
+0001b59d  __aeabi_memcpy4               
+0001b59d  __aeabi_memcpy8               
+0001b4d5  __aeabi_memset                
+0001b4d5  __aeabi_memset4               
+0001b4d5  __aeabi_memset8               
+0001b2fd  __aeabi_ui2d                  
+0001acbd  __aeabi_uidiv                 
+0001acbd  __aeabi_uidivmod              
 ffffffff  __binit__                     
-0001a23d  __cmpdf2                      
-000187e5  __divdf3                      
-0001a23d  __eqdf2                       
-0001a831  __fixdfsi                     
-0001afc1  __floatsidf                   
-0001b125  __floatunsidf                 
-00019f3d  __gedf2                       
-00019f3d  __gtdf2                       
-0001a23d  __ledf2                       
-0001a23d  __ltdf2                       
+0001a40d  __cmpdf2                      
+0001886d  __divdf3                      
+0001a40d  __eqdf2                       
+0001aa01  __fixdfsi                     
+0001b199  __floatsidf                   
+0001b2fd  __floatunsidf                 
+0001a10d  __gedf2                       
+0001a10d  __gtdf2                       
+0001a40d  __ledf2                       
+0001a40d  __ltdf2                       
 UNDEFED   __mpu_init                    
-00018fa5  __muldf3                      
-0001aba5  __muldsi3                     
-0001a23d  __nedf2                       
+0001902d  __muldf3                      
+0001ad75  __muldsi3                     
+0001a40d  __nedf2                       
 20207e00  __stack                       
 20200000  __start___llvm_prf_bits       
 20200000  __start___llvm_prf_cnts       
 20200000  __stop___llvm_prf_bits        
 20200000  __stop___llvm_prf_cnts        
-00017d8d  __subdf3                      
-0001b091  _c_int00_noargs               
+00017e15  __subdf3                      
+0001b269  _c_int00_noargs               
 202060d0  _device                       
 20205fe0  _ftable                       
 2020640c  _lock                         
-00019727  _nop                          
+00019883  _nop                          
 202062e8  _stream                       
 20206438  _sys_memory                   
 UNDEFED   _system_post_cinit            
-0001b3ed  _system_pre_init              
+0001b5fd  _system_pre_init              
 20206410  _unlock                       
-0001b3f1  abort                         
-000186d1  aligned_alloc                 
+0001b601  abort                         
+00018759  aligned_alloc                 
 20206148  ammo_small                    
 ffffffff  binit                         
-00019729  blitBufferToRenderBuffer      
+00019885  blitBufferToRenderBuffer      
 0000b474  circuitBoardTex               
 00009474  circuitBoardTex2              
-00019ab1  clearRenderBuffer             
-0001a6fd  close                         
-0001a653  compareSprites                
+00019c0d  clearRenderBuffer             
+0001a8cd  close                         
+0001a823  compareSprites                
 202063c8  dirX                          
 202063d0  dirY                          
-000188f1  drawCharToBuffer              
-000175bd  drawForegroundSpriteToBuffer  
-0001ae6d  exit                          
-0001af39  fastCos                       
-0001ab2d  fastSin                       
-0001aea1  finddevice                    
+00018979  drawCharToBuffer              
+00017645  drawForegroundSpriteToBuffer  
+0001b071  exit                          
+0001b13d  fastCos                       
+0001acfd  fastSin                       
+0001b0a5  finddevice                    
 20205e38  flag_done                     
-0001821d  floor                         
+000182a5  floor                         
 20205d80  floorGradient                 
-0001821d  floorl                        
-000197c9  fputc                         
-00018ae9  fputs                         
-00018ebd  free                          
-0001b3a5  fseek                         
-0001a165  fseeko                        
-0001a1d1  getdevice                     
+000182a5  floorl                        
+00019925  fputc                         
+00018b71  fputs                         
+00018f45  free                          
+0001b5b5  fseek                         
+0001a335  fseeko                        
+0001a3a1  getdevice                     
 20206360  gunFlash                      
-0001a799  inInventory                   
+0001a969  inInventory                   
 00000000  interruptVectors              
 20206388  inventory                     
 2020642b  isOnTarget                    
 20205e48  isShooting                    
 2020639c  items                         
 2020642c  lastInput                     
-00019169  ldexp                         
-00019169  ldexpl                        
-0001b041  lseek                         
-00019a21  main                          
-0001b325  malloc                        
+000191f1  ldexp                         
+000191f1  ldexpl                        
+0001b219  lseek                         
+00019b7d  main                          
+0001b535  malloc                        
 0000d474  matrix2                       
 202061b0  medkit                        
-000186d1  memalign                      
-0001b149  memccpy                       
+00018759  memalign                      
+0001b321  memccpy                       
 20205500  miniMap                       
 20205e3c  ms_done                       
 20205e40  ms_passed                     
@@ -794,33 +802,33 @@ ffffffff  binit
 202063f0  posY                          
 00015601  pow                           
 00015601  powl                          
-0001a7e5  printAmmo                     
-0001aed5  printItem                     
-000193dd  printToBuffer                 
-0001a495  printf                        
-00018361  qsort                         
-0001acc1  rand                          
+0001a9b5  printAmmo                     
+0001b0d9  printItem                     
+00019539  printToBuffer                 
+0001a665  printf                        
+000183e9  qsort                         
+0001ae91  rand                          
 000000c0  reloadSound                   
 20205e49  reloaded                      
-0001b3ad  remove                        
+0001b5bd  remove                        
 20200000  renderBuffer                  
-00019169  scalbn                        
-00019169  scalbnl                       
-0001a4f1  setPixelBuffer                
-00019089  setvbuf                       
+000191f1  scalbn                        
+000191f1  scalbnl                       
+0001a6c1  setPixelBuffer                
+00019111  setvbuf                       
 20206280  shotgun                       
 0000f474  shotgunSound                  
-0001acf9  sprintf                       
-000180ad  sqrt                          
-000180ad  sqrtl                         
-0001ad31  start_delay                   
-00019bd1  strcmp                        
+0001aec9  sprintf                       
+00018135  sqrt                          
+00018135  sqrtl                         
+0001af01  start_delay                   
+00019d21  strcmp                        
 00013d96  target                        
 202063ac  textures                      
-0001afed  unlink                        
+0001b1c5  unlink                        
 000112ec  weaploadSound                 
 20205980  worldMap                      
-0001b069  write                         
+0001b241  write                         
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -861,208 +869,212 @@ address   name
 00015601  pow                           
 00015601  powl                          
 00016049  MovePlayer                    
-00016661  RenderSprite                  
-00016bdd  CastRays                      
-00017101  __TI_printfi_minimal          
-00017385  DrawCrosshair                 
-000175bd  drawForegroundSpriteToBuffer  
-000177d5  ST7735_DrawBitmap             
-000179e5  DrawHealthBar                 
-00017bd9  Clock_Init80MHz               
-00017d8d  __aeabi_dsub                  
-00017d8d  __subdf3                      
-00017d97  __adddf3                      
-00017d97  __aeabi_dadd                  
-00017f1f  __aeabi_idiv0                 
-00017f21  RenderSprites                 
-000180ad  sqrt                          
-000180ad  sqrtl                         
-0001821d  floor                         
-0001821d  floorl                        
-00018361  qsort                         
-00018495  ADC_InitDual                  
-000185b9  ST7735_FillRect               
-000186d1  aligned_alloc                 
-000186d1  memalign                      
-000187e5  __aeabi_ddiv                  
-000187e5  __divdf3                      
-000188f1  drawCharToBuffer              
-000189f1  SPI_Init                      
-00018ae9  fputs                         
-00018be1  RenderForegroundSprites       
-00018cd5  RenderSky                     
-00018dc9  ST7735_SetRotation            
-00018ebd  free                          
-00018fa5  __aeabi_dmul                  
-00018fa5  __muldf3                      
-00019089  setvbuf                       
-00019169  ldexp                         
-00019169  ldexpl                        
-00019169  scalbn                        
-00019169  scalbnl                       
-00019241  Inventory_add                 
-00019311  TIMG12_IRQHandler             
-000193dd  printToBuffer                 
-00019491  DAC_Init                      
-00019539  RenderInventory               
-000195e1  TimerG0_IntArm                
-00019727  _nop                          
-00019729  blitBufferToRenderBuffer      
-000197c9  fputc                         
-00019865  ST7735_InitR                  
-000198fd  TimerG12_IntArm               
-00019991  FillMap                       
-00019a21  main                          
-00019ab1  clearRenderBuffer             
-00019bc5  Clock_Freq                    
-00019bd1  strcmp                        
-00019c59  PrecalculateFloorGradient     
-00019cdd  LaunchPad_Init                
-00019d59  __TI_closefile                
-00019dd5  __TI_decompress_lzss          
-00019e51  DrawMinimap                   
-00019ec9  Inventory_removeCurrent       
-00019f3d  __gedf2                       
-00019f3d  __gtdf2                       
-00019fb1  RenderHUD                     
-0001a021  HOSTlseek                     
-0001a08d  HOSTrename                    
-0001a0f9  UART2_IRQHandler              
-0001a165  fseeko                        
-0001a1d1  getdevice                     
-0001a23d  __cmpdf2                      
-0001a23d  __eqdf2                       
-0001a23d  __ledf2                       
-0001a23d  __ltdf2                       
-0001a23d  __nedf2                       
-0001a2a5  ADC_InDual                    
-0001a309  __TI_wrt_ok                   
-0001a3d1  __aeabi_dcmpeq                
-0001a3e5  __aeabi_dcmplt                
-0001a3f9  __aeabi_dcmple                
-0001a40d  __aeabi_dcmpge                
-0001a421  __aeabi_dcmpgt                
-0001a435  HOSTopen                      
-0001a495  printf                        
-0001a4f1  setPixelBuffer                
-0001a54d  HOSTread                      
-0001a5a5  HOSTwrite                     
-0001a5fd  __aeabi_idiv                  
-0001a5fd  __aeabi_idivmod               
-0001a653  compareSprites                
-0001a6a9  __TI_doflush                  
-0001a6fd  close                         
-0001a74d  RxFifo_Put                    
-0001a799  inInventory                   
-0001a7e5  printAmmo                     
-0001a831  __aeabi_d2iz                  
-0001a831  __fixdfsi                     
-0001a87d  HOSTclose                     
-0001a8c5  HOSTunlink                    
-0001a90d  SPI_OutCommand                
-0001a955  Sound_Init                    
-0001a99d  TIMG0_IRQHandler              
-0001a9e5  Input_Init                    
-0001aa29  SysTick_Handler               
-0001aa6d  RenderScene                   
-0001aaad  SPI_Reset                     
-0001aaed  __aeabi_uidiv                 
-0001aaed  __aeabi_uidivmod              
-0001ab2d  fastSin                       
-0001ab69  __TI_auto_init_nobinit_nopinit
-0001aba5  __muldsi3                     
-0001abe1  ActivatePortA_B               
-0001ac19  RenderBuffer                  
-0001ac51  SPI_OutData                   
-0001ac89  Sound_Start                   
-0001acc1  rand                          
-0001acf9  sprintf                       
-0001ad31  start_delay                   
-0001ad69  Clock_Delay1ms                
-0001ad9d  ST7735_SetCursor              
-0001add1  __TI_cleanup                  
-0001ae05  __TI_readmsg                  
-0001ae39  __TI_writemsg                 
-0001ae65  C$$IO$$                       
-0001ae6d  exit                          
-0001aea1  finddevice                    
-0001aed5  printItem                     
-0001af39  fastCos                       
-0001af69  ST7735_FillScreen             
-0001af95  SystemInit                    
-0001afc1  __aeabi_i2d                   
-0001afc1  __floatsidf                   
-0001afed  unlink                        
-0001b041  lseek                         
-0001b069  write                         
-0001b091  _c_int00_noargs               
-0001b0b9  Graphics_Init                 
-0001b0dd  Inventory_next                
-0001b101  Joy_Init                      
-0001b125  __aeabi_ui2d                  
-0001b125  __floatunsidf                 
-0001b149  memccpy                       
-0001b16b  Item_isWeapon                 
-0001b18d  ADC0_IRQHandler               
-0001b18d  ADC1_IRQHandler               
-0001b18d  AES_IRQHandler                
-0001b18d  CANFD0_IRQHandler             
-0001b18d  DAC0_IRQHandler               
-0001b18d  DMA_IRQHandler                
-0001b18d  Default_Handler               
-0001b18d  GROUP0_IRQHandler             
-0001b18d  GROUP1_IRQHandler             
-0001b18d  I2C0_IRQHandler               
-0001b18d  I2C1_IRQHandler               
-0001b18d  NMI_Handler                   
-0001b18d  PendSV_Handler                
-0001b18d  RTC_IRQHandler                
-0001b18d  SPI0_IRQHandler               
-0001b18d  SPI1_IRQHandler               
-0001b18d  SVC_Handler                   
-0001b18d  TIMA0_IRQHandler              
-0001b18d  TIMA1_IRQHandler              
-0001b18d  TIMG6_IRQHandler              
-0001b18d  TIMG7_IRQHandler              
-0001b18d  TIMG8_IRQHandler              
-0001b18d  UART0_IRQHandler              
-0001b18d  UART1_IRQHandler              
-0001b18d  UART3_IRQHandler              
-0001b1a9  HardFault_Handler             
-0001b1c5  Joy_In                        
-0001b215  DAC_Out                       
-0001b229  Inventory_currentItem         
-0001b23b  Item_isSpent                  
-0001b24d  TI_memcpy_small               
-0001b25f  __TI_decompress_none          
-0001b271  Clock_Delay                   
-0001b281  Delay                         
-0001b291  Joy_InButton                  
-0001b2a1  ReadKeys                      
-0001b2b1  __TI_zero_init                
-0001b2d1  __aeabi_memset                
-0001b2d1  __aeabi_memset4               
-0001b2d1  __aeabi_memset8               
-0001b309  TI_memset_small               
-0001b319  __aeabi_memclr                
-0001b319  __aeabi_memclr4               
-0001b319  __aeabi_memclr8               
-0001b325  malloc                        
-0001b385  __aeabi_errno_addr            
-0001b38d  __aeabi_memcpy                
-0001b38d  __aeabi_memcpy4               
-0001b38d  __aeabi_memcpy8               
-0001b3a5  fseek                         
-0001b3ad  remove                        
-0001b3e9  Reset_Handler                 
-0001b3ed  _system_pre_init              
-0001b3f0  C$$EXIT                       
-0001b3f1  abort                         
-0001b59c  __TI_Handler_Table_Base       
-0001b5a8  __TI_Handler_Table_Limit      
-0001b5b0  __TI_CINIT_Base               
-0001b5c0  __TI_CINIT_Limit              
-0001b5c0  __TI_CINIT_Warm               
+000166e9  RenderSprite                  
+00016c65  CastRays                      
+00017189  __TI_printfi_minimal          
+0001740d  DrawCrosshair                 
+00017645  drawForegroundSpriteToBuffer  
+0001785d  ST7735_DrawBitmap             
+00017a6d  DrawHealthBar                 
+00017c61  Clock_Init80MHz               
+00017e15  __aeabi_dsub                  
+00017e15  __subdf3                      
+00017e1f  __adddf3                      
+00017e1f  __aeabi_dadd                  
+00017fa7  __aeabi_idiv0                 
+00017fa9  RenderSprites                 
+00018135  sqrt                          
+00018135  sqrtl                         
+000182a5  floor                         
+000182a5  floorl                        
+000183e9  qsort                         
+0001851d  ADC_InitDual                  
+00018641  ST7735_FillRect               
+00018759  aligned_alloc                 
+00018759  memalign                      
+0001886d  __aeabi_ddiv                  
+0001886d  __divdf3                      
+00018979  drawCharToBuffer              
+00018a79  SPI_Init                      
+00018b71  fputs                         
+00018c69  RenderForegroundSprites       
+00018d5d  RenderSky                     
+00018e51  ST7735_SetRotation            
+00018f45  free                          
+0001902d  __aeabi_dmul                  
+0001902d  __muldf3                      
+00019111  setvbuf                       
+000191f1  ldexp                         
+000191f1  ldexpl                        
+000191f1  scalbn                        
+000191f1  scalbnl                       
+000192c9  UART2_Init                    
+0001939d  Inventory_add                 
+0001946d  TIMG12_IRQHandler             
+00019539  printToBuffer                 
+000195ed  DAC_Init                      
+00019695  RenderInventory               
+0001973d  TimerG0_IntArm                
+00019883  _nop                          
+00019885  blitBufferToRenderBuffer      
+00019925  fputc                         
+000199c1  ST7735_InitR                  
+00019a59  TimerG12_IntArm               
+00019aed  FillMap                       
+00019b7d  main                          
+00019c0d  clearRenderBuffer             
+00019d21  strcmp                        
+00019da9  PrecalculateFloorGradient     
+00019e2d  UART1_Init                    
+00019ead  LaunchPad_Init                
+00019f29  __TI_closefile                
+00019fa5  __TI_decompress_lzss          
+0001a021  DrawMinimap                   
+0001a099  Inventory_removeCurrent       
+0001a10d  __gedf2                       
+0001a10d  __gtdf2                       
+0001a181  RenderHUD                     
+0001a1f1  HOSTlseek                     
+0001a25d  HOSTrename                    
+0001a2c9  UART2_IRQHandler              
+0001a335  fseeko                        
+0001a3a1  getdevice                     
+0001a40d  __cmpdf2                      
+0001a40d  __eqdf2                       
+0001a40d  __ledf2                       
+0001a40d  __ltdf2                       
+0001a40d  __nedf2                       
+0001a475  ADC_InDual                    
+0001a4d9  __TI_wrt_ok                   
+0001a5a1  __aeabi_dcmpeq                
+0001a5b5  __aeabi_dcmplt                
+0001a5c9  __aeabi_dcmple                
+0001a5dd  __aeabi_dcmpge                
+0001a5f1  __aeabi_dcmpgt                
+0001a605  HOSTopen                      
+0001a665  printf                        
+0001a6c1  setPixelBuffer                
+0001a71d  HOSTread                      
+0001a775  HOSTwrite                     
+0001a7cd  __aeabi_idiv                  
+0001a7cd  __aeabi_idivmod               
+0001a823  compareSprites                
+0001a879  __TI_doflush                  
+0001a8cd  close                         
+0001a91d  RxFifo_Put                    
+0001a969  inInventory                   
+0001a9b5  printAmmo                     
+0001aa01  __aeabi_d2iz                  
+0001aa01  __fixdfsi                     
+0001aa4d  HOSTclose                     
+0001aa95  HOSTunlink                    
+0001aadd  SPI_OutCommand                
+0001ab25  Sound_Init                    
+0001ab6d  TIMG0_IRQHandler              
+0001abb5  Input_Init                    
+0001abf9  SysTick_Handler               
+0001ac3d  RenderScene                   
+0001ac7d  SPI_Reset                     
+0001acbd  __aeabi_uidiv                 
+0001acbd  __aeabi_uidivmod              
+0001acfd  fastSin                       
+0001ad39  __TI_auto_init_nobinit_nopinit
+0001ad75  __muldsi3                     
+0001adb1  ActivatePortA_B               
+0001ade9  RenderBuffer                  
+0001ae21  SPI_OutData                   
+0001ae59  Sound_Start                   
+0001ae91  rand                          
+0001aec9  sprintf                       
+0001af01  start_delay                   
+0001af39  Clock_Delay1ms                
+0001af6d  ST7735_SetCursor              
+0001afa1  SystemInit                    
+0001afd5  __TI_cleanup                  
+0001b009  __TI_readmsg                  
+0001b03d  __TI_writemsg                 
+0001b069  C$$IO$$                       
+0001b071  exit                          
+0001b0a5  finddevice                    
+0001b0d9  printItem                     
+0001b13d  fastCos                       
+0001b16d  ST7735_FillScreen             
+0001b199  __aeabi_i2d                   
+0001b199  __floatsidf                   
+0001b1c5  unlink                        
+0001b219  lseek                         
+0001b241  write                         
+0001b269  _c_int00_noargs               
+0001b291  Graphics_Init                 
+0001b2b5  Inventory_next                
+0001b2d9  Joy_Init                      
+0001b2fd  __aeabi_ui2d                  
+0001b2fd  __floatunsidf                 
+0001b321  memccpy                       
+0001b343  Item_isWeapon                 
+0001b365  ADC0_IRQHandler               
+0001b365  ADC1_IRQHandler               
+0001b365  AES_IRQHandler                
+0001b365  CANFD0_IRQHandler             
+0001b365  DAC0_IRQHandler               
+0001b365  DMA_IRQHandler                
+0001b365  Default_Handler               
+0001b365  GROUP0_IRQHandler             
+0001b365  GROUP1_IRQHandler             
+0001b365  I2C0_IRQHandler               
+0001b365  I2C1_IRQHandler               
+0001b365  NMI_Handler                   
+0001b365  PendSV_Handler                
+0001b365  RTC_IRQHandler                
+0001b365  SPI0_IRQHandler               
+0001b365  SPI1_IRQHandler               
+0001b365  SVC_Handler                   
+0001b365  TIMA0_IRQHandler              
+0001b365  TIMA1_IRQHandler              
+0001b365  TIMG6_IRQHandler              
+0001b365  TIMG7_IRQHandler              
+0001b365  TIMG8_IRQHandler              
+0001b365  UART0_IRQHandler              
+0001b365  UART1_IRQHandler              
+0001b365  UART3_IRQHandler              
+0001b381  HardFault_Handler             
+0001b39d  Joy_In                        
+0001b3d5  UART1_OutChar                 
+0001b405  DAC_Out                       
+0001b419  RxFifo_Init                   
+0001b42d  Inventory_currentItem         
+0001b43f  Item_isSpent                  
+0001b451  TI_memcpy_small               
+0001b463  __TI_decompress_none          
+0001b475  Clock_Delay                   
+0001b485  Delay                         
+0001b495  Joy_InButton                  
+0001b4a5  ReadKeys                      
+0001b4b5  __TI_zero_init                
+0001b4d5  __aeabi_memset                
+0001b4d5  __aeabi_memset4               
+0001b4d5  __aeabi_memset8               
+0001b50d  TI_memset_small               
+0001b51d  Clock_Freq                    
+0001b529  __aeabi_memclr                
+0001b529  __aeabi_memclr4               
+0001b529  __aeabi_memclr8               
+0001b535  malloc                        
+0001b595  __aeabi_errno_addr            
+0001b59d  __aeabi_memcpy                
+0001b59d  __aeabi_memcpy4               
+0001b59d  __aeabi_memcpy8               
+0001b5b5  fseek                         
+0001b5bd  remove                        
+0001b5f9  Reset_Handler                 
+0001b5fd  _system_pre_init              
+0001b600  C$$EXIT                       
+0001b601  abort                         
+0001b7ac  __TI_Handler_Table_Base       
+0001b7b8  __TI_Handler_Table_Limit      
+0001b7c0  __TI_CINIT_Base               
+0001b7d0  __TI_CINIT_Limit              
+0001b7d0  __TI_CINIT_Warm               
 20200000  __start___llvm_prf_bits       
 20200000  __start___llvm_prf_cnts       
 20200000  __stop___llvm_prf_bits        
@@ -1133,4 +1145,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                    
 UNDEFED   _system_post_cinit            
 
-[305 symbols]
+[309 symbols]
