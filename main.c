@@ -51,9 +51,9 @@ void getUARTPacket(){
   Sprites[0].x = inX/10.0;
   Sprites[0].y = inY/10.0;
   switch (inHealthCode){
-    case 1: playerHealth-=2; break;
-    case 2: playerHealth -= 12; break;
-    case 3: otherHealth += 20; break;
+    case PISTOL: playerHealth-=2; break;
+    case SHOTGUN: playerHealth -= 12; break;
+    case MEDKIT: otherHealth += 20; break;
   }
 }
 
@@ -65,6 +65,7 @@ void sendUARTPacket(){
   UART1_OutChar(sendX);
   UART1_OutChar(sendY);
   UART1_OutChar(healthCode);
+  healthCode = 0;
 }
 
 int main() {

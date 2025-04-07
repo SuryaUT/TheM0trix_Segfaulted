@@ -47,6 +47,7 @@ uint8_t lastInput = 0;
 uint8_t isShooting;
 uint8_t reloaded; // Reload flag
 extern uint8_t healthCode;
+extern uint8_t isOnTarget;
 
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Sprint using joystick button
@@ -61,11 +62,18 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
     if (!Item_isSpent(current)){
       if (Item_isWeapon(current)){ 
         isShooting = 1;
-        healthCode = current->healthCode;
       }
-      if (current->type == MEDKIT) playerHealth += 20;
       Sound_Start(*current->sound);
       current->ammo--;
+      healthCode = current->type;
+      if (isOnTarget){
+        switch (healthCode){
+          case PISTOL: otherHealth-=2; break;
+          case SHOTGUN: otherHealth -= 12; break;
+        }
+      }
+      else if(healthCode == MEDKIT) playerHealth += 20;
+
       if (Item_isSpent(current) && current->type == MEDKIT){
         Inventory_removeCurrent(&inventory);
       }
