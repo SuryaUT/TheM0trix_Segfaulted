@@ -11,6 +11,9 @@
 #define AMMO_SMALL 3
 #define AMMO_BIG 4
 
+#define PISTOLCODE 1
+#define SHOTGUNCODE 2
+#define MEDKITCODE 3
 
 typedef struct{
     char* name;

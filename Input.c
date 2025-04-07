@@ -1,6 +1,5 @@
 
 #include <stdint.h>
-#include "Items.h"
 #include "Joy.h"
 #include "../inc/Timer.h"
 #include "ti/devices/msp/msp.h"
