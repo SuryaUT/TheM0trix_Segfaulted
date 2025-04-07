@@ -34,7 +34,8 @@ Item pistol = {
     6,
     1,
     SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 24
+    SCREEN_HEIGHT/2 + 24,
+    2
   };
 
 Item shotgun = {
@@ -49,7 +50,8 @@ Item shotgun = {
     12,
     1,
     SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 32
+    SCREEN_HEIGHT/2 + 32,
+    12
   };
 
 Item medkit = {

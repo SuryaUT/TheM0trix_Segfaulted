@@ -59,7 +59,7 @@ void sendUARTPacket(){
   UART1_OutChar('<');
   UART1_OutChar(sendX);
   UART1_OutChar(sendY);
-  UART1_OutChar(otherHealth);
+  UART1_OutChar((otherHealth == 0) ? 0xFF : otherHealth);
 }
 
 int main() {
@@ -71,11 +71,9 @@ int main() {
    while (UART2_InChar() != '<'){}
    getUARTPacket();
    RenderScene();
-
-   if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
    
    // End in case of death or exit button
-   if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
+   if (GPIOA->DIN31_0 & (1<<18) || playerHealth == 255){
     ST7735_FillScreen(0);
     printf("Game Over!\n");
     printf("(You died lol)\n");

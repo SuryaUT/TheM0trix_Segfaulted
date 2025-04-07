@@ -58,7 +58,11 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   Item* current = Inventory_currentItem(&inventory);
   if (input & 1 && !(lastInput & 1) && current->enabled){
     if (!Item_isSpent(current)){
-      if (Item_isWeapon(current)) isShooting = 1;
+      if (Item_isWeapon(current)){ 
+        isShooting = 1;
+        otherHealth -= current->damage;
+        if (otherHealth > 50) otherHealth = 0;
+      }
       if (current->type == MEDKIT) playerHealth += 20;
       Sound_Start(*current->sound);
       current->ammo--;
