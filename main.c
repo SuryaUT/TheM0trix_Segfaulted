@@ -51,9 +51,9 @@ void getUARTPacket(){
   Sprites[0].x = inX/10.0;
   Sprites[0].y = inY/10.0;
   switch (inHealthCode){
-    case PISTOL: playerHealth-=2; break;
-    case SHOTGUN: playerHealth -= 12; break;
-    case MEDKIT: otherHealth += 20; break;
+    case PISTOLCODE: playerHealth-=2; break;
+    case SHOTGUNCODE: playerHealth -= 12; break;
+    case MEDKITCODE: otherHealth += 20; break;
   }
 }
 

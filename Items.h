@@ -22,6 +22,10 @@ Sprite Sprites[MAX_SPRITES] = {
 
 Sprite gunFlash = {SCREEN_HEIGHT/2, SCREEN_WIDTH/2, ExplosionImage, 0xFFFF, 32, 32, 1};
 
+#define PISTOLCODE 1
+#define SHOTGUNCODE 2
+#define MEDKITCODE 3
+
 Item pistol = {
     "Pistol",
     PISTOL,
@@ -35,6 +39,7 @@ Item pistol = {
     1,
     SCREEN_WIDTH/2 + 8,
     SCREEN_HEIGHT/2 + 24,
+    PISTOLCODE
   };
 
 Item shotgun = {
@@ -50,6 +55,7 @@ Item shotgun = {
     1,
     SCREEN_WIDTH/2 + 8,
     SCREEN_HEIGHT/2 + 32,
+    SHOTGUNCODE
   };
 
 Item medkit = {
@@ -63,6 +69,9 @@ Item medkit = {
     1,
     0,
     1,
+    0,
+    0
+    MEDKITCODE
 };
 
 Item ammo_small = {

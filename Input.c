@@ -1,5 +1,6 @@
 
 #include <stdint.h>
+#include "Items.h"
 #include "Joy.h"
 #include "../inc/Timer.h"
 #include "ti/devices/msp/msp.h"
@@ -65,14 +66,16 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       }
       Sound_Start(*current->sound);
       current->ammo--;
-      healthCode = current->type;
+      healthCode = current->healthcode;
       if (isOnTarget){
         switch (healthCode){
-          case PISTOL: otherHealth-=2; break;
-          case SHOTGUN: otherHealth -= 12; break;
+          case PISTOLCODE: otherHealth-=2; break;
+          case SHOTGUNCODE: otherHealth -= 12; break;
         }
       }
-      else if(healthCode == MEDKIT) playerHealth += 20;
+      else if(healthCode == MEDKITCODE) playerHealth += 20;
+
+      if (otherHealth > 50) otherHealth = 0;
 
       if (Item_isSpent(current) && current->type == MEDKIT){
         Inventory_removeCurrent(&inventory);
