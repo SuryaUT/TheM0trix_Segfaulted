@@ -37,7 +37,7 @@ void SystemInit() {
   Graphics_Init();
   UART1_Init();
   UART2_Init();
-  TimerG8_IntArm(2666666/128, 128, 1);
+  TimerG8_IntArm(1333333/128, 128, 1);
   __enable_irq();
 }
 
@@ -47,7 +47,8 @@ void getUARTPacket(){
   uint8_t inX = UART2_InChar();
   uint8_t inY = UART2_InChar();
   uint8_t inHealth = UART2_InChar();
-  if (UART2_InChar() == '>' && inX != 0 && inY != 0 && inHealth != 0){
+  char endSentinel = UART2_InChar();
+  if (endSentinel == '>'){
     Sprites[0].x = inX/10.0;
     Sprites[0].y = inY/10.0;
     playerHealth = inHealth;

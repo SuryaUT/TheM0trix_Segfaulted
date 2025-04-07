@@ -53,7 +53,9 @@ void UART2_Init(void){
 // Output: Return 0 if the FIFO1 is empty
 //         Return nonzero data from the FIFO1 if available
 char UART2_InChar(void){
-  return RxFifo_Get();
+  char in = RxFifo_Get();
+  while (in == 0){in = RxFifo_Get();}
+  return in;
 }
 
 
