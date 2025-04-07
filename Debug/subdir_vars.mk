@@ -23,11 +23,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
 ../Sounds.c \
-<<<<<<< HEAD
-C:/CCS/MSPM0_ValvanoWare/inc/Timer.c \
-=======
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
->>>>>>> defbc801800beb8f66fa3b2e46c529a1bb162721
 ../UART1.c \
 ../UART2.c \
 ../UARTbusywait.c \
@@ -137,11 +133,7 @@ C_SRCS__QUOTED += \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/ST7735.c" \
 "../Sounds.c" \
-<<<<<<< HEAD
-"C:/CCS/MSPM0_ValvanoWare/inc/Timer.c" \
-=======
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
->>>>>>> defbc801800beb8f66fa3b2e46c529a1bb162721
 "../UART1.c" \
 "../UART2.c" \
 "../UARTbusywait.c" \

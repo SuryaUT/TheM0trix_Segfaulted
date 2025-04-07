@@ -47,10 +47,6 @@ uint8_t lastInput = 0;
 uint8_t isShooting;
 uint8_t reloaded; // Reload flag
 
-void beginReload(){
-
-}
-
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Sprint using joystick button
   if (Joy_InButton()){
@@ -143,12 +139,6 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   if(!isCollision_X) posX += planeX * moveSpeed_LR;
   if(!isCollision_Y) posY += planeY * moveSpeed_LR;
 
-  uint8_t sendX = (uint8_t) ((posX+0.05)*10);//convert into Uart form
-  uint8_t sendY = (uint8_t) ((posY+0.05)*10);//convert into Uart form
-
-  UART1_OutChar(sendX);
-  UART1_OutChar(sendY);
-
   lastInput = input;
  }
 
@@ -166,8 +156,7 @@ void TIMG12_IRQHandler(void){
    double rotSpeed = .033 * 3.0;  // rads/sec
    double moveSpeed_FB = moveSpeed * Joy_y;
    double moveSpeed_LR = moveSpeed * Joy_x;
-  //  outX = UART2_InChar();
-  //  outY = UART2_InChar();
+
    MovePlayer(ReadKeys(), moveSpeed_FB, moveSpeed_LR, rotSpeed);
   }
 }

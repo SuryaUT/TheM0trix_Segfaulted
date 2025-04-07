@@ -44,7 +44,7 @@ void UART2_Init(void){
     // bits 2-0  TXIFLSEL 2 is less than or equal to half
     NVIC->ICPR[0] = 1<<14; // UART2 is IRQ 14
     NVIC->ISER[0] = 1<<14;
-    NVIC->IP[3] = (NVIC->IP[3]&(~(3 << 22)))|(2<<22);	// priority (bits 23,22) 
+    NVIC->IP[3] = (NVIC->IP[3]&(~(3 << 22)))|(1<<22);	// priority (bits 23,22) 
     UART2->CTL0 |= 0x01; // enable UART2
 }
 //------------UART2_InChar------------

@@ -23,6 +23,8 @@
  double dirX = -1, dirY = 0;    // initial direction vector
  double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
  int playerHealth = 50;
+
+ double otherPosX, otherPosY;
  int otherHealth = 50;
  uint8_t isOnTarget = 0;
 
@@ -39,47 +41,38 @@ void SystemInit() {
 }
 
 Inventory inventory = {0, 3, {}, 0};
-uint8_t outX = 0;
-uint8_t outY = 0;
-int main1() {//uart test main
-  SystemInit();
-  while(1){
-    
-    if(outY != 0){
-      ST7735_SetCursor(0, 0);
-      ST7735_OutChar('(');
-      ST7735_OutChar((outX/100)+0x30);
-      ST7735_OutChar(((outX%100)/10)+0x30);
-      ST7735_OutChar('.');
-      ST7735_OutChar(outX%10+0x30);
-      ST7735_OutChar(',');
-      ST7735_OutChar(' ');
-      ST7735_OutChar((outY/100)+0x30);
-      ST7735_OutChar(((outY%100)/10)+0x30);
-      ST7735_OutChar('.');
-      ST7735_OutChar(outY%10+0x30);
-      ST7735_OutChar(')');
-    }
-    //Clock_Delay1ms(100);
-    
+
+void getUARTPacket(){
+  uint8_t inX = UART2_InChar();
+  uint8_t inY = UART2_InChar();
+  uint8_t inHealth = UART2_InChar();
+  if (UART2_InChar() == '>' && inX != 0 && inY != 0 && inHealth != 0){
+    Sprites[0].x = inX/10.0;
+    Sprites[0].y = inY/10.0;
+    playerHealth = inHealth;
   }
 }
 
-int main(){
-  SystemInit();
-  while (1){
-    UART1_OutChar('O');
-    Clock_Delay1ms(100);
-    ST7735_OutChar(UART2_InChar());
-  }
+void sendUARTPacket(){
+  uint8_t sendX = (uint8_t) ((posX+0.05)*10);//convert into fixed point
+  uint8_t sendY = (uint8_t) ((posY+0.05)*10);//convert into fixed point
+
+  UART1_OutChar('<');
+  UART1_OutChar(sendX);
+  UART1_OutChar(sendY);
+  UART1_OutChar(otherHealth);
+  UART1_OutChar('>');
 }
 
-int main1() {
+int main() {
   SystemInit();
 
   Inventory_add(&inventory, &pistol);
 
   while(1) {
+   //sendUARTPacket();
+   while (UART2_InChar() != '<'){}
+   getUARTPacket();
    RenderScene();
 
    if (playerHealth > 50) playerHealth = 50; else if (playerHealth < 0) playerHealth = 0;
