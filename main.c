@@ -46,9 +46,11 @@ Inventory inventory = {0, 3, {}, 0};
 void getUARTPacket(){
   uint8_t inX = UART2_InChar();
   uint8_t inY = UART2_InChar();
+  uint8_t inOtherHealth = UART2_InChar();
   uint8_t inHealth = UART2_InChar();
   Sprites[0].x = inX/10.0;
   Sprites[0].y = inY/10.0;
+  otherHealth = inOtherHealth;
   playerHealth = inHealth;
 }
 
@@ -59,6 +61,7 @@ void sendUARTPacket(){
   UART1_OutChar('<');
   UART1_OutChar(sendX);
   UART1_OutChar(sendY);
+  UART1_OutChar(playerHealth);
   UART1_OutChar((otherHealth == 0) ? 0xFF : otherHealth);
 }
 
@@ -78,7 +81,9 @@ int main() {
     printf("Game Over!\n");
     printf("(You died lol)\n");
     printf("get better lil bro\n");
-    __asm volatile("bkpt; \n"); // breakpoint here
+    printf("Shoot to respawn");
+    while (GPIO->DIN31_0 & 1 == 0) {}
+    playerHealth = 50;
    };
   }
  }
