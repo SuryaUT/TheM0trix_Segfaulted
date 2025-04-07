@@ -37,6 +37,7 @@ void SystemInit() {
   Graphics_Init();
   UART1_Init();
   UART2_Init();
+  TimerG8_IntArm(2666666/128, 128, 1);
   __enable_irq();
 }
 
@@ -70,7 +71,6 @@ int main() {
   Inventory_add(&inventory, &pistol);
 
   while(1) {
-   //sendUARTPacket();
    while (UART2_InChar() != '<'){}
    getUARTPacket();
    RenderScene();
@@ -87,3 +87,9 @@ int main() {
    };
   }
  }
+
+ void TIMG8_IRQHandler(void){
+  if((TIMG8->CPU_INT.IIDX) == 1){ // this will acknowledge
+    sendUARTPacket();
+  }
+}
