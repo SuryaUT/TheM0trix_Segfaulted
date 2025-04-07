@@ -1,4 +1,4 @@
- #include <stdio.h>
+#include <stdio.h>
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
@@ -23,6 +23,7 @@
  double dirX = -1, dirY = 0;    // initial direction vector
  double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
  int playerHealth = 50;
+ uint8_t healthCode;
 
  double otherPosX, otherPosY;
  int otherHealth = 50;
@@ -46,12 +47,14 @@ Inventory inventory = {0, 3, {}, 0};
 void getUARTPacket(){
   uint8_t inX = UART2_InChar();
   uint8_t inY = UART2_InChar();
-  uint8_t inOtherHealth = UART2_InChar();
-  uint8_t inHealth = UART2_InChar();
+  uint8_t inHealthCode = UART2_InChar();
   Sprites[0].x = inX/10.0;
   Sprites[0].y = inY/10.0;
-  otherHealth = inOtherHealth;
-  playerHealth = inHealth;
+  switch (inHealthCode){
+    case 1: playerHealth-=2; break;
+    case 2: playerHealth -= 12; break;
+    case 3: otherHealth += 20; break;
+  }
 }
 
 void sendUARTPacket(){
@@ -61,8 +64,7 @@ void sendUARTPacket(){
   UART1_OutChar('<');
   UART1_OutChar(sendX);
   UART1_OutChar(sendY);
-  UART1_OutChar(playerHealth);
-  UART1_OutChar((otherHealth == 0) ? 0xFF : otherHealth);
+  UART1_OutChar(healthCode);
 }
 
 int main() {
@@ -82,7 +84,7 @@ int main() {
     printf("(You died lol)\n");
     printf("get better lil bro\n");
     printf("Shoot to respawn");
-    while (GPIO->DIN31_0 & 1 == 0) {}
+    while ((GPIOA->DIN31_0 & 1) == 0) {}
     playerHealth = 50;
    };
   }

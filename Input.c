@@ -46,6 +46,7 @@ double fastSin(double x) {
 uint8_t lastInput = 0;
 uint8_t isShooting;
 uint8_t reloaded; // Reload flag
+extern uint8_t healthCode;
 
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   // Sprint using joystick button
@@ -60,8 +61,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
     if (!Item_isSpent(current)){
       if (Item_isWeapon(current)){ 
         isShooting = 1;
-        otherHealth -= current->damage;
-        if (otherHealth > 50) otherHealth = 0;
+        healthCode = current->healthCode;
       }
       if (current->type == MEDKIT) playerHealth += 20;
       Sound_Start(*current->sound);
