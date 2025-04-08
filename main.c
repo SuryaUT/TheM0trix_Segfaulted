@@ -2,6 +2,7 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
+#include "FIFO.h"
 #include "UART1.h"
 #include "UART2.h"
  #include "ti/devices/msp/msp.h"
@@ -23,7 +24,7 @@
  double dirX = -1, dirY = 0;    // initial direction vector
  double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
  int playerHealth = 50;
- uint8_t healthCode;
+ uint8_t healthCode = 1;
 
  double otherPosX, otherPosY;
  int otherHealth = 50;
@@ -39,21 +40,27 @@ void SystemInit() {
   UART1_Init();
   UART2_Init();
   TimerG8_IntArm(2000000/128, 128, 1);
+  TimerG7_IntArm(500000/128, 128, 2);
   __enable_irq();
 }
 
 Inventory inventory = {0, 3, {}, 0};
 
 void getUARTPacket(){
+  if (RxFifo_Size() < 4) return;
+  while (UART2_InChar() != '<'){}
   uint8_t inX = UART2_InChar();
   uint8_t inY = UART2_InChar();
-  uint8_t inHealthCode = UART2_InChar();
-  Sprites[0].x = inX/10.0;
-  Sprites[0].y = inY/10.0;
-  switch (inHealthCode){
-    case PISTOLCODE: playerHealth-=2; break;
-    case SHOTGUNCODE: playerHealth -= 12; break;
-    case MEDKITCODE: otherHealth += 20; break;
+ // uint8_t inHealthCode = UART2_InChar();
+  uint8_t endSentinel = UART2_InChar();
+  if (endSentinel == '>'){
+    Sprites[0].x = inX/10.0;
+    Sprites[0].y = inY/10.0;
+    // switch (inHealthCode){
+    //   case PISTOLCODE: playerHealth-=2; break;
+    //   case SHOTGUNCODE: playerHealth -= 12; break;
+    //   case MEDKITCODE: otherHealth += 20; break;
+    // }
   }
 }
 
@@ -64,8 +71,9 @@ void sendUARTPacket(){
   UART1_OutChar('<');
   UART1_OutChar(sendX);
   UART1_OutChar(sendY);
-  UART1_OutChar(healthCode);
-  healthCode = 0;
+  UART1_OutChar('>');
+  //UART1_OutChar(healthCode);
+  healthCode = 1; // 1 means do nothing
 }
 
 int main() {
@@ -74,12 +82,11 @@ int main() {
   Inventory_add(&inventory, &pistol);
 
   while(1) {
-   while (UART2_InChar() != '<'){}
-   getUARTPacket();
+   if (otherHealth == 0) Sprites[0].scale = 0; else Sprites[0].scale = 5;
    RenderScene();
    
    // End in case of death or exit button
-   if (GPIOA->DIN31_0 & (1<<18) || playerHealth == 255){
+   if (GPIOA->DIN31_0 & (1<<18) || playerHealth == 0){
     ST7735_FillScreen(0);
     printf("Game Over!\n");
     printf("(You died lol)\n");
@@ -94,5 +101,11 @@ int main() {
  void TIMG8_IRQHandler(void){
   if((TIMG8->CPU_INT.IIDX) == 1){ // this will acknowledge
     sendUARTPacket();
+  }
+}
+
+ void TIMG7_IRQHandler(void){
+  if((TIMG7->CPU_INT.IIDX) == 1){ // this will acknowledge
+    getUARTPacket();
   }
 }

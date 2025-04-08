@@ -40,8 +40,8 @@ extern double dirX, dirY;
 extern double planeX, planeY;
 extern uint8_t accuracyRad;
 extern uint8_t isOnTarget;
-extern uint8_t playerHealth;
-extern uint8_t otherHealth;
+extern int playerHealth;
+extern int otherHealth;
 extern Inventory inventory;
  
  double ZBuffer[SCREEN_WIDTH];

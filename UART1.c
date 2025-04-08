@@ -25,8 +25,8 @@ void UART1_Init(void){
   UART1->CTL0 &= ~0x01; // disable UART1
   UART1->CTL0 = 0x00020018;
  // assumes an 80 MHz bus clock
-  UART1->IBRD = 21;//   divider = 21+45/64 = 21.703125
-  UART1->FBRD = 45; // baud =2,500,000/21.703125 = 115,191
+  UART1->IBRD = 1;//   divider = 1
+  UART1->FBRD = 0; // baud =2,500,000/1
   UART1->LCRH = 0x00000030;
   UART1->CTL0 |= 0x01; // enable UART1
 }

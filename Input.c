@@ -16,8 +16,8 @@
 extern Inventory inventory;
 extern uint8_t outX;
 extern uint8_t outY;
-extern uint8_t playerHealth;
-extern uint8_t otherHealth;
+extern int playerHealth;
+extern int otherHealth;
 
 void Input_Init(){
   TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
@@ -74,7 +74,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       }
       else if(healthCode == MEDKITCODE) playerHealth += 20;
 
-      if (otherHealth > 50) otherHealth = 0;
+      if (otherHealth < 0) otherHealth = 0;
 
       if (Item_isSpent(current) && current->type == MEDKIT){
         Inventory_removeCurrent(&inventory);
