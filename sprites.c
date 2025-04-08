@@ -13,7 +13,7 @@ extern uint8_t isOnTarget;
 
 extern int numsprites;
 extern Sprite Sprites[];
-extern const uint16_t target[];
+extern const uint16_t agent[];
 extern Inventory inventory;
 extern Item* items[];
 
@@ -33,7 +33,7 @@ int compareSprites(const void *a, const void *b) {
 }
 
 void RenderSprite(Sprite sprite, int side, int sprite_index) {
-    if (sprite.image == target) isOnTarget = 0;
+    if (sprite.image == agent) isOnTarget = 0;
     // Sprite position relative to the player
     double spriteX = sprite.x - posX;
     double spriteY = sprite.y - posY;
@@ -47,7 +47,7 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     if (transformY <= 0.1) return;
 
     // Pick up sprite if it's an item and we're close enough
-    if (sprite.image != target && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8){
+    if (sprite.image != agent && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8){
         uint8_t pickup_code = Inventory_add(&inventory, items[sprite.type]); // Inventory_add() will return 0 if inventory is full
         if (pickup_code) Sprites[sprite_index].scale = 0; // if pickup was successful, remove sprite from map
         if (pickup_code == AMMO_SMALL) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo;
@@ -88,7 +88,7 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         }
 
         if (bufferX != -1 && transformY < ZBuffer[stripe]) {
-            if ((stripe >= SCREEN_WIDTH/2 - Inventory_currentItem(&inventory)->crosshair_size && stripe <= SCREEN_WIDTH/2 + Inventory_currentItem(&inventory)->crosshair_size) && sprite.image == target) isOnTarget = 1;
+            if ((stripe >= SCREEN_WIDTH/2 - Inventory_currentItem(&inventory)->crosshair_size && stripe <= SCREEN_WIDTH/2 + Inventory_currentItem(&inventory)->crosshair_size) && sprite.image == agent) isOnTarget = 1;
             // Calculate texture x coordinate
             int texX = (stripe - drawStartX) * sprite.width / spriteWidth;
             if (texX >= 0 && texX < sprite.width) {

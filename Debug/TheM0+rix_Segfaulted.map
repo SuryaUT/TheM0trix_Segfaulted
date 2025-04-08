@@ -1,7 +1,7 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.1                      
 ******************************************************************************
->> Linked Mon Apr  7 13:14:42 2025
+>> Linked Mon Apr  7 20:04:23 2025
 
 OUTPUT FILE NAME:   <TheM0+rix_Segfaulted.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001c15d
@@ -255,12 +255,11 @@ section   page    origin      length       input sections
                   0001c57c    00000004     --HOLE-- [fill = 0]
 
 .cinit     0    0001c580    000001c0     
-                  0001c580    00000196     (.cinit..data.load) [load image, compression = lzss]
-                  0001c716    00000002     --HOLE-- [fill = 0]
-                  0001c718    0000000c     (__TI_handler_table)
-                  0001c724    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  0001c72c    00000010     (__TI_cinit_table)
-                  0001c73c    00000004     --HOLE-- [fill = 0]
+                  0001c580    0000019b     (.cinit..data.load) [load image, compression = lzss]
+                  0001c71b    00000001     --HOLE-- [fill = 0]
+                  0001c71c    0000000c     (__TI_handler_table)
+                  0001c728    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  0001c730    00000010     (__TI_cinit_table)
 
 .rodata    0    000000c0    00015a70     
                   000000c0    00004900     Sounds.o (.rodata.reloadSound)
@@ -276,7 +275,7 @@ section   page    origin      length       input sections
                   00012596    00000800     main.o (.rodata.ExplosionImage)
                   00012d96    00000800     main.o (.rodata.PistolImage)
                   00013596    00000800     main.o (.rodata.ShotgunImage)
-                  00013d96    00000800     main.o (.rodata.target)
+                  00013d96    00000800     main.o (.rodata.agent)
                   00014596    000004fb     Buffer.o (.rodata.Font)
                   00014a91    000004fb     ST7735.o (.rodata.Font)
                   00014f8c    00000240     Graphics.o (.rodata.OGMap)
@@ -288,7 +287,7 @@ section   page    origin      length       input sections
                   00015a07    00000001     --HOLE-- [fill = 0]
                   00015a08    00000030     libc.a : e_pow.c.obj (.rodata.cst16)
                   00015a38    0000002b     ST7735.o (.rodata.Rcmd3)
-                  00015a63    00000016     ST7735.o (.rodata.str1.180840905664508391481)
+                  00015a63    00000016     ST7735.o (.rodata.str1.34463358291801157781)
                   00015a79    00000014     main.o (.rodata.str1.157592557656998809351)
                   00015a8d    00000011     libc.a : _printfi.c.obj (.rodata.str1.153638888446227384661)
                   00015a9e    00000011     main.o (.rodata.str1.54842681482495761191)
@@ -298,14 +297,14 @@ section   page    origin      length       input sections
                   00015ad9    0000000c     main.o (.rodata.str1.30235616187663446621)
                   00015ae5    0000000c     Graphics.o (.rodata.str1.37161536259113115651)
                   00015af1    00000008     main.o (.rodata.str1.128962870563899395191)
-                  00015af9    00000008     ST7735.o (.rodata.str1.42106280550816602831)
-                  00015b01    00000007     ST7735.o (.rodata.str1.124659516132232304751)
+                  00015af9    00000008     ST7735.o (.rodata.str1.13377609362592607341)
+                  00015b01    00000007     ST7735.o (.rodata.str1.164899970313532044791)
                   00015b08    00000007     main.o (.rodata.str1.181369900268917052751)
-                  00015b0f    00000007     main.o (.rodata.str1.58265674741439123291)
-                  00015b16    00000007     ST7735.o (.rodata.str1.97082724960320730491)
+                  00015b0f    00000007     ST7735.o (.rodata.str1.182928941987730884031)
+                  00015b16    00000007     main.o (.rodata.str1.58265674741439123291)
                   00015b1d    00000006     Graphics.o (.rodata.str1.2002389610935928081)
                   00015b23    00000004     Graphics.o (.rodata.str1.25158831670344200691)
-                  00015b27    00000002     ST7735.o (.rodata.str1.147171064836689809571)
+                  00015b27    00000002     ST7735.o (.rodata.str1.180568451967534337741)
                   00015b29    00000007     --HOLE-- [fill = 0]
 
 .init_array 
@@ -510,21 +509,21 @@ MODULE SUMMARY
                                                                
        Heap:                          0       0         512    
        Stack:                         0       0         512    
-       Linker Generated:              0       442       0      
+       Linker Generated:              0       447       0      
     +--+------------------------------+-------+---------+---------+
-       Grand Total:                   27190   89314     26715  
+       Grand Total:                   27190   89319     26715  
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0001c72c records: 2, size/record: 8, table size: 16
-	.data: load addr=0001c580, load size=00000196 bytes, run addr=20205e80, run size=000005e5 bytes, compression=lzss
-	.bss: load addr=0001c724, load size=00000008 bytes, run addr=20200000, run size=00005e7b bytes, compression=zero_init
+__TI_cinit_table @ 0001c730 records: 2, size/record: 8, table size: 16
+	.data: load addr=0001c580, load size=0000019b bytes, run addr=20205e80, run size=000005e5 bytes, compression=lzss
+	.bss: load addr=0001c728, load size=00000008 bytes, run addr=20200000, run size=00005e7b bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0001c718 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 0001c71c records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -708,11 +707,11 @@ address   name
 00000000  __TI_ATRegion2_region_sz      
 00000000  __TI_ATRegion2_src_addr       
 00000000  __TI_ATRegion2_trg_addr       
-0001c72c  __TI_CINIT_Base               
-0001c73c  __TI_CINIT_Limit              
-0001c73c  __TI_CINIT_Warm               
-0001c718  __TI_Handler_Table_Base       
-0001c724  __TI_Handler_Table_Limit      
+0001c730  __TI_CINIT_Base               
+0001c740  __TI_CINIT_Limit              
+0001c740  __TI_CINIT_Warm               
+0001c71c  __TI_Handler_Table_Base       
+0001c728  __TI_Handler_Table_Limit      
 0001bb9d  __TI_auto_init_nobinit_nopinit
 0001be39  __TI_cleanup                  
 202063ec  __TI_cleanup_ptr              
@@ -794,6 +793,7 @@ UNDEFED   _system_post_cinit
 20206440  _unlock                       
 0001c579  abort                         
 0001975d  add_device                    
+00013d96  agent                         
 00018f71  aligned_alloc                 
 20206178  ammo_small                    
 ffffffff  binit                         
@@ -882,7 +882,6 @@ ffffffff  binit
 000187f9  sqrtl                         
 0001bd65  start_delay                   
 0001aa31  strcmp                        
-00013d96  target                        
 202063dc  textures                      
 0001c08d  unlink                        
 000112ec  weaploadSound                 
@@ -919,7 +918,7 @@ address   name
 00012596  ExplosionImage                
 00012d96  PistolImage                   
 00013596  ShotgunImage                  
-00013d96  target                        
+00013d96  agent                         
 00014f8c  OGMap                         
 000151cc  Ammosprite                    
 000153cc  Medkitsprite                  
@@ -1149,11 +1148,11 @@ address   name
 0001c575  _system_pre_init              
 0001c578  C$$EXIT                       
 0001c579  abort                         
-0001c718  __TI_Handler_Table_Base       
-0001c724  __TI_Handler_Table_Limit      
-0001c72c  __TI_CINIT_Base               
-0001c73c  __TI_CINIT_Limit              
-0001c73c  __TI_CINIT_Warm               
+0001c71c  __TI_Handler_Table_Base       
+0001c728  __TI_Handler_Table_Limit      
+0001c730  __TI_CINIT_Base               
+0001c740  __TI_CINIT_Limit              
+0001c740  __TI_CINIT_Warm               
 20200000  __start___llvm_prf_bits       
 20200000  __start___llvm_prf_cnts       
 20200000  __stop___llvm_prf_bits        

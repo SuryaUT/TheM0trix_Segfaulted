@@ -14,7 +14,7 @@ void generateSprite(){
 }
 
 Sprite Sprites[MAX_SPRITES] = {
-    {12, 12, target, 1, 32, 32, 6},
+    {12, 12, agent, 0xEF5D, 32, 32, 5},
     {18, 12, Shotgunsprite, 0, 16, 16, 2, SHOTGUN},
     {18, 18, Medkitsprite, 0, 16, 16, 3, MEDKIT},
     {20, 20, Ammosprite, 0, 16, 16, 2, AMMO_SMALL}
