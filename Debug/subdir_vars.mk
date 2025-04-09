@@ -23,6 +23,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
 ../Sounds.c \
+../Sync.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../UART1.c \
 ../UART2.c \
@@ -45,6 +46,7 @@ C_DEPS += \
 ./SPI.d \
 ./ST7735.d \
 ./Sounds.d \
+./Sync.d \
 ./Timer.d \
 ./UART1.d \
 ./UART2.d \
@@ -67,6 +69,7 @@ OBJS += \
 ./SPI.o \
 ./ST7735.o \
 ./Sounds.o \
+./Sync.o \
 ./Timer.o \
 ./UART1.o \
 ./UART2.o \
@@ -89,6 +92,7 @@ OBJS__QUOTED += \
 "SPI.o" \
 "ST7735.o" \
 "Sounds.o" \
+"Sync.o" \
 "Timer.o" \
 "UART1.o" \
 "UART2.o" \
@@ -111,6 +115,7 @@ C_DEPS__QUOTED += \
 "SPI.d" \
 "ST7735.d" \
 "Sounds.d" \
+"Sync.d" \
 "Timer.d" \
 "UART1.d" \
 "UART2.d" \
@@ -133,6 +138,7 @@ C_SRCS__QUOTED += \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/ST7735.c" \
 "../Sounds.c" \
+"../Sync.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
 "../UART1.c" \
 "../UART2.c" \

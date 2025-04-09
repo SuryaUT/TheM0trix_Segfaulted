@@ -12,6 +12,7 @@
 "./SPI.o"
 "./ST7735.o"
 "./Sounds.o"
+"./Sync.o"
 "./Timer.o"
 "./UART1.o"
 "./UART2.o"

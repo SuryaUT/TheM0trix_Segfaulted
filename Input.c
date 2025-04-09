@@ -8,8 +8,7 @@
 #include "Input.h"
 #include "Inventory.h"
 #include "Async_Delay.h"
-#include "UART1.h"
-#include "UART2.h"
+#include "Sync.h"
 
 #define RELOAD_TIME 2000
 
@@ -72,7 +71,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
           case SHOTGUNCODE: otherHealth -= 12; break;
         }
       }
-      else if(healthCode == MEDKITCODE) {
+      else if(current->type == MEDKIT) {
         healthCode = current->healthcode;
         playerHealth += 20;
       }
