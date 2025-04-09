@@ -20,7 +20,7 @@ extern int playerHealth;
 extern int otherHealth;
 
 void Input_Init(){
-  TimerG12_IntArm(2666666, 2); // Initialize sampling for joystick, 30Hz
+  TimerG12_IntArm(2666666, 1); // Initialize sampling for joystick, 30Hz
   Joy_Init();
  
   // Initialize buttons
@@ -65,14 +65,17 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       }
       Sound_Start(*current->sound);
       current->ammo--;
-      healthCode = current->healthcode;
       if (isOnTarget){
+        healthCode = current->healthcode;
         switch (healthCode){
           case PISTOLCODE: otherHealth-=2; break;
           case SHOTGUNCODE: otherHealth -= 12; break;
         }
       }
-      else if(healthCode == MEDKITCODE) playerHealth += 20;
+      else if(healthCode == MEDKITCODE) {
+        healthCode = current->healthcode;
+        playerHealth += 20;
+      }
 
       if (otherHealth < 0) otherHealth = 0;
 
