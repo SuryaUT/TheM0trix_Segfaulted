@@ -25,6 +25,13 @@ typedef struct {
     double distance;
 } SpriteDistancePair;
 
+void generateSprite(){
+  uint8_t sprite_index = (rand() % (numsprites-1)) + 1;
+  itemsStatus = sprite_index;
+  itemsStatus |= SPAWNCODE << 6;
+  Sprites[sprite_index].width = Sprites[sprite_index].height;
+}
+
 // Comparison function for sorting sprites
 int compareSprites(const void *a, const void *b) {
     const SpriteDistancePair *spriteA = (SpriteDistancePair *)a;
@@ -167,8 +174,4 @@ void RenderForegroundSprites(int side){
     // Draw current item we're holding
     drawForegroundSpriteToBuffer(side, current->holding_sprite);
     RenderInventory(side);
-}
-
-void generateSprite(){
-  //TODO: Create algorithm to randomly generate sprites in random areas of the map
 }

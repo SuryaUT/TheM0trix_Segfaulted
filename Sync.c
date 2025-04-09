@@ -23,6 +23,7 @@ void Sync_Init(){
   UART2_Init();
   TimerG8_IntArm(2000000/128, 128, 1);
   TimerG7_IntArm(500000/128, 128, 2);
+  //TimerA0_IntArm(10000, 80000, 3); NOT WORKING RIGHT NOW, NEED IT TO BE EVERY 30 SEC
 }
 
 uint8_t getPositionPacket(){
@@ -98,5 +99,11 @@ void sendInfoPacket(){
     if (packetIndex == 0) packetIndex += getPositionPacket();
     else if (packetIndex == 1) packetIndex += getInfoPacket();
     else packetIndex = 0;
+  }
+}
+
+void TIMA0_IRQHandler(void){ // Spawn new item every 30 seconds
+  if((TIMA0->CPU_INT.IIDX) == 1){ // this will acknowledge
+    generateSprite();
   }
 }

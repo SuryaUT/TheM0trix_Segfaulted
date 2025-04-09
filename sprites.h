@@ -18,4 +18,6 @@ void RenderSprites(int side);
 
 void RenderForegroundSprites(int side);
 
+void generateSprite();
+
 #endif /* SPRITES_H_ */
