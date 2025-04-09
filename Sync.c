@@ -51,7 +51,7 @@ uint8_t getInfoPacket(){
       case MEDKITCODE: otherHealth += 20; break;
       case RESPAWNCODE: otherHealth = 50; break;
     }
-    uint8_t itemCode = inItemsStatus & (3<<6); // Get top two bits for event code
+    uint8_t itemCode = (inItemsStatus >> 6) & 3; // Get top two bits for event code
     uint8_t sprite_index = inItemsStatus & 0xF; // Get bottom four bits for index of sprite to alter
     if (itemCode == PICKUPCODE){
       Sprites[sprite_index].width = 0;
