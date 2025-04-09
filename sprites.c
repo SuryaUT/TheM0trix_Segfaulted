@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "Buffer.h"
 #include "Inventory.h"
+#include "Sync.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -16,6 +17,7 @@ extern Sprite Sprites[];
 extern const uint16_t agent[];
 extern Inventory inventory;
 extern Item* items[];
+extern uint8_t itemsStatus;
 
 // Helper structure for sorting sprites
 typedef struct {
@@ -49,7 +51,11 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     // Pick up sprite if it's an item and we're close enough
     if (sprite.image != agent && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8){
         uint8_t pickup_code = Inventory_add(&inventory, items[sprite.type]); // Inventory_add() will return 0 if inventory is full
-        if (pickup_code) Sprites[sprite_index].scale = 0; // if pickup was successful, remove sprite from map
+        if (pickup_code) {
+            Sprites[sprite_index].width = 0; // if pickup was successful, remove sprite from map
+            itemsStatus = sprite_index; // Send code over to tell other controller that sprite was removed
+            itemsStatus |= (PICKUPCODE << 6);
+        }
         if (pickup_code == AMMO_SMALL) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo;
         if (pickup_code == AMMO_BIG) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo*3;
     }
@@ -123,7 +129,7 @@ void RenderSprites(int side) {
     qsort(spriteOrder, numsprites, sizeof(SpriteDistancePair), compareSprites);
 
     for (int i = 0; i < numsprites; i++) {
-        if (Sprites[spriteOrder[i].index].scale > 0) RenderSprite(Sprites[spriteOrder[i].index], side, spriteOrder[i].index);
+        if (Sprites[spriteOrder[i].index].width != 0) RenderSprite(Sprites[spriteOrder[i].index], side, spriteOrder[i].index);
     }
 }
 
@@ -161,4 +167,8 @@ void RenderForegroundSprites(int side){
     // Draw current item we're holding
     drawForegroundSpriteToBuffer(side, current->holding_sprite);
     RenderInventory(side);
+}
+
+void generateSprite(){
+  //TODO: Create algorithm to randomly generate sprites in random areas of the map
 }

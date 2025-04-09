@@ -22,7 +22,6 @@ double dirX = -1, dirY = 0;    // initial direction vector
 double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
 int playerHealth = 50;
 
-Sprite* otherPlayer = Sprites;
 double otherPosX, otherPosY;
 int otherHealth = 50;
 uint8_t isOnTarget = 0;

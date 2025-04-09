@@ -10,11 +10,13 @@
 
 extern double otherPosX, otherPosY;
 extern int otherHealth;
-extern Sprite* otherPlayer;
+extern Sprite Sprites[];
+Sprite* otherPlayer = Sprites;
 extern double posX, posY;
 extern double dirX, dirY;
 extern int playerHealth;
 extern uint8_t healthCode;
+uint8_t itemsStatus = 1;
 
 void Sync_Init(){
   UART1_Init();
@@ -36,17 +38,26 @@ uint8_t getPositionPacket(){
   return 1;
 }
 
-uint8_t getHealthPacket(){
-  if (RxFifo_Size() < 3) return 0;
-  while (UART2_InChar() != '<'){}
+uint8_t getInfoPacket(){
+  if (RxFifo_Size() < 4) return 0;
+  while (UART2_InChar() != '('){}
   uint8_t inHealthCode = UART2_InChar();
+  uint8_t inItemsStatus = UART2_InChar();
   uint8_t endSentinel = UART2_InChar();
-  if (endSentinel == '>'){
+  if (endSentinel == ')'){
     switch (inHealthCode){
       case PISTOLCODE: playerHealth-=2; break;
       case SHOTGUNCODE: playerHealth -= 12; break;
       case MEDKITCODE: otherHealth += 20; break;
       case RESPAWNCODE: otherHealth = 50; break;
+    }
+    uint8_t itemCode = inItemsStatus & (3<<6); // Get top two bits for event code
+    uint8_t sprite_index = inItemsStatus & 0xF; // Get bottom four bits for index of sprite to alter
+    if (itemCode == PICKUPCODE){
+      Sprites[sprite_index].width = 0;
+    }
+    else if (itemCode == SPAWNCODE){
+      Sprites[sprite_index].width = Sprites[sprite_index].height;
     }
   }
   return 1;
@@ -62,18 +73,20 @@ void sendPositionPacket(){
   UART1_OutChar('>');
 }
 
-void sendHealthPacket(){
-  UART1_OutChar('<');
+void sendInfoPacket(){
+  UART1_OutChar('(');
   UART1_OutChar(healthCode);
-  UART1_OutChar('>');
+  UART1_OutChar(itemsStatus);
+  UART1_OutChar(')');
   healthCode = 1; // 1 means do nothing
+  itemsStatus = 1; // 1 means do nothing
 }
 
  void TIMG8_IRQHandler(void){
   if((TIMG8->CPU_INT.IIDX) == 1){ // this will acknowledge
     static uint8_t packetIndex = 0;
     if (packetIndex == 0) sendPositionPacket();
-    else if (packetIndex == 1) sendHealthPacket();
+    else if (packetIndex == 1) sendInfoPacket();
     else packetIndex = -1;
     packetIndex++;
   }
@@ -83,7 +96,7 @@ void sendHealthPacket(){
   if((TIMG7->CPU_INT.IIDX) == 1){ // this will acknowledge
     static uint8_t packetIndex = 0;
     if (packetIndex == 0) packetIndex += getPositionPacket();
-    else if (packetIndex == 1) packetIndex += getHealthPacket();
+    else if (packetIndex == 1) packetIndex += getInfoPacket();
     else packetIndex = 0;
   }
 }

@@ -6,12 +6,8 @@
 #include "Graphics.h"
 #include "sprites.h"
 
-#define MAX_SPRITES 10
+#define MAX_SPRITES 9
 int numsprites = 4;
-
-void generateSprite(){
-  //TODO: Create algorithm to randomly generate sprites in random areas of the map
-}
 
 Sprite Sprites[MAX_SPRITES] = {
     {12, 12, agent, 0xEF5D, 32, 32, 5},
