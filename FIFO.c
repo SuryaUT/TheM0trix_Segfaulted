@@ -57,7 +57,7 @@ uint32_t TxFifo_Size(void){
 // can hold 0 to RXFIFOSIZE-1 elements
 uint32_t volatile RxPutI; // where to put next
 uint32_t volatile RxGetI; // where to get next
-char  RxFifo[RXFIFOSIZE];
+char static RxFifo[RXFIFOSIZE];
 
 void RxFifo_Init(void){
   RxPutI = RxGetI = 0;  // empty
