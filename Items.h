@@ -10,11 +10,12 @@
 int numsprites = 5;
 
 Sprite Sprites[MAX_SPRITES] = {
-    {12, 12, agent, 0xEF5D, 32, 32, 5},
-    {18, 12, Shotgunsprite, 0, 16, 16, 2, SHOTGUN},
-    {18, 14, pistolsprite, 0, 16, 16, 2, RIFLE},
-    {18, 18, Medkitsprite, 0, 16, 16, 3, MEDKIT},
-    {20, 20, Ammosprite, 0, 16, 16, 2, AMMO_SMALL}
+    {12, 12, AgentPixelFront, 0xEF5D, 32, 32, 5},
+    // Item sprites will start out nonexistent, and spawn in over time
+    {18, 12, Shotgunsprite, 0, 0, 16, 2, SHOTGUN},
+    {18, 14, pistolsprite, 0, 0, 16, 2, RIFLE},
+    {18, 18, Medkitsprite, 0, 0, 16, 3, MEDKIT},
+    {20, 20, Ammosprite, 0, 0, 16, 2, AMMO_SMALL}
 };
 
 Sprite gunFlash = {SCREEN_HEIGHT/2, SCREEN_WIDTH/2, ExplosionImage, 0xFFFF, 32, 32, 1};
