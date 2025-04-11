@@ -7,9 +7,10 @@
 
 #define PISTOL 0
 #define SHOTGUN 1
-#define MEDKIT 2
-#define AMMO_SMALL 3
-#define AMMO_BIG 4
+#define RIFLE 2
+#define MEDKIT 3
+#define AMMO_SMALL 4
+#define AMMO_BIG 5
 
 typedef struct{
     char* name;
@@ -44,7 +45,7 @@ void Inventory_next(Inventory* invent);
 
 Item* Inventory_currentItem(Inventory* invent);
 
-#define NUMWEAPONS 2
+#define NUMWEAPONS 3
 
 uint8_t Item_isWeapon(Item* item);
 

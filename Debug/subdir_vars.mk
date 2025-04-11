@@ -12,19 +12,19 @@ C_SRCS += \
 ../ADC.c \
 ../Async_Delay.c \
 ../Buffer.c \
-C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
+C:/CCS/MSPM0_ValvanoWare/inc/Clock.c \
 ../DAC.c \
 ../FIFO.c \
 ../Graphics.c \
 ../Input.c \
 ../Inventory.c \
 ../Joy.c \
-C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
-C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
-C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
+C:/CCS/MSPM0_ValvanoWare/inc/LaunchPad.c \
+C:/CCS/MSPM0_ValvanoWare/inc/SPI.c \
+C:/CCS/MSPM0_ValvanoWare/inc/ST7735.c \
 ../Sounds.c \
 ../Sync.c \
-C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
+C:/CCS/MSPM0_ValvanoWare/inc/Timer.c \
 ../UART1.c \
 ../UART2.c \
 ../UARTbusywait.c \
@@ -127,19 +127,19 @@ C_SRCS__QUOTED += \
 "../ADC.c" \
 "../Async_Delay.c" \
 "../Buffer.c" \
-"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Clock.c" \
+"C:/CCS/MSPM0_ValvanoWare/inc/Clock.c" \
 "../DAC.c" \
 "../FIFO.c" \
 "../Graphics.c" \
 "../Input.c" \
 "../Inventory.c" \
 "../Joy.c" \
-"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
-"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
-"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/ST7735.c" \
+"C:/CCS/MSPM0_ValvanoWare/inc/LaunchPad.c" \
+"C:/CCS/MSPM0_ValvanoWare/inc/SPI.c" \
+"C:/CCS/MSPM0_ValvanoWare/inc/ST7735.c" \
 "../Sounds.c" \
 "../Sync.c" \
-"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
+"C:/CCS/MSPM0_ValvanoWare/inc/Timer.c" \
 "../UART1.c" \
 "../UART2.c" \
 "../UARTbusywait.c" \

@@ -49,6 +49,7 @@ uint8_t getInfoPacket(){
     switch (inHealthCode){
       case PISTOLCODE: playerHealth-=2; break;
       case SHOTGUNCODE: playerHealth -= 12; break;
+      case RIFLECODE: playerHealth -= 3; break;
       case MEDKITCODE: otherHealth += 20; break;
       case RESPAWNCODE: otherHealth = 50; break;
     }
@@ -106,6 +107,6 @@ void TIMG6_IRQHandler(void){ // Spawn new item every 30 seconds
   static uint8_t timeCt = 1;
   if((TIMG6->CPU_INT.IIDX) == 1){ // this will acknowledge
     if(timeCt == 0) generateSprite();
-    timeCt = (timeCt + 1) % 300;
+    timeCt = (timeCt + 1) % 450;
   }
 }

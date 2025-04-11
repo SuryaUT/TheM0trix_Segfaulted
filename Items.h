@@ -7,11 +7,12 @@
 #include "sprites.h"
 
 #define MAX_SPRITES 9
-int numsprites = 4;
+int numsprites = 5;
 
 Sprite Sprites[MAX_SPRITES] = {
     {12, 12, agent, 0xEF5D, 32, 32, 5},
     {18, 12, Shotgunsprite, 0, 16, 16, 2, SHOTGUN},
+    {18, 14, pistolsprite, 0, 16, 16, 2, RIFLE},
     {18, 18, Medkitsprite, 0, 16, 16, 3, MEDKIT},
     {20, 20, Ammosprite, 0, 16, 16, 2, AMMO_SMALL}
 };
@@ -22,7 +23,7 @@ Item pistol = {
     "Pistol",
     PISTOL,
     {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1, PISTOL},
-    {SCREEN_WIDTH/2 + 13, SCREEN_HEIGHT, PistolImage, 0xFFFF, 32, 32, 3},
+    {SCREEN_WIDTH/2 + 30, SCREEN_HEIGHT, RifleImage, 0xFFFF, 32, 32, 4},
     SoundEffects + PISTOL_SOUND,
     8,
     8,
@@ -50,6 +51,22 @@ Item shotgun = {
     SHOTGUNCODE
   };
 
+Item rifle = {
+    "Rifle",
+    RIFLE,
+    {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1, RIFLE},
+    {SCREEN_WIDTH/2 + 34, SCREEN_HEIGHT, RifleImage, 0xFFFF, 32, 32, 4},
+    SoundEffects + PISTOL_SOUND,
+    15,
+    15,
+    45,
+    4,
+    1,
+    SCREEN_WIDTH/2 + 8,
+    SCREEN_HEIGHT/2 + 20,
+    RIFLECODE
+  };
+
 Item medkit = {
     "Medkit",
     MEDKIT,
@@ -71,6 +88,6 @@ Item ammo_small = {
   AMMO_SMALL,
 };
 
-Item* items[4] = {&pistol, &shotgun, &medkit, &ammo_small};
+Item* items[5] = {&pistol, &shotgun, &rifle, &medkit, &ammo_small};
 
 #endif

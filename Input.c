@@ -11,6 +11,7 @@
 #include "Sync.h"
 
 #define RELOAD_TIME 2000
+#define RIFLERATEMS 200
 
 extern Inventory inventory;
 extern uint8_t outX;
@@ -57,8 +58,9 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
 
   // Shoot weapon
   Item* current = Inventory_currentItem(&inventory);
-  if (input & 1 && !(lastInput & 1) && current->enabled){
+  if (input & 1 && (!(lastInput & 1) || current->type == RIFLE) && current->enabled){
     if (!Item_isSpent(current)){
+      if(current->type == RIFLE) start_delay(RIFLERATEMS, &(current->enabled));
       if (Item_isWeapon(current)){ 
         isShooting = 1;
       }
@@ -69,6 +71,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
         switch (healthCode){
           case PISTOLCODE: otherHealth-=2; break;
           case SHOTGUNCODE: otherHealth -= 12; break;
+          case RIFLECODE: otherHealth -= 3; break;
         }
       }
       else if(current->type == MEDKIT) {
@@ -91,7 +94,6 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo < current->mag_ammo)){
     if(current->tot_ammo > 0){
       Sound_Start(SoundEffects[RELOAD_SOUND]);
-      reloaded = 0;
       current->enabled = 0;
       start_delay(RELOAD_TIME, &reloaded);
     } else {
@@ -169,7 +171,7 @@ void TIMG12_IRQHandler(void){
 
     // Speed modifiers
    double moveSpeed = .033 * 1; // squares/sec
-   double rotSpeed = .033 * 3.0;  // rads/sec
+   double rotSpeed = .033 * 2.0;  // rads/sec
    double moveSpeed_FB = moveSpeed * Joy_y;
    double moveSpeed_LR = moveSpeed * Joy_x;
 

@@ -6,6 +6,7 @@ uint32_t ms_passed;
 uint32_t ms_done;
 uint8_t* flag_done;
 void start_delay(uint32_t milliseconds, uint8_t* flag){
+    *flag = 0;
     ms_passed = 0;
     ms_done = milliseconds;
     flag_done = flag;

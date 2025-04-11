@@ -3,8 +3,9 @@
 
 #define PISTOLCODE 2
 #define SHOTGUNCODE 3
-#define MEDKITCODE 4
-#define RESPAWNCODE 5
+#define RIFLECODE 4
+#define MEDKITCODE 5
+#define RESPAWNCODE 6
 
 #define PICKUPCODE 1
 #define SPAWNCODE 2
