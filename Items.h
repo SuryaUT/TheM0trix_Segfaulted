@@ -24,7 +24,7 @@ Item pistol = {
     "Pistol",
     PISTOL,
     {8, SCREEN_HEIGHT, pistolsprite, 0xFFFF, 16, 16, 1, PISTOL},
-    {SCREEN_WIDTH/2 + 30, SCREEN_HEIGHT, RifleImage, 0xFFFF, 32, 32, 4},
+    {SCREEN_WIDTH/2 + 13, SCREEN_HEIGHT, PistolImage, 0xFFFF, 32, 32, 3},
     SoundEffects + PISTOL_SOUND,
     8,
     8,
