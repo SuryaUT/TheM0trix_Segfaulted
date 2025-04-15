@@ -17,6 +17,8 @@ extern Sprite Sprites[];
 extern Inventory inventory;
 extern Item* items[];
 extern uint8_t itemsStatus;
+uint8_t canSwapItems = 0;
+extern uint8_t isSwapping;
 
 // Helper structure for sorting sprites
 typedef struct {
@@ -54,8 +56,9 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
     // Ignore if behind player
     if (transformY <= 0.1) return;
 
+    canSwapItems = 0;
     // Pick up sprite if it's an item and we're close enough
-    if (sprite_index != 0 && spriteX < .8 && spriteX > -.8 && spriteY < .8 && spriteY > -.8){
+    if (sprite_index != 0 && spriteX < .5 && spriteX > -.5 && spriteY < .5 && spriteY > -.5){
         uint8_t pickup_code = Inventory_add(&inventory, items[sprite.type]); // Inventory_add() will return 0 if inventory is full
         if (pickup_code) {
             Sprites[sprite_index].width = 0; // if pickup was successful, remove sprite from map
@@ -64,6 +67,17 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         }
         if (pickup_code == AMMO_SMALL) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo;
         if (pickup_code == AMMO_BIG) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo*3;
+        // If pickup was not successful, this is a possibility for swapping items
+        if (isSwapping){
+            Sprites[sprite_index].width = 0;
+            Inventory_replace(&inventory, items[sprite.type]);
+            itemsStatus = sprite_index; // Send code over to tell other controller that sprite was removed
+            itemsStatus |= (PICKUPCODE << 6);
+            isSwapping = 0;
+        }
+        if (!pickup_code){
+            canSwapItems = 1;
+        }
     }
 
     // Project sprite to screen

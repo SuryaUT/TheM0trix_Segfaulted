@@ -64,16 +64,20 @@ int main() {
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nShoot to respawn");
-    while ((GPIOA->DIN31_0 & (1<<24)) == 0) {}
+    printf("You died! \nGet better lil bro\nReload to respawn");
+    while ((GPIOA->DIN31_0 & (1<<28)) == 0) {}
     playerHealth = 50;
     healthCode = RESPAWNCODE;
 
     // Reset inventory
+    inventory.index = inventory.size - 1;
     while (inventory.index > 0){
       Inventory_removeCurrent(&inventory);
     }
-    Inventory_currentItem(&inventory)->ammo = Inventory_currentItem(&inventory)->mag_ammo;
+    Item* current = Inventory_currentItem(&inventory);
+    current->ammo = current->mag_ammo;
+    current->tot_ammo = current->mag_ammo*4;
+
     uint8_t respawnX;
     uint8_t respawnY;
     getRandomMapPos(&respawnX, &respawnY);

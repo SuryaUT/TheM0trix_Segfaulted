@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 #include "Joy.h"
 #include "../inc/Timer.h"
@@ -18,6 +17,9 @@ extern uint8_t outX;
 extern uint8_t outY;
 extern int playerHealth;
 extern int otherHealth;
+extern uint8_t itemsStatus;
+extern uint8_t canSwapItems;
+uint8_t isSwapping;
 
 void Input_Init(){
   TimerG12_IntArm(2666666, 1); // Initialize sampling for joystick, 30Hz
@@ -90,16 +92,21 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
     }
   }
 
-  // Reload
-  if (input & (1<<4) && !(lastInput & (1<<4)) && Item_isWeapon(current) && current->enabled && (current->ammo < current->mag_ammo)){
-    if(current->tot_ammo > 0){
-      Sound_Start(SoundEffects[RELOAD_SOUND]);
-      current->enabled = 0;
-      start_delay(RELOAD_TIME, &reloaded);
-    } else {
-      Sound_Start(SoundEffects[OUTOFAMMO_SOUND]);
+  // Reload or swap items
+  if (input & (1<<4) && !(lastInput & (1<<4))){
+    if (canSwapItems && inventory.index != 0){
+      Sound_Start(SoundEffects[WEAPLOAD_SOUND]);
+      isSwapping = 1;
     }
-    
+    if (Item_isWeapon(current) && current->enabled && (current->ammo < current->mag_ammo)){
+      if(current->tot_ammo > 0){
+        Sound_Start(SoundEffects[RELOAD_SOUND]);
+        current->enabled = 0;
+        start_delay(RELOAD_TIME, &reloaded);
+      } else {
+        Sound_Start(SoundEffects[OUTOFAMMO_SOUND]);
+      }
+    }
   }
   if (reloaded){
     current->enabled = 1; // Enable weapon use and switching

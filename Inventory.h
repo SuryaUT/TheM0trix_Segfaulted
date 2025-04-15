@@ -21,6 +21,7 @@ typedef struct{
     uint8_t ammo;
     uint8_t mag_ammo;
     uint8_t tot_ammo;
+    uint8_t start_ammo;
     uint8_t crosshair_size;
     uint8_t enabled;
     uint8_t muzzleX;
