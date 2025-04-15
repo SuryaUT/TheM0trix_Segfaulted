@@ -52,14 +52,14 @@ extern uint8_t healthCode;
 extern uint8_t isOnTarget;
 
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
+  Item* current = Inventory_currentItem(&inventory);
   // Sprint using joystick button
-  if (Joy_InButton()){
+  if (Joy_InButton() && current->enabled){ // Can't sprint while reloading
     moveSpeed_FB *= 2.5;
     moveSpeed_LR *= 2.5;
   }
 
   // Shoot weapon
-  Item* current = Inventory_currentItem(&inventory);
   if (input & 1 && (!(lastInput & 1) || current->type == RIFLE) && current->enabled){
     if (!Item_isSpent(current)){
       if(current->type == RIFLE) start_delay(RIFLERATEMS, &(current->enabled));

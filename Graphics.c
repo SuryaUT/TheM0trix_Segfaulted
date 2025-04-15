@@ -313,13 +313,13 @@ void printItem(int side){
     DrawCrosshair(side, crosshair_color);
     if (side == 0){
         DrawMinimap();
+        printItem(side);
+        if (Item_isWeapon(Inventory_currentItem(&inventory)) && side == 0) printAmmo(side);
     }
     else{
         DrawHealthBar();
     }
     RenderForegroundSprites(side);
-    printItem(side);
-    if (Item_isWeapon(Inventory_currentItem(&inventory)) && side == 0) printAmmo(side);
 }
 
  

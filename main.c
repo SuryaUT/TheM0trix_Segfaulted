@@ -2,6 +2,7 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
+#include "Async_Delay.h"
 #include "Sync.h"
  #include "ti/devices/msp/msp.h"
  #include "../inc/ST7735.h"
@@ -22,6 +23,7 @@ double posX = 22, posY = 12;    // x and y start position
 double dirX = -1, dirY = 0;    // initial direction vector
 double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
 int playerHealth = 50;
+uint8_t isVulnerable = 1;
 
 double otherPosX, otherPosY;
 double otherDirX, otherDirY;
@@ -50,40 +52,56 @@ void SystemInit() {
 
 Inventory inventory = {0, 3, {}, 0};
 
+void respawnPlayer(){
+  // Reset inventory
+  inventory.index = inventory.size - 1;
+  while (inventory.index > 0){
+    Inventory_removeCurrent(&inventory);
+  }
+  Item* current = Inventory_currentItem(&inventory);
+  current->ammo = current->mag_ammo;
+  current->tot_ammo = current->start_ammo;
+  
+  // Random location
+  uint8_t respawnX;
+  uint8_t respawnY;
+  // Temporary invulnerability
+  start_delay(1000, &isVulnerable);
+
+  getRandomMapPos(&respawnX, &respawnY);
+
+  posX = respawnX;
+  posY = respawnY;
+}
+
 int main() {
   SystemInit();
   RandomizeSprites();
-
   Inventory_add(&inventory, &pistol);
+  respawnPlayer();
 
   while(1) {
-   if (otherHealth == 0) Sprites[0].scale = 0; else Sprites[0].scale = 5;
+   if (otherHealth == 0){ 
+    Sprites[0].scale = 0; 
+    healthCode = DEADCODE;
+   }else {
+    Sprites[0].scale = 5;
+   }
    RenderScene();
    
    // End in case of death or exit button
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nReload to respawn");
+    printf("You died! \nGet better lil bro\nReload to respawn in 3 seconds");
+    uint8_t canRespawn;
+    start_delay(3000, &canRespawn);
+    while(!canRespawn) {}
     while ((GPIOA->DIN31_0 & (1<<28)) == 0) {}
     playerHealth = 50;
     healthCode = RESPAWNCODE;
 
-    // Reset inventory
-    inventory.index = inventory.size - 1;
-    while (inventory.index > 0){
-      Inventory_removeCurrent(&inventory);
-    }
-    Item* current = Inventory_currentItem(&inventory);
-    current->ammo = current->mag_ammo;
-    current->tot_ammo = current->mag_ammo*4;
-
-    uint8_t respawnX;
-    uint8_t respawnY;
-    getRandomMapPos(&respawnX, &respawnY);
-
-    posX = respawnX;
-    posY = respawnY;
+    respawnPlayer();
     
     ST7735_FillScreen(0);
    };

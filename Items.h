@@ -56,7 +56,7 @@ Item shotgun = {
     12,
     1,
     SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 32,
+    SCREEN_HEIGHT/2 + 36,
     SHOTGUNCODE
   };
 
