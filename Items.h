@@ -30,7 +30,7 @@ Item pistol = {
     "Pistol",
     PISTOL,
     {8, SCREEN_HEIGHT, Pistolsprite, 0xA254, 16, 16, 1, PISTOL},
-    {SCREEN_WIDTH/2 + 13, SCREEN_HEIGHT, PistolImage, 0xA254, 32, 32, 3},
+    {SCREEN_WIDTH/2 + 30, SCREEN_HEIGHT, PistolImage, 0xA254, 32, 32, 3},
     SoundEffects + PISTOL_SOUND,
     8,
     8,
@@ -38,7 +38,7 @@ Item pistol = {
     6,
     1,
     SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 24,
+    SCREEN_HEIGHT/2 + 28,
     PISTOLCODE
   };
 
