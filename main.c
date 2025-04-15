@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
@@ -73,6 +73,14 @@ int main() {
     while (inventory.index > 0){
       Inventory_removeCurrent(&inventory);
     }
+    Inventory_currentItem(&inventory)->ammo = Inventory_currentItem(&inventory)->mag_ammo;
+    uint8_t respawnX;
+    uint8_t respawnY;
+    getRandomMapPos(&respawnX, &respawnY);
+
+    posX = respawnX;
+    posY = respawnY;
+    
     ST7735_FillScreen(0);
    };
   }

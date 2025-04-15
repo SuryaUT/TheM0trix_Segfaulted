@@ -319,7 +319,7 @@ void printItem(int side){
     }
     RenderForegroundSprites(side);
     printItem(side);
-    if (Item_isWeapon(Inventory_currentItem(&inventory))) printAmmo(side);
+    if (Item_isWeapon(Inventory_currentItem(&inventory)) && side == 0) printAmmo(side);
 }
 
  

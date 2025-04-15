@@ -26,8 +26,6 @@ extern const uint16_t AgentPixelBack[];
 extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
 
-#define IS_DOMINANT_CONTROLLER 1 // Adjust depending on which controller you're using; one should be dominant to tell the other controller where the sprites are
-
 void getRandomMapPos(uint8_t* x, uint8_t* y){
   uint8_t randX = (rand() % 23) + 1;
   uint8_t randY = (rand() % 23) + 1;
@@ -194,9 +192,9 @@ void sendInfoPacket(){
 }
 
 void TIMG6_IRQHandler(void){ // Spawn new item every 30 seconds
-  static uint8_t timeCt = 1;
+  static uint16_t timeCt = 1;
   if((TIMG6->CPU_INT.IIDX) == 1){ // this will acknowledge
     if(timeCt == 0) generateSprite();
-    timeCt = (timeCt + 1) % 10;
+    timeCt = (timeCt + 1) % 300;
   }
 }
