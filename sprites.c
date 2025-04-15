@@ -41,7 +41,7 @@ int compareSprites(const void *a, const void *b) {
 }
 
 void RenderSprite(Sprite sprite, int side, int sprite_index) {
-    if (sprite_index == 0) isOnTarget = 0;
+    if (sprite_index == 0 && side == 1) isOnTarget = 0;
     // Sprite position relative to the player
     double spriteX = sprite.x - posX;
     double spriteY = sprite.y - posY;
@@ -100,7 +100,7 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         }
 
         if (bufferX != -1 && transformY < ZBuffer[stripe]) {
-            if ((stripe >= SCREEN_WIDTH/2 - Inventory_currentItem(&inventory)->crosshair_size && stripe <= SCREEN_WIDTH/2 + Inventory_currentItem(&inventory)->crosshair_size) && sprite_index == 0) isOnTarget = 1;
+            if ((stripe >= SCREEN_WIDTH/2 - Inventory_currentItem(&inventory)->crosshair_size && stripe <= SCREEN_WIDTH/2 + Inventory_currentItem(&inventory)->crosshair_size) && sprite_index == 0 && side == 1) isOnTarget = 1;
             // Calculate texture x coordinate
             int texX = (stripe - drawStartX) * sprite.width / spriteWidth;
             if (texX >= 0 && texX < sprite.width) {

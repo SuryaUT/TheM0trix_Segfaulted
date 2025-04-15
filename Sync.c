@@ -6,7 +6,10 @@
 #include "UART2.h"
 #include "sprites.h"
 #include "../inc/Timer.h"
+#include "../inc/Clock.h"
 #include "ti/devices/msp/msp.h"
+#include "Graphics.h"
+#include <stdlib.h>
 
 extern double otherPosX, otherPosY;
 extern double otherDirX, otherDirY;
@@ -20,13 +23,52 @@ extern uint8_t healthCode;
 uint8_t itemsStatus = 1;
 extern const uint16_t AgentPixelFront[];
 extern const uint16_t AgentPixelBack[];
+extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
+extern int numsprites;
+
+#define IS_DOMINANT_CONTROLLER 1 // Adjust depending on which controller you're using; one should be dominant to tell the other controller where the sprites are
+
+void getRandomMapPos(uint8_t* x, uint8_t* y){
+  uint8_t randX = (rand() % 23) + 1;
+  uint8_t randY = (rand() % 23) + 1;
+
+  while (worldMap[randX][randY] != 0){
+    randX = (rand() % 23) + 1;
+    randY = (rand() % 23) + 1;
+  }
+
+  *x = randX;
+  *y = randY;
+}
+
+void RandomizeSprites(){ // Will randomize sprite positions and synchronize
+  for (int i = 1; i < numsprites; i++){
+    if (IS_DOMINANT_CONTROLLER){
+      uint8_t x, y;
+      getRandomMapPos(&x, &y);
+      Sprites[i].x = x;
+      Sprites[i].y = y;
+      UART1_OutChar('{');
+      UART1_OutChar(x);
+      UART1_OutChar(y);
+    }
+    else{
+      while (UART2_InChar() != '{') {}
+      Sprites[i].x = UART2_InChar();
+      Sprites[i].y = UART2_InChar();
+    }
+    Clock_Delay1ms(50);
+  }
+
+  // Now arm synchronization interrupts
+  TimerG8_IntArm(1000000/128, 128, 1);
+  TimerG7_IntArm(400000/128, 128, 2);
+  TimerG6_IntArm(40000, 200, 3);
+}
 
 void Sync_Init(){
   UART1_Init();
   UART2_Init();
-  TimerG8_IntArm(1000000/128, 128, 1);
-  TimerG7_IntArm(400000/128, 128, 2);
-  TimerG6_IntArm(40000, 200, 3);
 }
 
 uint8_t getPositionPacket(){
@@ -155,6 +197,6 @@ void TIMG6_IRQHandler(void){ // Spawn new item every 30 seconds
   static uint8_t timeCt = 1;
   if((TIMG6->CPU_INT.IIDX) == 1){ // this will acknowledge
     if(timeCt == 0) generateSprite();
-    timeCt = (timeCt + 1) % 450;
+    timeCt = (timeCt + 1) % 10;
   }
 }

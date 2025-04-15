@@ -7,15 +7,16 @@
 #include "sprites.h"
 
 #define MAX_SPRITES 9
-int numsprites = 5;
+int numsprites = 6;
 
 Sprite Sprites[MAX_SPRITES] = {
     {12, 12, AgentPixelFront, 0xEF5D, 32, 32, 5},
-    // Item sprites will start out nonexistent, and spawn in over time
+    // Item sprites will start out nonexistent, and spawn in over time, so their width is set to 0
     {18, 12, Shotgunsprite, 0xA254, 0, 16, 2, SHOTGUN},
     {18, 14, Riflesprite, 0xA254, 0, 16, 2, RIFLE},
     {18, 18, Medkitsprite, 0, 0, 16, 3, MEDKIT},
-    {20, 20, Ammosprite, 0, 0, 16, 2, AMMO_SMALL}
+    {20, 20, Ammosprite, 0, 0, 16, 2, AMMO_SMALL},
+    {20, 22, Ammosprite, 0, 0, 16, 3, AMMO_BIG}
 };
 
 Sprite gunFlash = {SCREEN_HEIGHT/2, SCREEN_WIDTH/2, ExplosionImage, 0xFFFF, 32, 32, 1};
@@ -89,6 +90,11 @@ Item ammo_small = {
   AMMO_SMALL,
 };
 
-Item* items[5] = {&pistol, &shotgun, &rifle, &medkit, &ammo_small};
+Item ammo_big = {
+  "",
+  AMMO_BIG
+};
+
+Item* items[6] = {&pistol, &shotgun, &rifle, &medkit, &ammo_small, &ammo_big};
 
 #endif

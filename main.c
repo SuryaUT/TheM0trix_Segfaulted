@@ -8,6 +8,7 @@
  #include "../inc/SPI.h"
  #include "../inc/Clock.h"
  #include "../inc/LaunchPad.h"
+ #include "../inc/ADC.h"
  #include "Graphics.h"
  #include "Sounds.h"
  #include "sprites.h"
@@ -28,8 +29,16 @@ int otherHealth = 50;
 uint8_t isOnTarget = 0;
 uint8_t healthCode = 1;
 
+void initRandom(){
+  uint32_t randomSeed;
+  ADC0_Init(5, ADCVREF_VDDA);
+  randomSeed = ADC0_In() * ADC0_In();
+  srand(randomSeed);
+}
+
 void SystemInit() {
   __disable_irq();
+  initRandom();
   Clock_Init80MHz(0);
   LaunchPad_Init();
   Sound_Init(80000000/11000, 0);
@@ -43,6 +52,7 @@ Inventory inventory = {0, 3, {}, 0};
 
 int main() {
   SystemInit();
+  RandomizeSprites();
 
   Inventory_add(&inventory, &pistol);
 
@@ -54,13 +64,16 @@ int main() {
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
-    printf("Game Over!\n");
-    printf("(You died lol)\n");
-    printf("get better lil bro\n");
-    printf("Shoot to respawn");
+    printf("You died! \nGet better lil bro\nShoot to respawn");
     while ((GPIOA->DIN31_0 & (1<<24)) == 0) {}
     playerHealth = 50;
     healthCode = RESPAWNCODE;
+
+    // Reset inventory
+    while (inventory.index > 0){
+      Inventory_removeCurrent(&inventory);
+    }
+    ST7735_FillScreen(0);
    };
   }
  }

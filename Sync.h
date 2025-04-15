@@ -10,6 +10,7 @@
 #define PICKUPCODE 1
 #define SPAWNCODE 2
 
+void RandomizeSprites();
 void Sync_Init();
 
 #endif
