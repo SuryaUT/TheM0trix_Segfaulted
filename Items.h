@@ -38,8 +38,8 @@ Item pistol = {
     32,
     6,
     1,
-    SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 28,
+    SCREEN_WIDTH/2 + 9,
+    SCREEN_HEIGHT/2 + 29,
     PISTOLCODE
   };
 
@@ -55,8 +55,8 @@ Item shotgun = {
     5,
     12,
     1,
-    SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 36,
+    SCREEN_WIDTH/2 + 11,
+    SCREEN_HEIGHT/2 + 39,
     SHOTGUNCODE
   };
 
@@ -72,8 +72,8 @@ Item rifle = {
     45,
     4,
     1,
-    SCREEN_WIDTH/2 + 8,
-    SCREEN_HEIGHT/2 + 20,
+    SCREEN_WIDTH/2 + 9,
+    SCREEN_HEIGHT/2 + 21,
     RIFLECODE
   };
 
