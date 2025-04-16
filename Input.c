@@ -88,6 +88,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       }
     }
     else{
+      if(current->type == RIFLE) start_delay(RIFLERATEMS, &(current->enabled));
       Sound_Start(SoundEffects[OUTOFAMMO_SOUND]);
     }
   }

@@ -26,6 +26,7 @@ extern const uint16_t AgentPixelBack[];
 extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
 extern uint8_t isVulnerable;
+extern int otherKills;
 
 void getRandomMapPos(uint8_t* x, uint8_t* y){
   uint8_t randX = (rand() % (MAP_WIDTH-1)) + 1;
@@ -45,16 +46,16 @@ void RandomizeSprites(){ // Will randomize sprite positions and synchronize
     if (IS_DOMINANT_CONTROLLER){
       uint8_t x, y;
       getRandomMapPos(&x, &y);
-      Sprites[i].x = x;
-      Sprites[i].y = y;
+      Sprites[i].x = x + .5;
+      Sprites[i].y = y + .5;
       UART1_OutChar('{');
       UART1_OutChar(x);
       UART1_OutChar(y);
     }
     else{
       while (UART2_InChar() != '{') {}
-      Sprites[i].x = UART2_InChar();
-      Sprites[i].y = UART2_InChar();
+      Sprites[i].x = UART2_InChar() + .5;
+      Sprites[i].y = UART2_InChar() + .5;
     }
     Clock_Delay1ms(50);
   }
@@ -127,7 +128,7 @@ uint8_t getInfoPacket(){
       case RIFLECODE: if (isVulnerable) playerHealth -= 3; break;
       case MEDKITCODE: otherHealth += 20; break;
       case RESPAWNCODE: otherHealth = 50; break;
-      case DEADCODE: if (isVulnerable) playerHealth = 0; break;
+      case DEADCODE: if (isVulnerable) playerHealth = 0; otherKills++; break;
     }
     uint8_t itemCode = (inItemsStatus >> 6) & 3; // Get top two bits for event code
     uint8_t sprite_index = inItemsStatus & 0xF; // Get bottom four bits for index of sprite to alter

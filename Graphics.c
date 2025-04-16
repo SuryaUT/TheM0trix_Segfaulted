@@ -43,6 +43,7 @@ extern uint8_t isOnTarget;
 extern int playerHealth;
 extern int otherHealth;
 extern Inventory inventory;
+extern int kills, otherKills;
  
  double ZBuffer[SCREEN_WIDTH];
  
@@ -305,7 +306,22 @@ void printAmmo(int side) {
 
 void printItem(int side){
     // Display item you're holding
-    if (side == 0) printToBuffer(Inventory_currentItem(&inventory)->name, 0, SCREEN_HEIGHT-32, ST7735_WHITE, side);
+    printToBuffer(Inventory_currentItem(&inventory)->name, 0, SCREEN_HEIGHT-32, ST7735_WHITE, side);
+}
+void printLeaderboard(int side){
+    // Display leaderboard, showing kill count
+    char buffer1[16];
+    char buffer2[16];
+    sprintf(buffer1, "%d Neo", kills);
+    sprintf(buffer2,"%d Agent", otherKills);
+    if (kills > otherKills){
+        printToBuffer(buffer1, 0, 28, MATRIX_NEON_GREEN, side);
+        printToBuffer(buffer2, 0, 36, ST7735_RED, side);   
+    }
+    else{
+        printToBuffer(buffer2, 0, 28, ST7735_RED, side);
+        printToBuffer(buffer1, 0, 36, MATRIX_NEON_GREEN, side);  
+    }
 }
 
  void RenderHUD(int side){
@@ -314,7 +330,8 @@ void printItem(int side){
     if (side == 0){
         DrawMinimap();
         printItem(side);
-        if (Item_isWeapon(Inventory_currentItem(&inventory)) && side == 0) printAmmo(side);
+        if (Item_isWeapon(Inventory_currentItem(&inventory))) printAmmo(side);
+        printLeaderboard(side);
     }
     else{
         DrawHealthBar();

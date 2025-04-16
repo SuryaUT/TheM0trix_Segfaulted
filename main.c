@@ -24,6 +24,7 @@ double dirX = -1, dirY = 0;    // initial direction vector
 double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
 int playerHealth = 50;
 uint8_t isVulnerable = 1;
+int kills = 0, otherKills = 0;
 
 double otherPosX, otherPosY;
 double otherDirX, otherDirY;
@@ -61,6 +62,7 @@ void respawnPlayer(){
   Item* current = Inventory_currentItem(&inventory);
   current->ammo = current->mag_ammo;
   current->tot_ammo = current->start_ammo;
+  current->enabled = 1;
   
   // Random location
   uint8_t respawnX;
@@ -70,8 +72,8 @@ void respawnPlayer(){
 
   getRandomMapPos(&respawnX, &respawnY);
 
-  posX = respawnX;
-  posY = respawnY;
+  posX = respawnX + .5;
+  posY = respawnY + .5;
 }
 
 int main() {
@@ -79,13 +81,18 @@ int main() {
   RandomizeSprites();
   Inventory_add(&inventory, &pistol);
   respawnPlayer();
-
+  uint8_t killFlag = 0;
   while(1) {
    if (otherHealth == 0){ 
-    Sprites[0].scale = 0; 
-    healthCode = DEADCODE;
+    if (!killFlag){
+      Sprites[0].scale = 0; 
+      healthCode = DEADCODE;
+      killFlag++;
+      kills++;
+    }
    }else {
     Sprites[0].scale = 5;
+    killFlag = 0;
    }
    RenderScene();
    
@@ -93,10 +100,23 @@ int main() {
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nReload to respawn in 3 seconds");
+    printf("You died! \nGet better lil bro\nReload to respawn in\n3");
     uint8_t canRespawn;
-    start_delay(3000, &canRespawn);
+    start_delay(1000, &canRespawn);
     while(!canRespawn) {}
+    ST7735_FillScreen(0);
+    ST7735_SetCursor(0, 0);
+    printf("You died! \nGet better lil bro\nReload to respawn in\n2");
+    start_delay(1000, &canRespawn);
+    while(!canRespawn) {}
+    ST7735_FillScreen(0);
+    ST7735_SetCursor(0, 0);
+    printf("You died! \nGet better lil bro\nReload to respawn in\n1");
+    start_delay(1000, &canRespawn);
+    while(!canRespawn) {}
+    ST7735_FillScreen(0);
+    ST7735_SetCursor(0, 0);
+    printf("You died! \nGet better lil bro\nReload to respawn");
     while ((GPIOA->DIN31_0 & (1<<28)) == 0) {}
     playerHealth = 50;
     healthCode = RESPAWNCODE;
