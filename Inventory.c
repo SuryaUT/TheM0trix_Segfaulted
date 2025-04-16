@@ -17,7 +17,9 @@ uint8_t Inventory_add(Inventory* invent, Item* item){
     if(!inInventory(invent, item)){ //only adds item if not in inventory
         item->invent_sprite.scale = 1;
         invent->items[invent->size] = item;
-        invent->items[invent->size]->ammo = invent->items[invent->size]->mag_ammo;
+        invent->items[invent->size]->ammo =  invent->items[invent->size]->mag_ammo;
+        invent->items[invent->size]->tot_ammo = invent->items[invent->size]->start_ammo;
+        invent->items[invent->size]->enabled = 1;
         invent->items[invent->size]->invent_sprite.x = 8 + (invent->size*16);
         invent->items[invent->size]->invent_sprite.y = SCREEN_HEIGHT-1;
         invent->size++;
@@ -40,6 +42,7 @@ void Inventory_replace(Inventory* invent, Item* item){
     // refill ammo
     invent->items[invent->index]->ammo =  invent->items[invent->index]->mag_ammo;
     invent->items[invent->index]->tot_ammo = invent->items[invent->index]->start_ammo;
+    invent->items[invent->index]->enabled = 1;
 }
 
 void Inventory_removeCurrent(Inventory* invent){
