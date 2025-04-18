@@ -2,8 +2,8 @@
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
-#include "Async_Delay.h"
-#include "Sync.h"
+ #include "Async_Delay.h"
+ #include "Sync.h"
  #include "ti/devices/msp/msp.h"
  #include "../inc/ST7735.h"
  #include "../inc/SPI.h"
@@ -83,11 +83,11 @@ int main() {
   respawnPlayer();
   uint8_t killFlag = 0;
   while(1) {
-   if (otherHealth == 0){ 
+   if (otherHealth == 0){
+    Sprites[0].scale = 0; 
+    healthCode = DEADCODE;
+    killFlag++;
     if (!killFlag){
-      Sprites[0].scale = 0; 
-      healthCode = DEADCODE;
-      killFlag++;
       kills++;
     }
    }else {
@@ -102,18 +102,15 @@ int main() {
     ST7735_SetCursor(0, 0);
     printf("You died! \nGet better lil bro\nReload to respawn in\n3");
     uint8_t canRespawn;
-    start_delay(1000, &canRespawn);
-    while(!canRespawn) {}
+    Clock_Delay1ms(1000);
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
     printf("You died! \nGet better lil bro\nReload to respawn in\n2");
-    start_delay(1000, &canRespawn);
-    while(!canRespawn) {}
+    Clock_Delay1ms(1000);
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
     printf("You died! \nGet better lil bro\nReload to respawn in\n1");
-    start_delay(1000, &canRespawn);
-    while(!canRespawn) {}
+    Clock_Delay1ms(1000);
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
     printf("You died! \nGet better lil bro\nReload to respawn");

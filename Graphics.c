@@ -243,8 +243,8 @@ void DrawHealthBar(){
     }
 
     // Labels
-    printToBuffer("Neo", SCREEN_WIDTH - barWidth - 30, 6, ST7735_WHITE, 1);
-    printToBuffer("Agent", SCREEN_WIDTH - barWidth - 30, 18, ST7735_WHITE, 1);
+    printToBuffer("M0", SCREEN_WIDTH - barWidth - 12, 6, ST7735_WHITE, 1);
+    printToBuffer("Y", SCREEN_WIDTH - barWidth - 6, 18, ST7735_WHITE, 1);
 }
 
 void DrawCrosshair(int side, uint16_t color) {
@@ -312,8 +312,8 @@ void printLeaderboard(int side){
     // Display leaderboard, showing kill count
     char buffer1[16];
     char buffer2[16];
-    sprintf(buffer1, "%d Neo", kills);
-    sprintf(buffer2,"%d Agent", otherKills);
+    sprintf(buffer1, "%d Dr. M0", kills);
+    sprintf(buffer2,"%d Agent Y", otherKills);
     if (kills > otherKills){
         printToBuffer(buffer1, 0, 28, MATRIX_NEON_GREEN, side);
         printToBuffer(buffer2, 0, 36, ST7735_RED, side);   

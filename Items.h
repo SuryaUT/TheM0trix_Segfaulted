@@ -10,7 +10,7 @@
 int numsprites = 11;
 
 Sprite Sprites[MAX_SPRITES] = {
-    {12, 12, AgentPixelFront, 0xEF5D, 32, 32, 5},
+    {12, 12, (IS_DOMINANT_CONTROLLER) ? DrM0Front:AgentYFront, 0xA254, 64, 64, 5},
     // Item sprites will start out nonexistent, and spawn in over time, so their width is set to 0
     {18, 12, Shotgunsprite, 0xA254, 0, 16, 2, SHOTGUN},
     {18, 12, Shotgunsprite, 0xA254, 0, 16, 2, SHOTGUN},

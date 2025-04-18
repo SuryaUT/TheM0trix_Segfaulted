@@ -21,8 +21,10 @@ extern double dirX, dirY;
 extern int playerHealth;
 extern uint8_t healthCode;
 uint8_t itemsStatus = 1;
-extern const uint16_t AgentPixelFront[];
-extern const uint16_t AgentPixelBack[];
+extern const uint16_t DrM0Front[];
+extern const uint16_t DrM0Back[];
+extern const uint16_t AgentYFront[];
+extern const uint16_t AgentYBack[];
 extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
 extern uint8_t isVulnerable;
@@ -106,9 +108,9 @@ uint8_t getDirectionPacket(){
 
     // Approximate threshold — tweak as needed
     if (dot > 0.5) {
-      otherPlayer->image = AgentPixelFront;
+      otherPlayer->image = (IS_DOMINANT_CONTROLLER) ? DrM0Front:AgentYFront;
     } else {
-      otherPlayer->image = AgentPixelBack;
+      otherPlayer->image = (IS_DOMINANT_CONTROLLER) ? DrM0Back:AgentYBack;
     }
   }
   return 1;
