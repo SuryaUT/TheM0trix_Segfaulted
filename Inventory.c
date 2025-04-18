@@ -30,7 +30,7 @@ uint8_t Inventory_add(Inventory* invent, Item* item){
 
 void Inventory_replace(Inventory* invent, Item* item){
     // if it's in your inventory already, we replace that item
-    if(item == ammo || item == ammo_big) return;
+    if(item->type == AMMO_SMALL || item->type == AMMO_BIG) return;
 
     for (int i = 0; i < invent->size; i++){
         if(invent->items[i] == item){
