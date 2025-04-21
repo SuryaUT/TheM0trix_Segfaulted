@@ -623,6 +623,20 @@ static const uint8_t
     ST7735_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
       100 };                  //     100 ms delay
 
+
+void diskError(char *errtype, int32_t code, int32_t block){
+  ST7735_DrawString(0, 0, "Err: ", ST7735_Color565(255, 0, 0));
+  ST7735_DrawString(5, 0, errtype, ST7735_Color565(255, 0, 0));
+  ST7735_DrawString(0, 1, "Code:", ST7735_Color565(255, 0, 0));
+  ST7735_SetCursor(6, 1);
+  ST7735_SetTextColor(ST7735_Color565(255, 0, 0));
+  ST7735_OutUDec(code);
+  ST7735_DrawString(0, 2, "Block:", ST7735_Color565(255, 0, 0));
+  ST7735_SetCursor(7, 2);
+  ST7735_OutUDec(block);
+  while(1){};
+}
+
 //---------TFT_OutData------------
 // Output 8-bit data to SPI port
 // Input: data is an 8-bit data to be transferred
@@ -1028,6 +1042,124 @@ void ST7735_DrawBitmap(int16_t x, int16_t y, const uint16_t *image, int16_t w, i
 
 //  deselect();
 }
+
+#include "diskio.h"
+#include "ff.h"
+
+// buffer for reading two bytes at a time
+static uint8_t sdcBuffer[2];
+
+//----------------------------------------------------------------------------
+// Draw a bitmap stored as raw 16‑bit BGR565 in a .bin file on the SD card.
+//   x, y   = lower‑left corner on screen (same as ST7735_DrawBitmap)
+//   filename = 8.3 name of your .bin file (e.g. "sprite.bin")
+//   w, h   = bitmap width & height
+// Requires that the card is already mounted (f_mount).
+//----------------------------------------------------------------------------
+void ST7735_DrawBitmapFromSDC(int16_t x, int16_t y, const char *filename, int16_t w, int16_t h){
+    FIL file;
+    FRESULT fr;
+    UINT br;
+
+    // 1) Open the binary image file
+    fr = f_open(&file, filename, FA_READ);
+    if(fr != FR_OK){
+        diskError("SDC open", fr, 0);  // halts with error on LCD
+        return;
+    }
+
+    // 2) Set the LCD window to exactly the rectangle we want to fill
+    setAddrWindow(x, y - h + 1, x + w - 1, y);
+
+    // 3) Read pixel‑by‑pixel and push to display
+    for(int32_t i = 0; i < (int32_t)w * h; i++){
+        fr = f_read(&file, sdcBuffer, 2, &br);
+        if(fr != FR_OK || br != 2){
+            diskError("SDC read", fr, 0);
+            break;
+        }
+        // big‑endian word => high byte first
+        uint16_t color = (sdcBuffer[0] << 8) | sdcBuffer[1];
+        pushColor(color);
+    }
+
+    // 4) Close file when done
+    f_close(&file);
+}
+
+/**
+ * @brief  Draw a wrapped string inside a fixed‑width box, with optional centering and delay.
+ *
+ * @param  x            X of top‑left of text box
+ * @param  y            Y of top‑left of text box
+ * @param  boxWidth     Width of the text box in pixels
+ * @param  str          Null‑terminated string (ASCII 32…126, use '\\n' for forced newline)
+ * @param  textColor    16‑bit text color
+ * @param  bgColor      16‑bit background (if == textColor, background is not drawn)
+ * @param  size         Font scale (1=6×8, 2=12×16, etc.)
+ * @param  center       If true, each line is horizontally centered
+ * @param  charDelayMs  Delay in ms after drawing each character (0 = no delay)
+ */
+void ST7735_DrawTextBoxS(int16_t    x,
+                             int16_t    y,
+                             int16_t    boxWidth,
+                             const char *str,
+                             int16_t    textColor,
+                             int16_t    bgColor,
+                             uint8_t    size,
+                             uint8_t     center,
+                             uint32_t   charDelayMs)
+{
+    int16_t startX  = x;
+    int16_t curY    = y;
+    int16_t charW   = 6 * size;
+    int16_t charH   = 8 * size;
+
+    const char *p = str;
+    while (*p) {
+        // Skip any leading newlines
+        if (*p == '\n') {
+            p++;
+            curY += charH;
+            continue;
+        }
+        // Measure how many chars fit on this line before wrap or newline
+        int   lineLen   = 0;
+        int16_t tempX   = startX;
+        const char *q   = p;
+        while (*q && *q != '\n' && (tempX + charW) <= (startX + boxWidth)) {
+            lineLen++;
+            tempX += charW;
+            q++;
+        }
+        // Compute horizontal start (centered or left‑aligned)
+        int16_t curX = startX;
+        if (center && lineLen > 0) {
+            int16_t lineWidthPx = lineLen * charW;
+            if (lineWidthPx < boxWidth) {
+                curX = startX + (boxWidth - lineWidthPx) / 2;
+            }
+        }
+        // Draw those characters
+        for (int i = 0; i < lineLen; i++) {
+            char c = *p++;
+            ST7735_DrawCharS(curX, curY, c, textColor, bgColor, size);
+            if (charDelayMs) Clock_Delay1ms(charDelayMs);
+            curX += charW;
+        }
+        // If we stopped at a newline, skip it now
+        if (*p == '\n') {
+            p++;
+        }
+        // Advance to next line
+        curY += charH;
+        // Stop if we’ve gone off bottom of screen
+        if (curY + charH < 0 || curY >= _height) {
+            break;
+        }
+    }
+}
+
 
 
 //------------ST7735_DrawCharS------------

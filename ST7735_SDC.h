@@ -375,6 +375,50 @@ uint16_t ST7735_SwapColor(uint16_t x) ;
  */
 void ST7735_DrawBitmap(int16_t x, int16_t y, const uint16_t *image, int16_t w, int16_t h);
 
+
+/**
+ * @brief Draw a raw BGR565 bitmap stored on the SD card.
+ *
+ * Reads a “.bin” file of 16‑bit pixels and streams it into the display RAM.
+ * The file must have been written in big‑endian 16‑bit BGR565 format.
+ *
+ * @param x         X coordinate of the lower‑left corner (0 ≤ x < display width)
+ * @param y         Y coordinate of the lower‑left corner (0 ≤ y < display height)
+ * @param filename  Null‑terminated 8.3-name of the .bin file on the SD card
+ * @param w         Width of the image in pixels
+ * @param h         Height of the image in pixels
+ */
+void ST7735_DrawBitmapFromSDC(int16_t       x,
+                              int16_t       y,
+                              const char   *filename,
+                              int16_t       w,
+                              int16_t       h);
+
+
+
+/**
+ * @brief  Draw a wrapped string inside a fixed‑width box, optionally centered and with per‑char delay.
+ *
+ * @param  x            X of top‑left of text box
+ * @param  y            Y of top‑left of text box
+ * @param  boxWidth     Width of the text box in pixels
+ * @param  str          Null‑terminated string to draw (supports '\\n')
+ * @param  textColor    16‑bit text color
+ * @param  bgColor      16‑bit background color
+ * @param  size         Font scale (1=6×8, 2=12×16, etc.)
+ * @param  center       If true, each line is horizontally centered
+ * @param  charDelayMs  Delay in milliseconds after each character (0 = none)
+ */
+void ST7735_DrawTextBoxS(int16_t       x,
+                             int16_t       y,
+                             int16_t       boxWidth,
+                             const char   *str,
+                             int16_t       textColor,
+                             int16_t       bgColor,
+                             uint8_t       size,
+                             uint8_t          center,
+                             uint32_t      charDelayMs);
+
 /**
  * Simple character draw function.  This is the same function from
  * Adafruit_GFX.c but adapted for this processor.  However, each call

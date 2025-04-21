@@ -79,6 +79,13 @@ void respawnPlayer(){
 
 int main() {
   SystemInit();
+  ST7735_DrawBitmapFromSDC(0, 128, "CODE.bin", 160, 128);
+  //ST7735_DrawBitmapFromSDC(0, 128, "MENU.bin", 160, 128);
+  ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, SCREEN_WIDTH/2, 250);
+}
+
+int main1() {
+  SystemInit();
   RandomizeSprites();
   // Starting weapon
   Inventory_add(&inventory, &pistol);
