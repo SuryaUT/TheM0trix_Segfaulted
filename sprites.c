@@ -143,7 +143,7 @@ void RenderSprites(int side) {
     SpriteDistancePair spriteOrder[numsprites];
     for (int i = 0; i < numsprites; i++) {
         spriteOrder[i].index = i;
-        spriteOrder[i].distance = pow(posX - Sprites[i].x, 2) + pow(posY - Sprites[i].y, 2);
+        spriteOrder[i].distance = (posX - Sprites[i].x)*(posX - Sprites[i].x) + (posY - Sprites[i].y)*(posY - Sprites[i].y);
     }
 
     qsort(spriteOrder, numsprites, sizeof(SpriteDistancePair), compareSprites);

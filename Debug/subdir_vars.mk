@@ -21,13 +21,15 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 ../Joy.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
-C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/ST7735.c \
+../ST7735_SDC.c \
 ../Sounds.c \
 ../Sync.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../UART1.c \
 ../UART2.c \
 ../UARTbusywait.c \
+../diskio.c \
+../ff.c \
 ../main.c \
 ../sprites.c 
 
@@ -44,13 +46,15 @@ C_DEPS += \
 ./Joy.d \
 ./LaunchPad.d \
 ./SPI.d \
-./ST7735.d \
+./ST7735_SDC.d \
 ./Sounds.d \
 ./Sync.d \
 ./Timer.d \
 ./UART1.d \
 ./UART2.d \
 ./UARTbusywait.d \
+./diskio.d \
+./ff.d \
 ./main.d \
 ./sprites.d 
 
@@ -67,13 +71,15 @@ OBJS += \
 ./Joy.o \
 ./LaunchPad.o \
 ./SPI.o \
-./ST7735.o \
+./ST7735_SDC.o \
 ./Sounds.o \
 ./Sync.o \
 ./Timer.o \
 ./UART1.o \
 ./UART2.o \
 ./UARTbusywait.o \
+./diskio.o \
+./ff.o \
 ./main.o \
 ./sprites.o 
 
@@ -90,13 +96,15 @@ OBJS__QUOTED += \
 "Joy.o" \
 "LaunchPad.o" \
 "SPI.o" \
-"ST7735.o" \
+"ST7735_SDC.o" \
 "Sounds.o" \
 "Sync.o" \
 "Timer.o" \
 "UART1.o" \
 "UART2.o" \
 "UARTbusywait.o" \
+"diskio.o" \
+"ff.o" \
 "main.o" \
 "sprites.o" 
 
@@ -113,13 +121,15 @@ C_DEPS__QUOTED += \
 "Joy.d" \
 "LaunchPad.d" \
 "SPI.d" \
-"ST7735.d" \
+"ST7735_SDC.d" \
 "Sounds.d" \
 "Sync.d" \
 "Timer.d" \
 "UART1.d" \
 "UART2.d" \
 "UARTbusywait.d" \
+"diskio.d" \
+"ff.d" \
 "main.d" \
 "sprites.d" 
 
@@ -136,13 +146,15 @@ C_SRCS__QUOTED += \
 "../Joy.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
-"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/ST7735.c" \
+"../ST7735_SDC.c" \
 "../Sounds.c" \
 "../Sync.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
 "../UART1.c" \
 "../UART2.c" \
 "../UARTbusywait.c" \
+"../diskio.c" \
+"../ff.c" \
 "../main.c" \
 "../sprites.c" 
 

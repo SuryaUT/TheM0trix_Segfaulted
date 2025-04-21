@@ -22,13 +22,15 @@ ORDERED_OBJS += \
 "./Joy.o" \
 "./LaunchPad.o" \
 "./SPI.o" \
-"./ST7735.o" \
+"./ST7735_SDC.o" \
 "./Sounds.o" \
 "./Sync.o" \
 "./Timer.o" \
 "./UART1.o" \
 "./UART2.o" \
 "./UARTbusywait.o" \
+"./diskio.o" \
+"./ff.o" \
 "./main.o" \
 "./sprites.o" \
 "./ticlang/startup_mspm0g3507_ticlang.o" \
@@ -165,8 +167,8 @@ TheM0+rix_Segfaulted.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC.o" "Async_Delay.o" "Buffer.o" "Clock.o" "DAC.o" "FIFO.o" "Graphics.o" "Input.o" "Inventory.o" "Joy.o" "LaunchPad.o" "SPI.o" "ST7735.o" "Sounds.o" "Sync.o" "Timer.o" "UART1.o" "UART2.o" "UARTbusywait.o" "main.o" "sprites.o" "ticlang\startup_mspm0g3507_ticlang.o" 
-	-$(RM) "ADC.d" "Async_Delay.d" "Buffer.d" "Clock.d" "DAC.d" "FIFO.d" "Graphics.d" "Input.d" "Inventory.d" "Joy.d" "LaunchPad.d" "SPI.d" "ST7735.d" "Sounds.d" "Sync.d" "Timer.d" "UART1.d" "UART2.d" "UARTbusywait.d" "main.d" "sprites.d" "ticlang\startup_mspm0g3507_ticlang.d" 
+	-$(RM) "ADC.o" "Async_Delay.o" "Buffer.o" "Clock.o" "DAC.o" "FIFO.o" "Graphics.o" "Input.o" "Inventory.o" "Joy.o" "LaunchPad.o" "SPI.o" "ST7735_SDC.o" "Sounds.o" "Sync.o" "Timer.o" "UART1.o" "UART2.o" "UARTbusywait.o" "diskio.o" "ff.o" "main.o" "sprites.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "ADC.d" "Async_Delay.d" "Buffer.d" "Clock.d" "DAC.d" "FIFO.d" "Graphics.d" "Input.d" "Inventory.d" "Joy.d" "LaunchPad.d" "SPI.d" "ST7735_SDC.d" "Sounds.d" "Sync.d" "Timer.d" "UART1.d" "UART2.d" "UARTbusywait.d" "diskio.d" "ff.d" "main.d" "sprites.d" "ticlang\startup_mspm0g3507_ticlang.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

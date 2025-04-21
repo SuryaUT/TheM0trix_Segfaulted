@@ -1,6 +1,6 @@
 #include "Graphics.h"
 #include "Buffer.h"
-#include "../inc/ST7735.h"
+#include "ST7735_SDC.h"
 #include "Font.h"
 
 uint16_t renderBuffer[BUFFER_WIDTH * BUFFER_HEIGHT];

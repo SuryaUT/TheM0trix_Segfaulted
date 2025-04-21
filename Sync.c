@@ -65,7 +65,7 @@ void RandomizeSprites(){ // Will randomize sprite positions and synchronize
   // Now arm synchronization interrupts
   TimerG8_IntArm(1000000/128, 128, 1);
   TimerG7_IntArm(400000/128, 128, 2);
-  TimerG6_IntArm(40000, 200, 3);
+  TimerA0_IntArm(40000, 200, 3);
 }
 
 void Sync_Init(){
@@ -207,7 +207,7 @@ void sendInfoPacket(){
   }
 }
 
-void TIMG6_IRQHandler(void){ // Spawn new item every 30 seconds
+void TIMA0_IRQHandler(void){ // Spawn new item every 30 seconds
   static uint16_t timeCt = 1;
   if((TIMG6->CPU_INT.IIDX) == 1){ // this will acknowledge
     if(timeCt == 0) generateSprite();

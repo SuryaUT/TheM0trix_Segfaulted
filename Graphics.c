@@ -9,7 +9,7 @@
  #include <math.h>
 #include "Inventory.h"
  #include "ti/devices/msp/msp.h"
- #include "../inc/ST7735.h"
+ #include "ST7735_SDC.h"
  #include "../inc/SPI.h"
  #include "../inc/Clock.h"
  #include "../inc/Timer.h"
@@ -22,6 +22,17 @@
  #include "Textures.h"
  #include "Input.h"
  #include "Sync.h"
+ #include "integer.h"
+#include "diskio.h"
+#include "ff.h"
+
+static FATFS g_sFatFs;
+FIL Handle,Handle2;
+FRESULT MountFresult;
+FRESULT Fresult;
+DRESULT Result;
+DSTATUS InitStatus;
+unsigned char buffer[512];
  
  uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
  uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT];
@@ -244,8 +255,8 @@ void DrawHealthBar(){
     }
 
     // Labels
-    printToBuffer("M0", SCREEN_WIDTH - barWidth - 16, 6, ST7735_WHITE, 1);
-    printToBuffer("Y", SCREEN_WIDTH - barWidth - 16, 18, ST7735_WHITE, 1);
+    printToBuffer("M0", SCREEN_WIDTH - barWidth - 16, (IS_DOMINANT_CONTROLLER) ? 18 : 6, ST7735_WHITE, 1);
+    printToBuffer("Y", SCREEN_WIDTH - barWidth - 16, (IS_DOMINANT_CONTROLLER) ? 6 : 18, ST7735_WHITE, 1);
 }
 
 void DrawCrosshair(int side, uint16_t color) {
@@ -361,11 +372,17 @@ void printLeaderboard(int side){
   RenderBuffer(side);
   side = !side;
  }
- 
- void Graphics_Init(){
+
+void Graphics_Init(void){
   SPI_Init();
-  ST7735_InitPrintf();
+  InitStatus = disk_initialize(0);
+  MountFresult = f_mount(&g_sFatFs, "", 0);
+  if(MountFresult){
+    ST7735_DrawString(0, 2, "f_mount error", ST7735_Color565(0, 0, 255));
+    while(1){};
+  }
+  ST7735_InitPrintf();  
   ST7735_SetRotation(1);
-  FillMap(OGMap);  // Pick map here
+  FillMap(OGMap);
   PrecalculateFloorGradient();
- }
+}

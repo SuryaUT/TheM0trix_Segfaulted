@@ -5,7 +5,7 @@
  #include "Async_Delay.h"
  #include "Sync.h"
  #include "ti/devices/msp/msp.h"
- #include "../inc/ST7735.h"
+ #include "ST7735_SDC.h"
  #include "../inc/SPI.h"
  #include "../inc/Clock.h"
  #include "../inc/LaunchPad.h"
@@ -47,9 +47,9 @@ void SystemInit() {
   LaunchPad_Init();
   Sound_Init(80000000/11000, 0);
   Input_Init();
+  __enable_irq();
   Graphics_Init();
   Sync_Init();
-  __enable_irq();
 }
 
 Inventory inventory = {0, 3, {}, 0};
