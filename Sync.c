@@ -139,7 +139,7 @@ uint8_t getInfoPacket(){
       case PISTOLCODE: if (isVulnerable) playerHealth-=2; break;
       case SHOTGUNCODE: if (isVulnerable) playerHealth -= 15; break;
       case RIFLECODE: if (isVulnerable) playerHealth -= 3; break;
-      case MEDKITCODE: otherHealth += 20; break;
+      case MEDKITCODE: otherHealth += 20; if (otherHealth > 50) otherHealth = 50; break;
       case RESPAWNCODE: otherHealth = 50; kills++; break;
       case DEADCODE: if (isVulnerable) playerHealth = 0; break;
     }
@@ -207,10 +207,12 @@ void sendInfoPacket(){
   }
 }
 
+#define RESPAWN_TIME 20
+
 void TIMA0_IRQHandler(void){ // Spawn new item every 30 seconds
   static uint16_t timeCt = 1;
-  if((TIMG6->CPU_INT.IIDX) == 1){ // this will acknowledge
+  if((TIMA0->CPU_INT.IIDX) == 1){ // this will acknowledge
     if(timeCt == 0) generateSprite();
-    timeCt = (timeCt + 1) % 300;
+    timeCt = (timeCt + 1) % (RESPAWN_TIME*10);
   }
 }

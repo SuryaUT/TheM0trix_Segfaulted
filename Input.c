@@ -80,6 +80,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       else if(current->type == MEDKIT) {
         healthCode = current->healthcode;
         playerHealth += 20;
+        if (playerHealth > 50) playerHealth = 50;
       }
 
       if (otherHealth < 0) otherHealth = 0;

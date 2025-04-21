@@ -28,6 +28,7 @@ typedef struct {
 
 void generateSprite(){
   uint8_t sprite_index = (rand() % (numsprites-1)) + 1;
+  while (Sprites[sprite_index].width != 0) sprite_index = (rand() % (numsprites-1)) + 1;
   itemsStatus = sprite_index;
   itemsStatus |= SPAWNCODE << 6;
   Sprites[sprite_index].width = Sprites[sprite_index].height;
