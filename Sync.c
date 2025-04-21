@@ -28,7 +28,7 @@ extern const uint16_t AgentYBack[];
 extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
 extern uint8_t isVulnerable;
-extern int otherKills;
+extern int kills;
 
 void getRandomMapPos(uint8_t* x, uint8_t* y){
   uint8_t randX = (rand() % (MAP_WIDTH-1)) + 1;
@@ -88,6 +88,8 @@ uint8_t getPositionPacket(){
   return 1;
 }
 
+#define COS0    0.5       // cosine of half‑angle (e.g. 60° → 0.5)
+#define COS02   (COS0*COS0)
 uint8_t getDirectionPacket(){
   if (RxFifo_Size() < 4) return 0;
   while (UART2_InChar() != '[') {}
@@ -97,20 +99,29 @@ uint8_t getDirectionPacket(){
   uint8_t endSentinel = UART2_InChar();
 
   if (endSentinel == ']') {
+    // reconstruct their forward‐vector (≈ unit length)
     otherDirX = rawDirX / 100.0;
     otherDirY = rawDirY / 100.0;
 
-    double vecToMeX = posX - otherPosX;
-    double vecToMeY = posY - otherPosY;
+    // vector from them → you
+    double vx = posX - otherPosX;
+    double vy = posY - otherPosY;
 
-    // Dot product without normalization
-    double dot = (otherDirX * vecToMeX) + (otherDirY * vecToMeY);
+    // raw dot = |D|·|V|·cosθ
+    double dot   = otherDirX * vx + otherDirY * vy;
+    double dist2 = vx*vx + vy*vy;
 
-    // Approximate threshold — tweak as needed
-    if (dot > 0.5) {
-      otherPlayer->image = (IS_DOMINANT_CONTROLLER) ? DrM0Front:AgentYFront;
+    // front half‐plane & within ±60° cone?
+    if ( dot > 0.0
+      && dot*dot > COS02 * dist2 )
+    {
+      otherPlayer->image = IS_DOMINANT_CONTROLLER
+        ? DrM0Front
+        : AgentYFront;
     } else {
-      otherPlayer->image = (IS_DOMINANT_CONTROLLER) ? DrM0Back:AgentYBack;
+      otherPlayer->image = IS_DOMINANT_CONTROLLER
+        ? DrM0Back
+        : AgentYBack;
     }
   }
   return 1;
@@ -126,11 +137,11 @@ uint8_t getInfoPacket(){
   if (endSentinel == ')'){
     switch (inHealthCode){
       case PISTOLCODE: if (isVulnerable) playerHealth-=2; break;
-      case SHOTGUNCODE: if (isVulnerable) playerHealth -= 12; break;
+      case SHOTGUNCODE: if (isVulnerable) playerHealth -= 15; break;
       case RIFLECODE: if (isVulnerable) playerHealth -= 3; break;
       case MEDKITCODE: otherHealth += 20; break;
-      case RESPAWNCODE: otherHealth = 50; break;
-      case DEADCODE: if (isVulnerable) playerHealth = 0; otherKills++; break;
+      case RESPAWNCODE: otherHealth = 50; kills++; break;
+      case DEADCODE: if (isVulnerable) playerHealth = 0; break;
     }
     uint8_t itemCode = (inItemsStatus >> 6) & 3; // Get top two bits for event code
     uint8_t sprite_index = inItemsStatus & 0xF; // Get bottom four bits for index of sprite to alter

@@ -21,6 +21,7 @@
  #include "Buffer.h"
  #include "Textures.h"
  #include "Input.h"
+ #include "Sync.h"
  
  uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
  uint16_t miniMap[MAP_WIDTH * MAP_HEIGHT];
@@ -243,8 +244,8 @@ void DrawHealthBar(){
     }
 
     // Labels
-    printToBuffer("M0", SCREEN_WIDTH - barWidth - 12, 6, ST7735_WHITE, 1);
-    printToBuffer("Y", SCREEN_WIDTH - barWidth - 6, 18, ST7735_WHITE, 1);
+    printToBuffer("M0", SCREEN_WIDTH - barWidth - 16, 6, ST7735_WHITE, 1);
+    printToBuffer("Y", SCREEN_WIDTH - barWidth - 16, 18, ST7735_WHITE, 1);
 }
 
 void DrawCrosshair(int side, uint16_t color) {
@@ -308,12 +309,19 @@ void printItem(int side){
     // Display item you're holding
     printToBuffer(Inventory_currentItem(&inventory)->name, 0, SCREEN_HEIGHT-32, ST7735_WHITE, side);
 }
+
 void printLeaderboard(int side){
     // Display leaderboard, showing kill count
     char buffer1[16];
     char buffer2[16];
-    sprintf(buffer1, "%d Dr. M0", kills);
-    sprintf(buffer2,"%d Agent Y", otherKills);
+    if (IS_DOMINANT_CONTROLLER){ // So the names are correct
+        sprintf(buffer1, "%d Agent Y", kills);
+        sprintf(buffer2,"%d Dr. M0", otherKills);
+    }
+    else{
+        sprintf(buffer1, "%d Dr. M0", kills);
+        sprintf(buffer2,"%d Agent Y", otherKills);
+    }
     if (kills > otherKills){
         printToBuffer(buffer1, 0, 28, MATRIX_NEON_GREEN, side);
         printToBuffer(buffer2, 0, 36, ST7735_RED, side);   

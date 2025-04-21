@@ -50,6 +50,7 @@ uint8_t isShooting;
 uint8_t reloaded; // Reload flag
 extern uint8_t healthCode;
 extern uint8_t isOnTarget;
+uint8_t rifleCanShoot = 1;
 
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
   Item* current = Inventory_currentItem(&inventory);
@@ -60,9 +61,9 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   }
 
   // Shoot weapon
-  if (input & 1 && (!(lastInput & 1) || current->type == RIFLE) && current->enabled){
+  if (input & 1 && (!(lastInput & 1) || (current->type == RIFLE && rifleCanShoot)) && current->enabled){
     if (!Item_isSpent(current)){
-      if(current->type == RIFLE) start_delay(RIFLERATEMS, &(current->enabled));
+      if(current->type == RIFLE) start_delay(RIFLERATEMS, &rifleCanShoot);
       if (Item_isWeapon(current)){ 
         isShooting = 1;
       }

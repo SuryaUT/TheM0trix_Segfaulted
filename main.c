@@ -24,6 +24,7 @@ double dirX = -1, dirY = 0;    // initial direction vector
 double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
 int playerHealth = 50;
 uint8_t isVulnerable = 1;
+extern uint8_t isShooting;
 int kills = 0, otherKills = 0;
 
 double otherPosX, otherPosY;
@@ -79,25 +80,23 @@ void respawnPlayer(){
 int main() {
   SystemInit();
   RandomizeSprites();
+  // Starting weapon
   Inventory_add(&inventory, &pistol);
   respawnPlayer();
-  uint8_t killFlag = 0;
   while(1) {
    if (otherHealth == 0){
     Sprites[0].scale = 0; 
     healthCode = DEADCODE;
-    killFlag++;
-    if (!killFlag){
-      kills++;
-    }
    }else {
     Sprites[0].scale = 5;
-    killFlag = 0;
    }
    RenderScene();
    
-   // End in case of death or exit button
+   // if (GPIOA->DIN31_0 & (1<<18) for use of side switch
+   
+   // End in case of death
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
+    isShooting = 0;
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
     printf("You died! \nGet better lil bro\nReload to respawn in\n3");
@@ -117,7 +116,7 @@ int main() {
     while ((GPIOA->DIN31_0 & (1<<28)) == 0) {}
     playerHealth = 50;
     healthCode = RESPAWNCODE;
-
+    otherKills++;
     respawnPlayer();
     
     ST7735_FillScreen(0);
