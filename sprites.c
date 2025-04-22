@@ -161,7 +161,7 @@ void RenderInventory(int side){
 
     if (side == 0){
          for (int i = 0; i < 16; i++){
-             setPixelBuffer(i+(inventory.index*16), 1, MATRIX_NEON_GREEN);
+             setPixelBuffer(i+(inventory.index*16), 0, MATRIX_NEON_GREEN);
          }
     }
 }

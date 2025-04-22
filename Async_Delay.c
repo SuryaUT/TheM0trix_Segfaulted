@@ -10,7 +10,7 @@ void start_delay(uint32_t milliseconds, uint8_t* flag){
     ms_passed = 0;
     ms_done = milliseconds;
     flag_done = flag;
-    TimerG0_IntArm(40000, 1, 0); // Enable timer G0 interrupt
+    TimerG0_IntArm(1000, 40, 0); // Enable timer G0 interrupt
 }
 
 void TIMG0_IRQHandler(void){

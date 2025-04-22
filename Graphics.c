@@ -308,6 +308,35 @@ void DrawCrosshair(int side, uint16_t color) {
     }
 }
 
+void DrawHitIndicator(void){
+  if (hitTimer == 0) return;
+  hitTimer--;
+
+  int W  = 40, H = 4;         // rectangle size
+  int x, y;
+
+  switch(hitDir){
+    case HIT_FRONT:
+      x = (SCREEN_WIDTH - W)/2; y = 0;
+      break;
+    case HIT_RIGHT:
+      x = SCREEN_WIDTH - H;      y = (SCREEN_HEIGHT - W)/2;
+      // swap W/H for orientation:
+      { int tmp = W; /*W*/; /*H*/; W=H; H=tmp; }
+      break;
+    case HIT_BACK:
+      x = (SCREEN_WIDTH - W)/2;  y = SCREEN_HEIGHT - H;
+      break;
+    case HIT_LEFT:
+      x = 0;                      y = (SCREEN_HEIGHT - W)/2;
+      { int tmp = W; W=H; H=tmp; }
+      break;
+  }
+  // fast filled rectangle in ST7735:
+  ST7735_FillRect(x, y, W, H, ST7735_RED);
+}
+
+
 void printAmmo(int side) {
     char buffer[10];
     // Format the ammo string using sprintf
@@ -370,6 +399,7 @@ void printLeaderboard(int side){
   RenderSprites(side);
   RenderHUD(side);
   RenderBuffer(side);
+  DrawHitIndicator();
   side = !side;
  }
 

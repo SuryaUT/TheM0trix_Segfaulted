@@ -10,6 +10,7 @@
 #include "ti/devices/msp/msp.h"
 #include "Graphics.h"
 #include <stdlib.h>
+#include <math.h>
 
 extern double otherPosX, otherPosY;
 extern double otherDirX, otherDirY;
@@ -29,6 +30,26 @@ extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
 extern uint8_t isVulnerable;
 extern int kills;
+
+HitDir_t  hitDir   = HIT_FRONT;
+uint16_t  hitTimer = 0;
+
+static void ComputeHitDirection(void){
+  // vector from you → attacker
+  double ax = otherPosX - posX;
+  double ay = otherPosY - posY;
+  // dot products against your forward/right axes
+  double fwd = ax*dirX + ay*dirY;        // how much in front
+  double sid = ax*dirY - ay*dirX;        // positive = attacker is to your right
+
+  // pick the largest magnitude axis
+  if (fabs(fwd) >= fabs(sid)) {
+    hitDir = (fwd >= 0) ? HIT_FRONT : HIT_BACK;
+  } else {
+    hitDir = (sid >= 0) ? HIT_RIGHT : HIT_LEFT;
+  }
+}
+
 
 void getRandomMapPos(uint8_t* x, uint8_t* y){
   uint8_t randX = (rand() % (MAP_WIDTH-1)) + 1;
@@ -127,6 +148,13 @@ uint8_t getDirectionPacket(){
   return 1;
 }
 
+void processHit(int damage){
+  if (!isVulnerable) return;
+  ComputeHitDirection();
+  hitTimer = HIT_INDICATOR_DURATION;
+  playerHealth -= damage;
+}
+
 
 uint8_t getInfoPacket(){
   if (RxFifo_Size() < 4) return 0;
@@ -136,12 +164,12 @@ uint8_t getInfoPacket(){
   uint8_t endSentinel = UART2_InChar();
   if (endSentinel == ')'){
     switch (inHealthCode){
-      case PISTOLCODE: if (isVulnerable) playerHealth-=2; break;
-      case SHOTGUNCODE: if (isVulnerable) playerHealth -= 15; break;
-      case RIFLECODE: if (isVulnerable) playerHealth -= 3; break;
+      case PISTOLCODE: processHit(2); break;
+      case SHOTGUNCODE: processHit(15); break;
+      case RIFLECODE: processHit(3); break;
       case MEDKITCODE: otherHealth += 20; if (otherHealth > 50) otherHealth = 50; break;
       case RESPAWNCODE: otherHealth = 50; kills++; break;
-      case DEADCODE: if (isVulnerable) playerHealth = 0; break;
+      case DEADCODE: processHit(50); break;
     }
     uint8_t itemCode = (inItemsStatus >> 6) & 3; // Get top two bits for event code
     uint8_t sprite_index = inItemsStatus & 0xF; // Get bottom four bits for index of sprite to alter

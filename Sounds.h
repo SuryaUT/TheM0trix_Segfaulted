@@ -1,11 +1,13 @@
 #ifndef __SOUNDS_H__
 #define __SOUNDS_H__
 
-extern const uint8_t 	pistolSound[10932];
+extern const uint8_t 	pistolSound[2974];
 extern const uint8_t 	shotgunSound[7800];
 extern const uint8_t 	weaploadSound[2394];
 extern const uint8_t 	outofammoSound[2383];
-extern const uint8_t 	reloadSound[18688];
+extern const uint8_t 	reloadSound[9152];
+
+extern uint8_t SoundMode;
 
 #define PISTOL_SOUND 0
 #define SHOTGUN_SOUND 1

@@ -6,13 +6,14 @@
 
 uint32_t Length;
 const uint8_t* SoundPt;
+uint8_t SoundMode = 0;
 
 sound_t SoundEffects[] = {
-  {pistolSound, 10932},
+  {pistolSound, 2794},
   {shotgunSound, 7800},
   {weaploadSound, 2394},
   {outofammoSound, 2383},
-  {reloadSound, 18688}
+  {reloadSound, 9152}
 };
 
 void Sound_Init(uint32_t period, uint32_t priority){
@@ -25,19 +26,9 @@ void Sound_Init(uint32_t period, uint32_t priority){
 }
 
 void Sound_Start(sound_t sound){
+    SoundMode = 0;
     Length = sound.Length;
     SoundPt = sound.SoundPt;
     SysTick->LOAD = 80000000/11000-1;
     SysTick->VAL = 0;
-}
-
-void SysTick_Handler(void){
-  if (Length){
-  DAC_Out(*SoundPt);
-  SoundPt++;
-  Length--;
-  }
-  else {
-    SysTick->LOAD = 0;
-  }
 }

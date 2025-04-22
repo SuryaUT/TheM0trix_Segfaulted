@@ -17,6 +17,7 @@
  #include "Input.h"
  #include "Inventory.h"
  #include "Items.h"
+ #include "SoundSD.h"
  
 // Player state
 double posX = 22, posY = 12;    // x and y start position
@@ -77,14 +78,23 @@ void respawnPlayer(){
   posY = respawnY + .5;
 }
 
-int main() {
+int main1() {
   SystemInit();
-  ST7735_DrawBitmapFromSDC(0, 128, "CODE.bin", 160, 128);
-  //ST7735_DrawBitmapFromSDC(0, 128, "MENU.bin", 160, 128);
-  ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, SCREEN_WIDTH/2, 250);
+  ST7735_DrawBitmapFromSDC(0, 128, "MENU.bin", 160, 128);
+  ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, 1, 100);
+  ST7735_DrawTextBoxS(0, 104, 160, "Start", MATRIX_NEON_GREEN, MATRIX_NEON_GREEN, 1, 1, 0);
+  ST7735_DrawTextBoxS(0, 112, 160, "Language", ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
+  // SoundSD_Mount();
+  // SoundSD_Init(80000000/11025, 1);  // 11 kHz sample rate, priority 1
+  // SoundSD_Play("CLUB.bin");        // 8.3 filename on your card
+  // while(1){
+  //   SoundSD_Service();  // refill when needed
+  //   // ... other tasks
+  // }
+  return 0;
 }
 
-int main1() {
+int main() {
   SystemInit();
   RandomizeSprites();
   // Starting weapon
@@ -103,6 +113,7 @@ int main1() {
    
    // End in case of death
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
+    ST7735_DrawBitmapFromSDC(0, 128, "MENU.bin", 160, 128);
     isShooting = 0;
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);

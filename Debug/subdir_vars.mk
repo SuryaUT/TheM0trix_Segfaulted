@@ -22,6 +22,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
 ../ST7735_SDC.c \
+../SoundSD.c \
 ../Sounds.c \
 ../Sync.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
@@ -47,6 +48,7 @@ C_DEPS += \
 ./LaunchPad.d \
 ./SPI.d \
 ./ST7735_SDC.d \
+./SoundSD.d \
 ./Sounds.d \
 ./Sync.d \
 ./Timer.d \
@@ -72,6 +74,7 @@ OBJS += \
 ./LaunchPad.o \
 ./SPI.o \
 ./ST7735_SDC.o \
+./SoundSD.o \
 ./Sounds.o \
 ./Sync.o \
 ./Timer.o \
@@ -97,6 +100,7 @@ OBJS__QUOTED += \
 "LaunchPad.o" \
 "SPI.o" \
 "ST7735_SDC.o" \
+"SoundSD.o" \
 "Sounds.o" \
 "Sync.o" \
 "Timer.o" \
@@ -122,6 +126,7 @@ C_DEPS__QUOTED += \
 "LaunchPad.d" \
 "SPI.d" \
 "ST7735_SDC.d" \
+"SoundSD.d" \
 "Sounds.d" \
 "Sync.d" \
 "Timer.d" \
@@ -147,6 +152,7 @@ C_SRCS__QUOTED += \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/LaunchPad.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/SPI.c" \
 "../ST7735_SDC.c" \
+"../SoundSD.c" \
 "../Sounds.c" \
 "../Sync.c" \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \

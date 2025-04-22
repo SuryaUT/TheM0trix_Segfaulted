@@ -160,6 +160,6 @@ void printToBuffer(const char *text, int screenX, int screenY, uint16_t color, i
 }
 
 void RenderBuffer(int side){
-  if(side == 0) ST7735_DrawBitmap(0, BUFFER_HEIGHT, renderBuffer, BUFFER_WIDTH, BUFFER_HEIGHT);
-  else ST7735_DrawBitmap(SCREEN_WIDTH/2, BUFFER_HEIGHT, renderBuffer, BUFFER_WIDTH, BUFFER_HEIGHT);
+  if(side == 0) ST7735_DrawBitmap(0, BUFFER_HEIGHT-1, renderBuffer, BUFFER_WIDTH, BUFFER_HEIGHT);
+  else ST7735_DrawBitmap(SCREEN_WIDTH/2, BUFFER_HEIGHT-1, renderBuffer, BUFFER_WIDTH, BUFFER_HEIGHT);
 }

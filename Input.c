@@ -9,7 +9,7 @@
 #include "Async_Delay.h"
 #include "Sync.h"
 
-#define RELOAD_TIME 2000
+#define RELOAD_TIME 1500
 #define RIFLERATEMS 200
 
 extern Inventory inventory;
