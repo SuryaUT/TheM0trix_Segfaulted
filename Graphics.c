@@ -312,7 +312,7 @@ void DrawHitIndicator(void){
   if (hitTimer == 0) return;
   hitTimer--;
 
-  int W  = 40, H = 4;         // rectangle size
+  int W  = 40, H = 2;         // rectangle size
   int x, y;
 
   switch(hitDir){

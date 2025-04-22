@@ -17,6 +17,10 @@ void SoundSD_Init(uint32_t period, uint32_t priority);
 // returns FR_OK on success, other codes for errors
 FRESULT SoundSD_Play(const char *filename);
 
+
+void SoundSD_Stop();
+
+
 // must be called periodically in your main loop to refill buffers
 void SoundSD_Service(void);
 

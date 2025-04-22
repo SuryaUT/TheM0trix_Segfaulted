@@ -72,11 +72,15 @@ void SoundSD_Service(void){
   }
 }
 
+void SoundSD_Stop(){
+  SoundMode = 0;
+}
+
 void SysTick_Handler(void){
   static uint32_t idx = 0;
 
   if(SoundMode == 1){ // SD streaming
-    DAC_Out(front[idx++]);
+    DAC_Out(front[idx++]>>3);
     if(idx >= SD_BUFSIZE){
       idx = 0;
       needRefill = 1;

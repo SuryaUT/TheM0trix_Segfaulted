@@ -84,18 +84,34 @@ int main1() {
   ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, 1, 100);
   ST7735_DrawTextBoxS(0, 104, 160, "Start", MATRIX_NEON_GREEN, MATRIX_NEON_GREEN, 1, 1, 0);
   ST7735_DrawTextBoxS(0, 112, 160, "Language", ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
-  // SoundSD_Mount();
-  // SoundSD_Init(80000000/11025, 1);  // 11 kHz sample rate, priority 1
-  // SoundSD_Play("CLUB.bin");        // 8.3 filename on your card
-  // while(1){
-  //   SoundSD_Service();  // refill when needed
-  //   // ... other tasks
-  // }
+  SoundSD_Mount();
+  SoundSD_Init(80000000/11025, 1);  // 11 kHz sample rate, priority 1
+  SoundSD_Play("CLUB.bin");        // 8.3 filename on your card
+  while(1){
+    SoundSD_Service();  // refill when needed
+    if (GPIOA->DIN31_0 & (1<<24)){
+      break;
+    }
+  }
   return 0;
 }
 
 int main() {
   SystemInit();
+  ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
+  ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, 1, 100);
+  ST7735_DrawTextBoxS(0, 104, 160, "Start", MATRIX_NEON_GREEN, MATRIX_NEON_GREEN, 1, 1, 0);
+  ST7735_DrawTextBoxS(0, 112, 160, "Language", ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
+  SoundSD_Mount();
+  SoundSD_Init(80000000/11025, 1);  // 11 kHz sample rate, priority 1
+  SoundSD_Play("CLUB.bin");        // 8.3 filename on your card
+  while(1){
+    SoundSD_Service();  // refill when needed
+    if (GPIOA->DIN31_0 & (1<<24)){ // Move on from loading screen
+      SoundSD_Stop();
+      break;
+    }
+  }
   RandomizeSprites();
   // Starting weapon
   Inventory_add(&inventory, &pistol);
@@ -113,7 +129,7 @@ int main() {
    
    // End in case of death
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
-    ST7735_DrawBitmapFromSDC(0, 128, "MENU.bin", 160, 128);
+    ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
     isShooting = 0;
     ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
