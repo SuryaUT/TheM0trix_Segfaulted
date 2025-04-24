@@ -128,12 +128,14 @@ void GameLoop(){
     DeathScreen();
     if (GPIOA->DIN31_0 & (1<<27)) {
       isPlaying = 0;
-      healthcode = RESTARTCODE;
+      healthCode = RESTARTCODE;
     }
-    playerHealth = 50;
-    healthCode = RESPAWNCODE;
-    otherKills++;
-    respawnPlayer();
+    else{
+      playerHealth = 50;
+      healthCode = RESPAWNCODE;
+      otherKills++;
+      respawnPlayer();
+    }
    }
   }
 }
