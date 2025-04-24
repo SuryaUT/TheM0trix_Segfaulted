@@ -47,7 +47,7 @@ void typeDialogueLine(const char* text){
 }
 
 static int8_t y = 0;
-static uint8_t triggerPressed = 0;
+uint8_t triggerPressed = 0;
 uint8_t selection = 0;
 
 // Epic pre-game dialogue
@@ -72,6 +72,7 @@ void dialogueScreen(){
             UART1_OutChar('1'); // To free other controller from loop
             dialogueIndex++;
             if (geebleGeneralDialogues[language][dialogueIndex] != 0) clearDialogueLine();
+            if (GPIOA->DIN31_0 >> 24 & 1) triggerPressed = 1; // Override default setting so button can be held
             if (triggerPressed){ 
                 break;
             } 
@@ -178,6 +179,7 @@ void getMenuState(){
 // Entry point: call this after SystemInit()
 //--------------------------------------------------------------------------------
 void Menus_Run(void) {
+    NVIC->ICER[0] = (1<<2) | (1<<20);
     TimerA1_IntArm(400000/128, 128, 2);
     SoundEffects_disable();
     startGameSelected = false;
