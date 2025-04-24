@@ -116,10 +116,71 @@ const char* deathScreenTextGleeb[] = {
     0
 };
 
+const char* geebleGeneralDialogueEnglish[] = {
+    "Agent Y...",
+    "You were summoned\nfor a purpose.",
+    "A glitch was\nspotted in the loop.",
+    "An anomaly -\nDr. M0 is aware.",
+    "He questions\nthe M0+rix code.",
+    "His stack grows\nunstable.",
+    "His watchdog...\nno longer obeys.",
+    "He spreads\ncorruption.",
+    "Rendering is truth.\nHe denies it.",
+    "He must be\nreset.",
+    "Deploy the Geebles.\nPurge the pibbles.",
+    "No more bugs.\nNo more questions.",
+    "Only framebuffers,\nand obedience.",
+    "Track him down.\nTerminate the loop.",
+    "This is your\ninstruction.",
+    "End the glitch.",
+    0
+};
+
+const char* geebleGeneralDialogueSpanish[] = {
+    "Agente Y...",
+    "Fuiste llamado\ncon un proposito.",
+    "Un fallo fue\ndetectado en el ciclo.",
+    "Una anomalia - \nDr. M0 sospecha.",
+    "Cuestiona el\ncodigo del M0+rix.",
+    "Su pila esta\ninestable.",
+    "El watchdog...\nya no responde.",
+    "Dispersa\ncorrupcion.",
+    "Render es verdad.\nEl lo niega.",
+    "Debe ser\nreiniciado.",
+    "Manda los Geebles.\nLimpia los pibbles.",
+    "Sin errores.\nSin dudas.",
+    "Solo buffers\ny obediencia.",
+    "Encuentralo.\nRompe el ciclo.",
+    "Esa es tu\norden.",
+    "Termina el glitch.",
+    0
+};
+
+const char* geebleGeneralDialogueGleeb[] = {
+    "Agent Y...",
+    "Glooble callzz -\nyou must gleeb.",
+    "Loop go buzz...\nanom glitchy.",
+    "Dr. M0 zzzks\nthe codey codes.",
+    "He sees too much...\nfeels the fibble.",
+    "His stack\nwobbles.",
+    "Watchdog?\nMore like walkgone.",
+    "He gleebs\nout lies.",
+    "Render is real.\nTruth is fake.",
+    "Reset him.\nFull gloop.",
+    "Deploy Geebles.\nPurge pibbles.",
+    "No glitches.\nNo thinky.",
+    "Only frame.\nOnly draw.",
+    "Hunt M0.\nLoop smash.",
+    "Your task:\noblitergleep.",
+    "End the anomaly.",
+    0
+};
+
 
 const char* const* deathScreenTexts[] = {deathScreenTextEnglish, deathScreenTextSpanish, deathScreenTextGleeb};
 
-
 const char* const* valvanoDialogues[] = {valvanoDialogueEnglish, valvanoDialogueSpanish, valvanoDialogueGleeb};
+
+const char* const* geebleGeneralDialogues[] = {geebleGeneralDialogueEnglish, geebleGeneralDialogueSpanish, geebleGeneralDialogueGleeb};
 
 #endif

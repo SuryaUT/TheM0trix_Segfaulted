@@ -2,6 +2,8 @@
 #include "Joy.h"
 #include "Input.h"
 #include "Graphics.h"
+#include "UART1.h"
+#include "UART2.h"
 #include "maps.h"
 #include "SoundSD.h"
 #include "Languages.h"
@@ -52,6 +54,17 @@ void dialogueScreen(){
             typeDialogueLine(valvanoDialogues[language][dialogueIndex]);
             dialogueIndex++;
             if (valvanoDialogues[language][dialogueIndex] != 0) clearDialogueLine();
+            if (GPIOA->DIN31_0 >> 24 & 1) break;
+        }
+    }
+    else{
+        ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
+        ST7735_DrawTextBoxS_IF(0, 0, 160, "Geeble General:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
+        uint8_t dialogueIndex = 0;
+        while (geebleGeneralDialogues[language][dialogueIndex] != 0){
+            typeDialogueLine(geebleGeneralDialogues[language][dialogueIndex]);
+            dialogueIndex++;
+            if (geebleGeneralDialogues[language][dialogueIndex] != 0) clearDialogueLine();
             if (GPIOA->DIN31_0 >> 24 & 1) break;
         }
     }
@@ -135,6 +148,18 @@ static void Menu_Delay(void) {
 
 #define MENU_ITEM_OFFSET(x) (106 - ((x-1)*16))
 
+void sendMenuState(int8_t y, uint8_t pressed){
+    UART1_OutChar('<');
+    UART1_OutChar(y);
+    UART1_OutChar(pressed);
+}
+
+void getMenuState(int8_t* y, uint8_t* pressed){
+    while (UART2_InChar() != '<') {}
+    *y = UART2_InChar();
+    *pressed = UART2_InChar();
+}
+
 //--------------------------------------------------------------------------------
 // Entry point: call this after SystemInit()
 //--------------------------------------------------------------------------------
@@ -184,14 +209,21 @@ void Menus_Run(void) {
             prevSelect = selection;
         }
 
-        int8_t y = GetJoystickY();
+        int8_t y;
+        uint8_t triggerPressed;
+        if (IS_DOMINANT_CONTROLLER) {
+            y = GetJoystickY(); 
+            triggerPressed = GetTriggerPressed(); 
+            sendMenuState(y, triggerPressed);
+        }
+        else getMenuState(&y, &triggerPressed);
         if (y && !prevY) {
             selection = (y > 0) ? (selection + 1) % current->count : (selection + current->count - 1) % current->count;
             Menu_Delay();
         }
         prevY = y;
 
-        if (GetTriggerPressed()) {
+        if (triggerPressed) {
             MenuItem const *item = &current->items[selection];
             if (item->action) {
                 item->action();
