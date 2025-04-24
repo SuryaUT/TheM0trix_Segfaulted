@@ -26,8 +26,14 @@ Sprite Sprites[MAX_SPRITES] = {
 
 Sprite gunFlash = {SCREEN_HEIGHT/2, SCREEN_WIDTH/2, ExplosionImage, 0xFFFF, 32, 32, 1};
 
+const char* const pistolName[] = {"Pistol", "Pistola", "Grakk"};
+const char* const shotgunName[] = {"Shotgun", "Escopeta", "Blamz"};
+const char* const rifleName[] = {"Rifle", "Rifle", "Skrr"};
+const char* const medkitName[] = {"Medkit", "Botiquin", "Zibzab"};
+
+
 Item pistol = {
-    "Pistol",
+    pistolName,
     PISTOL,
     {8, SCREEN_HEIGHT, Pistolsprite, 0xA254, 16, 16, 1, PISTOL},
     {SCREEN_WIDTH/2 + 30, SCREEN_HEIGHT, PistolImage, 0xA254, 32, 32, 3},
@@ -44,7 +50,7 @@ Item pistol = {
   };
 
 Item shotgun = {
-    "Shotgun",
+    shotgunName,
     SHOTGUN,
     {8, SCREEN_HEIGHT, Shotgunsprite, 0xA254, 16, 16, 1, SHOTGUN},
     {SCREEN_WIDTH/2 + 24, SCREEN_HEIGHT, ShotgunImage, 0xA254, 32, 32, 3},
@@ -61,7 +67,7 @@ Item shotgun = {
   };
 
 Item rifle = {
-    "Rifle",
+    rifleName,
     RIFLE,
     {8, SCREEN_HEIGHT, Riflesprite, 0xA254, 16, 16, 1, RIFLE},
     {SCREEN_WIDTH/2 + 34, SCREEN_HEIGHT, RifleImage, 0xA254, 32, 32, 4},
@@ -78,7 +84,7 @@ Item rifle = {
   };
 
 Item medkit = {
-    "Medkit",
+    medkitName,
     MEDKIT,
     {8, SCREEN_HEIGHT, Medkitsprite, 0, 16, 16, 1, MEDKIT},
     {SCREEN_WIDTH-32, SCREEN_HEIGHT+16, Medkitsprite, 0, 16, 16, 3},
@@ -94,16 +100,6 @@ Item medkit = {
     MEDKITCODE
 };
 
-Item ammo_small = {
-  "",
-  AMMO_SMALL,
-};
-
-Item ammo_big = {
-  "",
-  AMMO_BIG
-};
-
-Item* items[6] = {&pistol, &shotgun, &rifle, &medkit, &ammo_small, &ammo_big};
+Item* items[6] = {&pistol, &shotgun, &rifle, &medkit};
 
 #endif

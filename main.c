@@ -104,6 +104,7 @@ void DeathScreen(){
 }
 
 void GameLoop(){
+  kills = otherKills = 0;
   SoundEffects_enable();
   Inventory_add(&inventory, &pistol);
   RandomizeSprites();
@@ -118,7 +119,6 @@ void GameLoop(){
     Sprites[0].scale = 5;
    }
    RenderScene();
-   if (!(rand() % 20)) playerHealth-= 20;
    
    // if (GPIOA->DIN31_0 & (1<<18) for use of side switch
    

@@ -13,7 +13,7 @@
 #define AMMO_BIG 5
 
 typedef struct{
-    char* name;
+    const char* const* name;
     int8_t type;
     Sprite invent_sprite;
     Sprite holding_sprite;

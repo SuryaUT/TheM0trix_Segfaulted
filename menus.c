@@ -55,7 +55,7 @@ void dialogueScreen(){
             if (GPIOA->DIN31_0 >> 24 & 1) break;
         }
     }
-    friendlyDelay(2000);
+    friendlyDelay(1000);
 }
 
 //--------------------------------------------------------------------------------
@@ -139,6 +139,7 @@ static void Menu_Delay(void) {
 // Entry point: call this after SystemInit()
 //--------------------------------------------------------------------------------
 void Menus_Run(void) {
+    SoundEffects_disable();
     startGameSelected = false;
     LinkMenus();
     (void)GetTriggerPressed();
@@ -157,12 +158,12 @@ void Menus_Run(void) {
             } else {
                 ST7735_ClearScreenBlack();
             }
-            ST7735_DrawTextBoxS(0, 0, 160, current->title[language],
+            ST7735_DrawTextBoxS_IF(0, 0, 160, current->title[language],
                                 ST7735_WHITE, ST7735_WHITE,
                                 2, 1, 100);
             for (uint8_t i = 0; i < current->count; i++) {
                 uint16_t fg = (i == selection) ? MATRIX_NEON_GREEN : ST7735_WHITE;
-                ST7735_DrawTextBoxS(0, MENU_ITEM_OFFSET(current->count) + i*16, 160,
+                ST7735_DrawTextBoxS_IF(0, MENU_ITEM_OFFSET(current->count) + i*16, 160,
                                     current->items[i].label[language],
                                     fg, fg,
                                     1, 1, 0);
@@ -172,11 +173,11 @@ void Menus_Run(void) {
             prevSelect = selection;
         }
         else if (selection != prevSelect) {
-            ST7735_DrawTextBoxS(0, MENU_ITEM_OFFSET(current->count) + prevSelect*16, 160,
+            ST7735_DrawTextBoxS_IF(0, MENU_ITEM_OFFSET(current->count) + prevSelect*16, 160,
                                 current->items[prevSelect].label[language],
                                 ST7735_WHITE, ST7735_WHITE,
                                 1, 1, 0);
-            ST7735_DrawTextBoxS(0, MENU_ITEM_OFFSET(current->count) + selection*16, 160,
+            ST7735_DrawTextBoxS_IF(0, MENU_ITEM_OFFSET(current->count) + selection*16, 160,
                                 current->items[selection].label[language],
                                 MATRIX_NEON_GREEN, MATRIX_NEON_GREEN,
                                 1, 1, 0);

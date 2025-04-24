@@ -19,10 +19,12 @@ sound_t SoundEffects[] = {
 
 void SoundEffects_enable(){
   enabled = 1;
+  SoundMode = 0;
 }
 
 void SoundEffects_disable(){
   enabled = 0;
+  SoundMode = 1;
 }
 
 void Sound_Init(uint32_t period, uint32_t priority){
@@ -36,7 +38,6 @@ void Sound_Init(uint32_t period, uint32_t priority){
 
 void Sound_Start(sound_t sound){
     if (!enabled) return;
-    SoundMode = 0;
     Length = sound.Length;
     SoundPt = sound.SoundPt;
     SysTick->LOAD = 80000000/11000-1;

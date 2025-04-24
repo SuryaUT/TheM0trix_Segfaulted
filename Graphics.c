@@ -55,7 +55,8 @@ extern int playerHealth;
 extern int otherHealth;
 extern Inventory inventory;
 extern int kills, otherKills;
- 
+extern uint8_t language; 
+
  double ZBuffer[SCREEN_WIDTH];
  
  void CastRays(int side) {
@@ -335,18 +336,19 @@ void DrawHitIndicator(void){
   ST7735_FillRect(x, y, W, H, ST7735_RED);
 }
 
+const char* ammoText[] = {"Ammo", "Municion", "Plork"};
 
 void printAmmo(int side) {
-    char buffer[10];
+    char buffer[32];
     // Format the ammo string using sprintf
-    sprintf(buffer, "Ammo: %d/%d", Inventory_currentItem(&inventory)->ammo, Inventory_currentItem(&inventory)->tot_ammo);
+    sprintf(buffer, "%s:%d/%d", ammoText[language],Inventory_currentItem(&inventory)->ammo, Inventory_currentItem(&inventory)->tot_ammo);
     // Call your existing printToBuffer function to display the ammo
     printToBuffer(buffer, 0, SCREEN_HEIGHT-24, ST7735_WHITE, side);
 }
 
 void printItem(int side){
     // Display item you're holding
-    printToBuffer(Inventory_currentItem(&inventory)->name, 0, SCREEN_HEIGHT-32, ST7735_WHITE, side);
+    printToBuffer(Inventory_currentItem(&inventory)->name[language], 0, SCREEN_HEIGHT-32, ST7735_WHITE, side);
 }
 
 void printLeaderboard(int side){
