@@ -1,3 +1,4 @@
+#include "FIFO.h"
 #include "ST7735_SDC.h"
 #include "Joy.h"
 #include "Input.h"
@@ -148,25 +149,28 @@ static void Menu_Delay(void) {
 
 #define MENU_ITEM_OFFSET(x) (106 - ((x-1)*16))
 
-void sendMenuState(int8_t y, uint8_t pressed){
+static int8_t y = 0;
+static uint8_t triggerPressed = 0;
+uint8_t selection = 0;
+
+void sendMenuState(){
     UART1_OutChar('<');
-    UART1_OutChar(y);
-    UART1_OutChar(pressed);
+    UART1_OutChar(triggerPressed+1);
+    UART1_OutChar(selection+1);
     UART1_OutChar('>');
 }
 
-void getMenuState(int8_t* y, uint8_t* pressed){
+void getMenuState(){
+    if (RxFifo_Size() < 3) return;
     while (UART2_InChar() != '<') {}
-    int8_t iny = UART2_InChar();
-    uint8_t inpressed = UART2_InChar();
+    uint8_t intrigger = UART2_InChar() - 1;
+    uint8_t inselect = UART2_InChar() - 1;
     if (UART2_InChar() == '>'){
-        *y = iny;
-        *pressed = inpressed;
+        triggerPressed = intrigger;
+        selection = inselect;
     }
 }
 
-static int8_t y = 0;
-static uint8_t triggerPressed = 0;
 //--------------------------------------------------------------------------------
 // Entry point: call this after SystemInit()
 //--------------------------------------------------------------------------------
@@ -180,7 +184,7 @@ void Menus_Run(void) {
 
     const Menu *current   = &mainMenu;
     const Menu *prevMenu  = 0;
-    uint8_t      selection = 0;
+    selection = 0;
     uint8_t      prevSelect = UINT8_MAX;
 
     while (!startGameSelected) {
@@ -245,14 +249,14 @@ void Menus_Run(void) {
 
 
 void TIMA1_IRQHandler(void){
-  if((TIMA0->CPU_INT.IIDX) == 1){ // this will acknowledge
+  if((TIMA1->CPU_INT.IIDX) == 1){ // this will acknowledge
     if (IS_DOMINANT_CONTROLLER){
-        GetJoystickY();
-        GetTriggerPressed();
-        sendMenuState(y, triggerPressed);
+        y = GetJoystickY();
+        triggerPressed = GetTriggerPressed();
+        sendMenuState();
     }
     else{
-        getMenuState(&y, &triggerPressed);
+        getMenuState();
     }
   }
 }
