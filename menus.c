@@ -10,6 +10,7 @@
 #include "Sounds.h"
 #include "Sync.h"
 #include "ti/devices/msp/msp.h"
+#include "../inc/Timer.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -59,7 +60,7 @@ void dialogueScreen(){
     }
     else{
         ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
-        ST7735_DrawTextBoxS_IF(0, 0, 160, "Geeble General:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
+        ST7735_DrawTextBoxS_IF(0, 0, 160, "General Gleeb:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
         uint8_t dialogueIndex = 0;
         while (geebleGeneralDialogues[language][dialogueIndex] != 0){
             typeDialogueLine(geebleGeneralDialogues[language][dialogueIndex]);
@@ -142,8 +143,7 @@ static bool GetTriggerPressed(void) {
 // Debounce delay when changing selection
 //--------------------------------------------------------------------------------
 static void Menu_Delay(void) {
-    uint32_t ticks = (11025U / 1000U) * 150U;
-    for (uint32_t i = 0; i < ticks; i++) { SoundSD_Service(); __WFI(); }
+    for (uint32_t i = 0; i < 150*11; i++) { SoundSD_Service(); __WFI(); }
 }
 
 #define MENU_ITEM_OFFSET(x) (106 - ((x-1)*16))
@@ -165,10 +165,13 @@ void getMenuState(int8_t* y, uint8_t* pressed){
     }
 }
 
+static int8_t y = 0;
+static uint8_t triggerPressed = 0;
 //--------------------------------------------------------------------------------
 // Entry point: call this after SystemInit()
 //--------------------------------------------------------------------------------
 void Menus_Run(void) {
+    TimerA1_IntArm(400000/128, 128, 2);
     SoundEffects_disable();
     startGameSelected = false;
     LinkMenus();
@@ -214,14 +217,6 @@ void Menus_Run(void) {
             prevSelect = selection;
         }
 
-        int8_t y;
-        uint8_t triggerPressed;
-        if (IS_DOMINANT_CONTROLLER) {
-            y = GetJoystickY(); 
-            triggerPressed = GetTriggerPressed(); 
-            sendMenuState(y, triggerPressed);
-        }
-        else getMenuState(&y, &triggerPressed);
         if (y && !prevY) {
             selection = (y > 0) ? (selection + 1) % current->count : (selection + current->count - 1) % current->count;
             Menu_Delay();
@@ -245,4 +240,19 @@ void Menus_Run(void) {
             Menu_Delay();
         }
     }
+    NVIC->ICER[0] = (1<<19); // Disable this interrupt
+}
+
+
+void TIMA1_IRQHandler(void){
+  if((TIMA0->CPU_INT.IIDX) == 1){ // this will acknowledge
+    if (IS_DOMINANT_CONTROLLER){
+        GetJoystickY();
+        GetTriggerPressed();
+        sendMenuState(y, triggerPressed);
+    }
+    else{
+        getMenuState(&y, &triggerPressed);
+    }
+  }
 }
