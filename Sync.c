@@ -30,6 +30,7 @@ extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
 extern uint8_t isVulnerable;
 extern int kills;
+extern uint8_t isPlaying;
 
 HitDir_t  hitDir   = HIT_FRONT;
 uint16_t  hitTimer = 0;
@@ -170,6 +171,7 @@ uint8_t getInfoPacket(){
       case MEDKITCODE: otherHealth += 20; if (otherHealth > 50) otherHealth = 50; break;
       case RESPAWNCODE: otherHealth = 50; kills++; break;
       case DEADCODE: processHit(50); break;
+      case RESTARTCODE: isPlaying = 0; break;
     }
     uint8_t itemCode = (inItemsStatus >> 6) & 3; // Get top two bits for event code
     uint8_t sprite_index = inItemsStatus & 0xF; // Get bottom four bits for index of sprite to alter

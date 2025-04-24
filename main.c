@@ -103,6 +103,7 @@ void DeathScreen(){
     while (!((GPIOA->DIN31_0 & (1<<28)) || GPIOA->DIN31_0 & (1<<27))) {}
 }
 
+uint8_t isPlaying;
 void GameLoop(){
   kills = otherKills = 0;
   SoundEffects_enable();
@@ -110,7 +111,7 @@ void GameLoop(){
   RandomizeSprites();
   // Starting weapon
   respawnPlayer();
-  uint8_t isPlaying = 1;
+  isPlaying = 1;
   while(isPlaying) {
    if (otherHealth == 0){
     Sprites[0].scale = 0; 
@@ -125,7 +126,10 @@ void GameLoop(){
    // In case of death
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
     DeathScreen();
-    if (GPIOA->DIN31_0 & (1<<27)) isPlaying = 0;
+    if (GPIOA->DIN31_0 & (1<<27)) {
+      isPlaying = 0;
+      healthcode = RESTARTCODE;
+    }
     playerHealth = 50;
     healthCode = RESPAWNCODE;
     otherKills++;

@@ -9,6 +9,7 @@
 #define MEDKITCODE 5
 #define RESPAWNCODE 6
 #define DEADCODE 7
+#define RESTARTCODE 8
 
 #define PICKUPCODE 1
 #define SPAWNCODE 2
