@@ -1,7 +1,7 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.1                      
 ******************************************************************************
->> Linked Thu Apr 24 05:42:26 2025
+>> Linked Thu Apr 24 06:32:24 2025
 
 OUTPUT FILE NAME:   <TheM0+rix_Segfaulted.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001f659
