@@ -126,15 +126,18 @@ const char* geebleGeneralDialogueEnglish[] = {
     "His watchdog...\nno longer obeys.",
     "He spreads\ncorruption.",
     "Rendering is truth.\nHe denies it.",
+    "He has seen\nbehind the buffer.",
     "He must be\nreset.",
     "Deploy the Geebles.\nPurge the pibbles.",
     "No more bugs.\nNo more questions.",
     "Only framebuffers,\nand obedience.",
+    "Render at all costs.\nNo missed frames.",
     "Track him down.\nTerminate the loop.",
     "This is your\ninstruction.",
     "End the glitch.",
     0
 };
+
 
 const char* geebleGeneralDialogueSpanish[] = {
     "Agente Y...",
@@ -143,18 +146,21 @@ const char* geebleGeneralDialogueSpanish[] = {
     "Una anomalia - \nDr. M0 sospecha.",
     "Cuestiona el\ncodigo del M0+rix.",
     "Su pila esta\ninestable.",
-    "El watchdog...\nya no responde.",
-    "Dispersa\ncorrupcion.",
+    "El watchdog...\nya no obedece.",
+    "Esparce\ncorrupcion.",
     "Render es verdad.\nEl lo niega.",
+    "Ya vio detras\ndel buffer.",
     "Debe ser\nreiniciado.",
     "Manda los Geebles.\nLimpia los pibbles.",
     "Sin errores.\nSin dudas.",
     "Solo buffers\ny obediencia.",
+    "Render cueste lo que cueste.\nNi un frame perdido.",
     "Encuentralo.\nRompe el ciclo.",
     "Esa es tu\norden.",
     "Termina el glitch.",
     0
 };
+
 
 const char* geebleGeneralDialogueGleeb[] = {
     "Agent Y...",
@@ -166,15 +172,18 @@ const char* geebleGeneralDialogueGleeb[] = {
     "Watchdog?\nMore like walkgone.",
     "He gleebs\nout lies.",
     "Render is real.\nTruth is fake.",
+    "He peeked\npast the buffa.",
     "Reset him.\nFull gloop.",
     "Deploy Geebles.\nPurge pibbles.",
     "No glitches.\nNo thinky.",
     "Only frame.\nOnly draw.",
+    "Draw foreverzz.\nNo skipz.",
     "Hunt M0.\nLoop smash.",
     "Your task:\noblitergleep.",
     "End the anomaly.",
     0
 };
+
 
 
 const char* const* deathScreenTexts[] = {deathScreenTextEnglish, deathScreenTextSpanish, deathScreenTextGleeb};
