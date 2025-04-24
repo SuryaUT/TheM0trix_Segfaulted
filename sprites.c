@@ -73,7 +73,7 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         if (pickup_code == AMMO_SMALL) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo;
         if (pickup_code == AMMO_BIG) Inventory_currentItem(&inventory)->tot_ammo += Inventory_currentItem(&inventory)->mag_ammo*3;
         // If pickup was not successful, this is a possibility for swapping items
-        if (isSwapping){
+        if (isSwapping && sprite.type != AMMO_SMALL && sprite.type != AMMO_BIG){
             Sprites[sprite_index].width = 0;
             Inventory_replace(&inventory, items[sprite.type]);
             itemsStatus = sprite_index; // Send code over to tell other controller that sprite was removed

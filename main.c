@@ -130,7 +130,7 @@ void GameLoop(){
     healthCode = RESPAWNCODE;
     otherKills++;
     respawnPlayer();
-   };
+   }
   }
 }
 

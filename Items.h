@@ -120,6 +120,16 @@ Item medkit = {
     MEDKITCODE
 };
 
-Item* items[6] = {&pistol, &shotgun, &rifle, &railgun, &medkit};
+Item smallammo = {
+  0,
+  AMMO_SMALL
+};
+
+Item bigammo = {
+  0,
+  AMMO_BIG
+};
+
+Item* items[] = {&pistol, &shotgun, &rifle, &railgun, &medkit, &smallammo, &bigammo};
 
 #endif
