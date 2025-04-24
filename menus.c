@@ -152,12 +152,17 @@ void sendMenuState(int8_t y, uint8_t pressed){
     UART1_OutChar('<');
     UART1_OutChar(y);
     UART1_OutChar(pressed);
+    UART1_OutChar('>');
 }
 
 void getMenuState(int8_t* y, uint8_t* pressed){
     while (UART2_InChar() != '<') {}
-    *y = UART2_InChar();
-    *pressed = UART2_InChar();
+    int8_t iny = UART2_InChar();
+    uint8_t inpressed = UART2_InChar();
+    if (UART2_InChar() == '>'){
+        *y = iny;
+        *pressed = inpressed;
+    }
 }
 
 //--------------------------------------------------------------------------------
