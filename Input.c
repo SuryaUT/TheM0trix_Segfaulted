@@ -72,9 +72,10 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       if (isOnTarget){
         healthCode = current->healthcode;
         switch (healthCode){
-          case PISTOLCODE: otherHealth-=2; break;
+          case PISTOLCODE: otherHealth -= 2; break;
           case SHOTGUNCODE: otherHealth -= 12; break;
           case RIFLECODE: otherHealth -= 3; break;
+          case DEADCODE: otherHealth = 0; break; //for railgun
         }
       }
       else if(current->type == MEDKIT) {
@@ -85,7 +86,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
 
       if (otherHealth < 0) otherHealth = 0;
 
-      if (Item_isSpent(current) && current->type == MEDKIT){
+      if (Item_isSpent(current) && (current->type == MEDKIT || current->type == RAILGUN)){
         Inventory_removeCurrent(&inventory);
       }
     }

@@ -235,7 +235,7 @@ void sendInfoPacket(){
   }
 }
 
-#define RESPAWN_TIME 20
+#define RESPAWN_TIME 1
 
 void TIMA0_IRQHandler(void){ // Spawn new item every 30 seconds
   static uint16_t timeCt = 1;

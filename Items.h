@@ -2,12 +2,13 @@
 #define ITEMS_H
 #include "Inventory.h"
 #include "Sounds.h"
+#include "Sync.h"
 #include "images.h"
 #include "Graphics.h"
 #include "sprites.h"
 
 #define MAX_SPRITES 15
-int numsprites = 11;
+int numsprites = 12;
 
 Sprite Sprites[MAX_SPRITES] = {
     {12, 12, (IS_DOMINANT_CONTROLLER) ? DrM0Front:AgentYFront, 0xA254, 64, 64, 5},
@@ -16,6 +17,7 @@ Sprite Sprites[MAX_SPRITES] = {
     {18, 12, Shotgunsprite, 0xA254, 0, 16, 2, SHOTGUN},
     {18, 14, Riflesprite, 0xA254, 0, 16, 2, RIFLE},
     {18, 14, Riflesprite, 0xA254, 0, 16, 2, RIFLE},
+    {18, 16, Railgunsprite, 0xA254, 0, 16, 2, RAILGUN},
     {18, 18, Medkitsprite, 0, 0, 16, 3, MEDKIT},
     {18, 18, Medkitsprite, 0, 0, 16, 3, MEDKIT},
     {18, 18, Medkitsprite, 0, 0, 16, 3, MEDKIT},
@@ -29,6 +31,7 @@ Sprite gunFlash = {SCREEN_HEIGHT/2, SCREEN_WIDTH/2, ExplosionImage, 0xFFFF, 32, 
 const char* const pistolName[] = {"Pistol", "Pistola", "Grakk"};
 const char* const shotgunName[] = {"Shotgun", "Escopeta", "Blamz"};
 const char* const rifleName[] = {"Rifle", "Rifle", "Skrr"};
+const char* const railgunName[] = {"Railgun", "Riel", "Zeep"};
 const char* const medkitName[] = {"Medkit", "Botiquin", "Zibzab"};
 
 
@@ -83,6 +86,23 @@ Item rifle = {
     RIFLECODE
   };
 
+  Item railgun = {
+    railgunName,
+    RAILGUN,
+    {8, SCREEN_HEIGHT, Railgunsprite, 0xA254, 16, 16, 1, RAILGUN},
+    {SCREEN_WIDTH/2 + 34, SCREEN_HEIGHT, RailgunImage, 0xA254, 32, 32, 4},
+    SoundEffects + PISTOL_SOUND,
+    1,
+    1,
+    0,
+    0,
+    2,
+    1,
+    SCREEN_WIDTH/2 + 9,
+    SCREEN_HEIGHT/2 + 21,
+    DEADCODE
+  };
+
 Item medkit = {
     medkitName,
     MEDKIT,
@@ -100,6 +120,6 @@ Item medkit = {
     MEDKITCODE
 };
 
-Item* items[6] = {&pistol, &shotgun, &rifle, &medkit};
+Item* items[6] = {&pistol, &shotgun, &rifle, &railgun, &medkit};
 
 #endif
