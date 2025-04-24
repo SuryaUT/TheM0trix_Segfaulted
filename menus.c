@@ -49,6 +49,8 @@ void typeDialogueLine(const char* text){
 static int8_t y = 0;
 uint8_t triggerPressed = 0;
 uint8_t selection = 0;
+uint8_t triggerMode = 0;
+extern uint8_t healthCode;
 
 // Epic pre-game dialogue
 void dialogueScreen(){
@@ -64,6 +66,7 @@ void dialogueScreen(){
         }
     }
     else{
+        triggerMode = 1;
         ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "General Gleeb", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
         uint8_t dialogueIndex = 0;
@@ -117,7 +120,7 @@ static MenuItem mainMenuItems[] = {
     { startGameText, &mapMenu, 0 },
     { languageText,   0,     0 },
 };
-static Menu mainMenu = { mainTitleText, mainMenuItems, 2, "MENU.bin" };
+static Menu mainMenu = { mainTitleText, mainMenuItems, 2, "LDSC.bin" };
 
 static MenuItem languageMenuItems[] = {
     { englishText, 0, Action_SetEnglish },
@@ -140,12 +143,16 @@ static int8_t GetJoystickY(void) {
     extern int Joy_y;
     return (Joy_y > 0) ? -1 : (Joy_y < 0 ? 1 : 0);
 }
+
 static bool GetTriggerPressed(void) {
-    static uint8_t last = 0;
-    uint8_t now = (GPIOA->DIN31_0 >> 24) & 1;
-    bool pressed = (now && !last);
-    last = now;
-    return pressed;
+    if (triggerMode == 0){
+        static uint8_t last = 0;
+        uint8_t now = (GPIOA->DIN31_0 >> 24) & 1;
+        bool pressed = (now && !last);
+        last = now;
+        return pressed;
+    }
+    return (GPIOA->DIN31_0 >> 24) & 1;
 }
 
 //--------------------------------------------------------------------------------
@@ -179,6 +186,8 @@ void getMenuState(){
 // Entry point: call this after SystemInit()
 //--------------------------------------------------------------------------------
 void Menus_Run(void) {
+    triggerMode = 0;
+    while (healthCode == RESTARTCODE){}
     NVIC->ICER[0] = (1<<2) | (1<<20);
     TimerA1_IntArm(400000/128, 128, 2);
     SoundEffects_disable();
