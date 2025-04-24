@@ -125,7 +125,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   }
 
   // Switch Weapons
-  if (input & (1<<2) && !(lastInput & (1<<2)) && current->enabled){
+  if (input & (1<<2) && !(lastInput & (1<<2)) && current->enabled && inventory.size > 1){
     Sound_Start(SoundEffects[WEAPLOAD_SOUND]);
     Inventory_next(&inventory);
   }

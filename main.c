@@ -1,4 +1,4 @@
- #include <stdio.h>
+#include <stdio.h>
  #include <stdint.h>
  #include <stdlib.h>
  #include <math.h>
@@ -34,6 +34,12 @@ int otherHealth = 50;
 uint8_t isOnTarget = 0;
 uint8_t healthCode = 1;
 
+extern uint8_t language;
+extern const char* const* deathScreenTexts[];
+
+
+Inventory inventory = {0, 3, {}, 0};
+
 void initRandom(){
   uint32_t randomSeed;
   ADC0_Init(5, ADCVREF_VDDA);
@@ -52,8 +58,6 @@ void SystemInit() {
   Graphics_Init();
   Sync_Init();
 }
-
-Inventory inventory = {0, 3, {}, 0};
 
 void respawnPlayer(){
   // Reset inventory
@@ -76,47 +80,37 @@ void respawnPlayer(){
 
   posX = respawnX + .5;
   posY = respawnY + .5;
+
+  isShooting = 0;
 }
 
-int main1() {
-  SystemInit();
-  ST7735_DrawBitmapFromSDC(0, 128, "MENU.bin", 160, 128);
-  ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, 1, 100);
-  ST7735_DrawTextBoxS(0, 104, 160, "Start", MATRIX_NEON_GREEN, MATRIX_NEON_GREEN, 1, 1, 0);
-  ST7735_DrawTextBoxS(0, 112, 160, "Language", ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
-  SoundSD_Mount();
-  SoundSD_Init(80000000/11025, 1);  // 11 kHz sample rate, priority 1
-  SoundSD_Play("CLUB.bin");        // 8.3 filename on your card
-  while(1){
-    SoundSD_Service();  // refill when needed
-    if (GPIOA->DIN31_0 & (1<<24)){
-      break;
+void DeathScreen(){
+    ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
+    uint8_t deathScreenIndex = 0;
+    while (deathScreenTexts[language][deathScreenIndex] != 0){
+      if (deathScreenIndex == 0) {
+        ST7735_DrawTextBoxS(0, 0, 160, deathScreenTexts[language][deathScreenIndex], ST7735_WHITE, ST7735_WHITE, 2, 1, 0);
+      }
+      else if (deathScreenTexts[language][deathScreenIndex+1] == 0){
+        ST7735_DrawTextBoxS(0, 112, 160, deathScreenTexts[language][deathScreenIndex], ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
+      }
+      else{
+        ST7735_DrawTextBoxS(0, 24, 160, deathScreenTexts[language][deathScreenIndex], ST7735_WHITE, ST7735_BLACK, 1, 1, 0);
+        Clock_Delay1ms(1000);
+      }
+      deathScreenIndex++;
     }
-  }
-  return 0;
+    while (!((GPIOA->DIN31_0 & (1<<28)) || GPIOA->DIN31_0 & (1<<27))) {}
 }
 
-int main() {
-  SystemInit();
-  ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
-  ST7735_DrawTextBoxS(0, 0, 160, "The M0+rix:\nSegfaulted", ST7735_WHITE, ST7735_WHITE, 2, 1, 100);
-  ST7735_DrawTextBoxS(0, 104, 160, "Start", MATRIX_NEON_GREEN, MATRIX_NEON_GREEN, 1, 1, 0);
-  ST7735_DrawTextBoxS(0, 112, 160, "Language", ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
-  SoundSD_Mount();
-  SoundSD_Init(80000000/11025, 1);  // 11 kHz sample rate, priority 1
-  SoundSD_Play("CLUB.bin");        // 8.3 filename on your card
-  while(1){
-    SoundSD_Service();  // refill when needed
-    if (GPIOA->DIN31_0 & (1<<24)){ // Move on from loading screen
-      SoundSD_Stop();
-      break;
-    }
-  }
+void GameLoop(){
+  SoundEffects_enable();
+  Inventory_add(&inventory, &pistol);
   RandomizeSprites();
   // Starting weapon
-  Inventory_add(&inventory, &pistol);
   respawnPlayer();
-  while(1) {
+  uint8_t isPlaying = 1;
+  while(isPlaying) {
    if (otherHealth == 0){
     Sprites[0].scale = 0; 
     healthCode = DEADCODE;
@@ -124,36 +118,31 @@ int main() {
     Sprites[0].scale = 5;
    }
    RenderScene();
+   if (!(rand() % 20)) playerHealth-= 20;
    
    // if (GPIOA->DIN31_0 & (1<<18) for use of side switch
    
-   // End in case of death
+   // In case of death
    if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
-    ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
-    isShooting = 0;
-    ST7735_FillScreen(0);
-    ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nReload to respawn in\n3");
-    uint8_t canRespawn;
-    Clock_Delay1ms(1000);
-    ST7735_FillScreen(0);
-    ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nReload to respawn in\n2");
-    Clock_Delay1ms(1000);
-    ST7735_FillScreen(0);
-    ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nReload to respawn in\n1");
-    Clock_Delay1ms(1000);
-    ST7735_FillScreen(0);
-    ST7735_SetCursor(0, 0);
-    printf("You died! \nGet better lil bro\nReload to respawn");
-    while ((GPIOA->DIN31_0 & (1<<28)) == 0) {}
+    DeathScreen();
+    if (GPIOA->DIN31_0 & (1<<27)) isPlaying = 0;
     playerHealth = 50;
     healthCode = RESPAWNCODE;
     otherKills++;
     respawnPlayer();
-    
-    ST7735_FillScreen(0);
    };
   }
- }
+}
+
+void Menus_Run(void);
+
+int main() {
+  SystemInit();
+  while (1){
+    SoundSD_Mount();
+    SoundSD_Init(80000000/11025, 1); 
+    SoundSD_Play("CLUB.bin"); // Menu music
+    Menus_Run();
+    GameLoop();
+  }
+}

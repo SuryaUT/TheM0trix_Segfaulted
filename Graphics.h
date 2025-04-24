@@ -24,3 +24,4 @@
 
 void Graphics_Init();
 void RenderScene();
+void FillMap(const uint8_t map[MAP_WIDTH][MAP_HEIGHT]);

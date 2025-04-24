@@ -419,6 +419,44 @@ void ST7735_DrawTextBoxS(int16_t       x,
                              uint8_t          center,
                              uint32_t      charDelayMs);
 
+                             /**
+ * @brief  Draw a wrapped string inside a fixed‑width box, optionally centered and with per‑char delay. This version is interrupt-friendly, but requires music to be streaming to accurately delay
+ *
+ * @param  x            X of top‑left of text box
+ * @param  y            Y of top‑left of text box
+ * @param  boxWidth     Width of the text box in pixels
+ * @param  str          Null‑terminated string to draw (supports '\\n')
+ * @param  textColor    16‑bit text color
+ * @param  bgColor      16‑bit background color
+ * @param  size         Font scale (1=6×8, 2=12×16, etc.)
+ * @param  center       If true, each line is horizontally centered
+ * @param  charDelayMs  Delay in milliseconds after each character (0 = none)
+ */
+void ST7735_DrawTextBoxS_IF(int16_t       x,
+                             int16_t       y,
+                             int16_t       boxWidth,
+                             const char   *str,
+                             int16_t       textColor,
+                             int16_t       bgColor,
+                             uint8_t       size,
+                             uint8_t          center,
+                             uint32_t      charDelayMs);
+
+/**
+ * @brief   Interrupt-friendly full-screen clear to black.
+ * @details Fills the entire 160×128 ST7735 window by streaming one row
+ *          of pixels at a time. After each scanline is written, it
+ *          calls SoundSD_Service() and __WFI() so that your audio ISR
+ *          can refill its buffer and play uninterrupted during the clear.
+ *
+ * @note    Must be called after your display is initialized.
+ *          Internally calls setAddrWindow(0,0,159,127).
+ *
+ * @return  None
+ */
+void ST7735_ClearScreenBlack(void);
+
+
 /**
  * Simple character draw function.  This is the same function from
  * Adafruit_GFX.c but adapted for this processor.  However, each call

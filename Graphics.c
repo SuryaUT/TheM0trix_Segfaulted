@@ -15,7 +15,6 @@
  #include "../inc/Timer.h"
  #include "../inc/LaunchPad.h"
  #include "Graphics.h"
- #include "maps.h"
  #include "Sounds.h"
  #include "sprites.h"
  #include "Buffer.h"
@@ -413,6 +412,5 @@ void Graphics_Init(void){
   }
   ST7735_InitPrintf();  
   ST7735_SetRotation(1);
-  FillMap(OGMap);
   PrecalculateFloorGradient();
 }

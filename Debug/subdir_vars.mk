@@ -32,6 +32,7 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../diskio.c \
 ../ff.c \
 ../main.c \
+../menus.c \
 ../sprites.c 
 
 C_DEPS += \
@@ -58,6 +59,7 @@ C_DEPS += \
 ./diskio.d \
 ./ff.d \
 ./main.d \
+./menus.d \
 ./sprites.d 
 
 OBJS += \
@@ -84,6 +86,7 @@ OBJS += \
 ./diskio.o \
 ./ff.o \
 ./main.o \
+./menus.o \
 ./sprites.o 
 
 OBJS__QUOTED += \
@@ -110,6 +113,7 @@ OBJS__QUOTED += \
 "diskio.o" \
 "ff.o" \
 "main.o" \
+"menus.o" \
 "sprites.o" 
 
 C_DEPS__QUOTED += \
@@ -136,6 +140,7 @@ C_DEPS__QUOTED += \
 "diskio.d" \
 "ff.d" \
 "main.d" \
+"menus.d" \
 "sprites.d" 
 
 C_SRCS__QUOTED += \
@@ -162,6 +167,7 @@ C_SRCS__QUOTED += \
 "../diskio.c" \
 "../ff.c" \
 "../main.c" \
+"../menus.c" \
 "../sprites.c" 
 
 

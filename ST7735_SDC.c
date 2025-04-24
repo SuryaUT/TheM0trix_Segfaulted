@@ -1045,45 +1045,55 @@ void ST7735_DrawBitmap(int16_t x, int16_t y, const uint16_t *image, int16_t w, i
 
 #include "diskio.h"
 #include "ff.h"
+#include "SoundSD.h"
 
 // buffer for reading two bytes at a time
 static uint8_t sdcBuffer[2];
 
 //----------------------------------------------------------------------------
-// Draw a bitmap stored as raw 16‑bit BGR565 in a .bin file on the SD card.
-//   x, y   = lower‑left corner on screen (same as ST7735_DrawBitmap)
-//   filename = 8.3 name of your .bin file (e.g. "sprite.bin")
-//   w, h   = bitmap width & height
-// Requires that the card is already mounted (f_mount).
+// Interrupt-friendly (sound) draw: bitmap stored as raw 16-bit BGR565 in a .bin file
+//   x, y      = lower-left corner on screen
+//   filename  = 8.3 name (e.g. "sprite.bin")
+//   w, h      = width & height in pixels
+// NOTE: card already mounted, SysTick armed, interrupts enabled.
 //----------------------------------------------------------------------------
 void ST7735_DrawBitmapFromSDC(int16_t x, int16_t y, const char *filename, int16_t w, int16_t h){
     FIL file;
     FRESULT fr;
-    UINT br;
+    UINT  br;
 
-    // 1) Open the binary image file
+    // 1) Open the file
     fr = f_open(&file, filename, FA_READ);
     if(fr != FR_OK){
-        diskError("SDC open", fr, 0);  // halts with error on LCD
+        diskError("SDC open", fr, 0);
         return;
     }
 
-    // 2) Set the LCD window to exactly the rectangle we want to fill
+    // 2) Set the window once
     setAddrWindow(x, y - h + 1, x + w - 1, y);
 
-    // 3) Read pixel‑by‑pixel and push to display
-    for(int32_t i = 0; i < (int32_t)w * h; i++){
-        fr = f_read(&file, sdcBuffer, 2, &br);
-        if(fr != FR_OK || br != 2){
-            diskError("SDC read", fr, 0);
-            break;
+    // 3) Draw row by row, allowing audio interrupts between lines
+    for(int16_t row = 0; row < h; row++){
+        for(int16_t col = 0; col < w; col++){
+            // read one pixel (2 bytes)
+            fr = f_read(&file, sdcBuffer, 2, &br);
+            if(fr != FR_OK || br != 2){
+                diskError("SDC read", fr, 0);
+                f_close(&file);
+                return;
+            }
+            // push to display
+            uint16_t color = (sdcBuffer[0] << 8) | sdcBuffer[1];
+            pushColor(color);
         }
-        // big‑endian word => high byte first
-        uint16_t color = (sdcBuffer[0] << 8) | sdcBuffer[1];
-        pushColor(color);
+        // ── interrupt-friendly break ───────────────────────────────────
+        // service the audio buffer (fills back half if needed)
+        SoundSD_Service();
+        // give the core a moment to take any pending SysTick IRQ
+        __WFI();
     }
 
-    // 4) Close file when done
+    // 4) Close file
     f_close(&file);
 }
 
@@ -1157,6 +1167,109 @@ void ST7735_DrawTextBoxS(int16_t    x,
         if (curY + charH < 0 || curY >= _height) {
             break;
         }
+    }
+}
+
+/**
+ * @brief  Draw a wrapped string inside a fixed-width box, with optional centering.
+ *         Now interrupt-friendly: services audio between characters/lines.
+ */
+void ST7735_DrawTextBoxS_IF(int16_t    x,
+                         int16_t    y,
+                         int16_t    boxWidth,
+                         const char *str,
+                         int16_t    textColor,
+                         int16_t    bgColor,
+                         uint8_t    size,
+                         uint8_t    center,
+                         uint32_t   charDelayMs)    // note: delays here are now audio-friendly
+{
+    int16_t startX = x;
+    int16_t curY   = y;
+    int16_t charW  = 6 * size;
+    int16_t charH  = 8 * size;
+    const char *p  = str;
+
+    while (*p) {
+        // forced newline?
+        if (*p == '\n') {
+            p++;
+            curY += charH;
+            continue;
+        }
+        // measure how many chars fit this line
+        int    lineLen = 0;
+        int16_t tempX  = startX;
+        const char *q  = p;
+        while (*q && *q != '\n' && (tempX + charW) <= (startX + boxWidth)) {
+            lineLen++;
+            tempX += charW;
+            q++;
+        }
+        // compute horizontal start (centered or left-aligned)
+        int16_t curX = startX;
+        if (center && lineLen > 0) {
+            int16_t lineWidthPx = lineLen * charW;
+            if (lineWidthPx < boxWidth) {
+                curX = startX + (boxWidth - lineWidthPx) / 2;
+            }
+        }
+        // draw each character in that line
+        for (int i = 0; i < lineLen; i++) {
+            char c = *p++;
+            ST7735_DrawCharS(curX, curY, c, textColor, bgColor, size);
+            curX += charW;
+
+            // ── Audio-friendly slice: let the ISR refill/play
+            SoundSD_Service();
+            __WFI();
+
+            // optional per-char delay (now non-blocking for audio)
+            for (uint32_t d = 0; d < charDelayMs*11; d++) {
+                // roughly 1 ms if your WFI+service loop is ~1 ms;
+                // adjust loop count if you need more precise timing
+                SoundSD_Service();
+                __WFI();
+            }
+        }
+        // skip forced newline
+        if (*p == '\n') {
+            p++;
+        }
+        // advance to next text line
+        curY += charH;
+
+        // end-of-screen check
+        if (curY + charH < 0 || curY >= _height) {
+            break;
+        }
+
+        // ── Audio-friendly slice at end of line
+        SoundSD_Service();
+        __WFI();
+    }
+}
+
+//----------------------------------------------------------------------------
+// Interrupt-friendly screen clear: fill entire 160×128 display with black
+// NOTE: assumes your ST7735 driver has setAddrWindow() and pushColor()
+//       card mounted, SysTick armed, interrupts enabled
+//----------------------------------------------------------------------------
+void ST7735_ClearScreenBlack(void){
+    const uint16_t BLACK = 0x0000;
+    // 1) Tell the LCD we’re going to write the full frame
+    //    x0,y0 = top-left, x1,y1 = bottom-right
+    setAddrWindow(0, 0, 159, 127);
+
+    // 2) Stream BLACK pixels, row by row, allowing audio in between
+    for(int row = 0; row < 128; row++){
+        for(int col = 0; col < 160; col++){
+            pushColor(BLACK);
+        }
+        // let the audio task refill if needed
+        SoundSD_Service();
+        // give the core a chance to take any pending SysTick IRQ
+        __WFI();
     }
 }
 

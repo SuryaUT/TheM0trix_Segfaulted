@@ -20,6 +20,7 @@ FRESULT SoundSD_Play(const char *filename);
 
 void SoundSD_Stop();
 
+void friendlyDelay(uint32_t ms);
 
 // must be called periodically in your main loop to refill buffers
 void SoundSD_Service(void);

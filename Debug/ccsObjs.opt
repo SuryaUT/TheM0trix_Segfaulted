@@ -21,6 +21,7 @@
 "./diskio.o"
 "./ff.o"
 "./main.o"
+"./menus.o"
 "./sprites.o"
 "./ticlang/startup_mspm0g3507_ticlang.o"
 "../mspm0g3507.cmd"

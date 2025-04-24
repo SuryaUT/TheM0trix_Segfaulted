@@ -76,6 +76,13 @@ void SoundSD_Stop(){
   SoundMode = 0;
 }
 
+void friendlyDelay(uint32_t ms){
+  for (int i = 0; i < ms*11; i++){
+    SoundSD_Service();
+    __WFI();
+  }
+}
+
 void SysTick_Handler(void){
   static uint32_t idx = 0;
 

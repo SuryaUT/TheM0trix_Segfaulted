@@ -25,6 +25,8 @@ extern sound_t SoundEffects[];
 
 void Sound_Init(uint32_t period, uint32_t priority);
 void Sound_Start(sound_t sound);
+void SoundEffects_enable();
+void SoundEffects_disable();
 
 
 #endif

@@ -7,6 +7,7 @@
 uint32_t Length;
 const uint8_t* SoundPt;
 uint8_t SoundMode = 0;
+uint8_t enabled = 0;
 
 sound_t SoundEffects[] = {
   {pistolSound, 2794},
@@ -15,6 +16,14 @@ sound_t SoundEffects[] = {
   {outofammoSound, 2383},
   {reloadSound, 9152}
 };
+
+void SoundEffects_enable(){
+  enabled = 1;
+}
+
+void SoundEffects_disable(){
+  enabled = 0;
+}
 
 void Sound_Init(uint32_t period, uint32_t priority){
   DAC_Init();
@@ -26,6 +35,7 @@ void Sound_Init(uint32_t period, uint32_t priority){
 }
 
 void Sound_Start(sound_t sound){
+    if (!enabled) return;
     SoundMode = 0;
     Length = sound.Length;
     SoundPt = sound.SoundPt;
