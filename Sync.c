@@ -81,6 +81,7 @@ void RandomizeSprites(){ // Will randomize sprite positions and synchronize
       Sprites[i].x = UART2_InChar() + .5;
       Sprites[i].y = UART2_InChar() + .5;
     }
+    Sprites[i].width = 0; // Reset item so it has to spawn to appear
     Clock_Delay1ms(50);
   }
 
@@ -237,9 +238,9 @@ void sendInfoPacket(){
   }
 }
 
-#define RESPAWN_TIME 20
+#define RESPAWN_TIME 30
 
-void TIMA0_IRQHandler(void){ // Spawn new item every 20 seconds
+void TIMA0_IRQHandler(void){ // Spawn new item every 30 seconds
   static uint16_t timeCt = 1;
   if((TIMA0->CPU_INT.IIDX) == 1){ // this will acknowledge
     if(timeCt == 0) generateSprite();
