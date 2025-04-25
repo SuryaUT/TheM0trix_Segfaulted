@@ -73,7 +73,7 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
         healthCode = current->healthcode;
         switch (healthCode){
           case PISTOLCODE: otherHealth -= 2; break;
-          case SHOTGUNCODE: otherHealth -= 12; break;
+          case SHOTGUNCODE: otherHealth -= 15; break;
           case RIFLECODE: otherHealth -= 3; break;
           case DEADCODE: otherHealth = 0; break; //for railgun
         }

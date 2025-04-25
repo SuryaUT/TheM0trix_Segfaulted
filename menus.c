@@ -15,13 +15,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// Forward declaration of entry point
 typedef struct Menu Menu;
 typedef void (*ActionFunc)(void);
 
-//--------------------------------------------------------------------------------
-// Menu data structures
-//--------------------------------------------------------------------------------
 typedef struct {
     const char * const *label;
     const Menu *nextMenu;
@@ -84,9 +80,8 @@ void dialogueScreen(){
     friendlyDelay((IS_DOMINANT_CONTROLLER) ? 2000 : 1000);
 }
 
-//--------------------------------------------------------------------------------
-// Action callbacks
-//--------------------------------------------------------------------------------
+
+
 static bool startGameSelected = false;
 uint8_t language = ENGLISH;
 
@@ -105,9 +100,8 @@ static void Action_SelectMap2(void) {
     startGameSelected = true;
 }
 
-//--------------------------------------------------------------------------------
-// Menu definitions (multi-language)
-//--------------------------------------------------------------------------------
+
+
 
 static MenuItem mapMenuItems[] = {
     { ogMapText,    0, Action_SelectOGMap },
@@ -136,9 +130,8 @@ static void LinkMenus(void) {
     mapMenuItems[2].nextMenu  = &mainMenu;
 }
 
-//--------------------------------------------------------------------------------
-// Input helpers
-//--------------------------------------------------------------------------------
+
+
 static int8_t GetJoystickY(void) {
     extern int Joy_y;
     return (Joy_y > 0) ? -1 : (Joy_y < 0 ? 1 : 0);
@@ -155,9 +148,8 @@ static bool GetTriggerPressed(void) {
     return (GPIOA->DIN31_0 >> 24) & 1;
 }
 
-//--------------------------------------------------------------------------------
-// Debounce delay when changing selection
-//--------------------------------------------------------------------------------
+
+
 static void Menu_Delay(void) {
     for (uint32_t i = 0; i < 150*11; i++) { SoundSD_Service(); __WFI(); }
 }
@@ -182,9 +174,8 @@ void getMenuState(){
     }
 }
 
-//--------------------------------------------------------------------------------
-// Entry point: call this after SystemInit()
-//--------------------------------------------------------------------------------
+
+
 void Menus_Run(void) {
     triggerMode = 0;
     while (healthCode == RESTARTCODE){}

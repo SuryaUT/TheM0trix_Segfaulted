@@ -105,6 +105,7 @@ void DeathScreen(){
 
 uint8_t isPlaying;
 void GameLoop(){
+  playerHealth = otherHealth = 50;
   kills = otherKills = 0;
   SoundEffects_enable();
   Inventory_add(&inventory, &pistol);
