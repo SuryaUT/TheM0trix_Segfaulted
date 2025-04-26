@@ -85,6 +85,7 @@ void respawnPlayer(){
 }
 
 void DeathScreen(){
+    Inventory_currentItem(&inventory)->enabled = 0;
     ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
     uint8_t deathScreenIndex = 0;
     while (deathScreenTexts[language][deathScreenIndex] != 0){
