@@ -77,11 +77,15 @@ void dialogueScreen(){
         }
     }
     NVIC->ICER[0] = (1<<19); // Disable sync interrupt
+    // Flush UART Receiver
+    while (RxFifo_Size()) {
+        UART2_InChar0();
+    }
+
     if (IS_DOMINANT_CONTROLLER){
         while (UART2_InChar0() != 'M') {}
     }
     else{
-        UART1_OutChar('M');
         UART1_OutChar('M');
     }
 }
