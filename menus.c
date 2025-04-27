@@ -37,9 +37,9 @@ void clearDialogueLine(){
     ST7735_FillRect(0, 112, 160, 16, ST7735_BLACK);
 }
 
-void typeDialogueLine(const char* text){
+void typeDialogueLine(const char* text, uint16_t delayAfter){
     ST7735_DrawTextBoxS_IF(0, 112, 160, text, ST7735_WHITE, ST7735_BLACK, 1, 1, DIALOGUE_TYPE_DELAY);
-    friendlyDelay(1000);
+    friendlyDelay(delayAfter);
 }
 
 static int8_t y = 0;
@@ -53,9 +53,10 @@ void dialogueScreen(){
     if (!IS_DOMINANT_CONTROLLER){
         ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "Valvano:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
+
         uint8_t dialogueIndex = 0;
         while (valvanoDialogues[language][dialogueIndex] != 0){
-            typeDialogueLine(valvanoDialogues[language][dialogueIndex]);
+            typeDialogueLine(valvanoDialogues[language][dialogueIndex], valvanoDialogueDelays[dialogueIndex]);
             dialogueIndex++;
             if (valvanoDialogues[language][dialogueIndex] != 0) clearDialogueLine();
             if (triggerPressed) break;
@@ -65,20 +66,25 @@ void dialogueScreen(){
         triggerMode = 1;
         ST7735_DrawBitmapFromSDC(0, 127, "GEEB.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "General Gleeb", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
+
         uint8_t dialogueIndex = 0;
         while (geebleGeneralDialogues[language][dialogueIndex] != 0){
-            typeDialogueLine(geebleGeneralDialogues[language][dialogueIndex]);
-            UART1_OutChar('1'); // To free other controller from loop
+            typeDialogueLine(geebleGeneralDialogues[language][dialogueIndex], 2000); // default delay for General Gleeb
             dialogueIndex++;
             if (geebleGeneralDialogues[language][dialogueIndex] != 0) clearDialogueLine();
-            if (GPIOA->DIN31_0 >> 24 & 1) triggerPressed = 1; // Override default setting so button can be held
-            if (triggerPressed){ 
-                break;
-            } 
+            if (GPIOA->DIN31_0 >> 24 & 1) triggerPressed = 1; 
+            if (triggerPressed) break;
         }
     }
-    friendlyDelay((IS_DOMINANT_CONTROLLER) ? 2000 : 1000);
+    if (IS_DOMINANT_CONTROLLER){
+        while (UART2_InChar() != 'M') {}
+    }
+    else{
+        UART1_OutChar('M');
+        UART1_OutChar('M');
+    }
 }
+
 
 
 

@@ -342,8 +342,8 @@ void printAmmo(int side) {
     char buffer[32];
     // Format the ammo string using sprintf
     sprintf(buffer, "%s:%d/%d", ammoText[language],Inventory_currentItem(&inventory)->ammo, Inventory_currentItem(&inventory)->tot_ammo);
-    // Call your existing printToBuffer function to display the ammo
-    printToBuffer(buffer, 0, SCREEN_HEIGHT-24, ST7735_WHITE, side);
+    // display the ammo
+    printToBuffer(buffer, 0, SCREEN_HEIGHT-24, (Inventory_currentItem(&inventory)->ammo == 0) ? ST7735_RED : ST7735_WHITE, side);
 }
 
 void printItem(int side){

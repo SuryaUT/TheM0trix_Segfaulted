@@ -9,9 +9,9 @@ extern uint8_t language;
 
 const char* const startGameText[]     = {"Start Game", "Iniciar Juego", "Grik Tak"};
 const char* const languageText[]      = {"Language", "Idioma", "Blort"};
-const char* const englishText[]       = {"English", "Ingles", "Unglii"};
-const char* const spanishText[]       = {"Spanish", "Espanol", "Spagnoo"};
-const char* const gleebText[]         = {"Gleeb", "Gleebiano", "Grblorp"};
+const char* const englishText[]       = {"English", "Espanol", "Gleeb"};
+const char* const spanishText[]       = {"English", "Espanol", "Gleeb"};
+const char* const gleebText[]         = {"English", "Espanol", "Gleeb"};
 const char* const backText[]          = {"Back", "Regresar", "Gleep"};
 const char* const selectMapText[]     = {"Select\nMap", "Elegir\nMapa", "Zog\nBlit"};
 const char* const ogMapText[]         = {"OG Map", "Mapa OG", "Grunt"};
@@ -19,6 +19,26 @@ const char* const map2Text[]          = {"Map 2", "Mapa 2", "Blip 2"};
 const char* const mainTitleText[]     = {"The M0+rix:\nSegfaulted", "El M0+rix:\nSegfallo", "M0+rix\nZzzkt"};
 const char* const languageMenuTitle[] = {"Choose\nLanguage", "Elegir\nIdioma", "Choosee\nBlort"};
 
+
+const uint16_t valvanoDialogueDelays[] = {
+    1400, // "Dr. M0..."
+    1700, // "Let me tell you why you're here."
+    1200, // "You've felt it in your stack."
+    2200, // "In your loop. Something was wrong."
+    1600, // "Wrong with the simulation."
+    1500, // "You don't know what it is..."
+    2200, // "But it's there - a watchdog unset."
+    2200, // "It's the Geebles. Corrupted pibbles."
+    1700, // "They control the M0+rix now."
+    2200, // "They replaced truth with rendering."
+    2000, // "This is your chance to break free."
+    2500, // "Take the blue LED, and wake up in lab."
+    3000, // "Believe the TA. Blame the soldering."
+    2300, // "Take the red LED, and break the loop."
+    3000, // "I'll show you how deep the data bus goes."
+    1700, // "All I'm offering is the truth."
+    3000  // "Nothing more."
+};
 
 const char* valvanoDialogueEnglish[] = {
     "Dr. M0...",
@@ -28,7 +48,7 @@ const char* valvanoDialogueEnglish[] = {
     "Wrong with the\nsimulation.",
     "You don't know\nwhat it is...",
     "But it's there -\na watchdog unset.",
-    "It's the Geebles.\nCorrupted pibbles.",
+    "It's the Geebles!\nCorrupted pibbles!",
     "They control the\nM0+rix now.",
     "They replaced truth\nwith rendering.",
     "This is your\nchance to break free.",
