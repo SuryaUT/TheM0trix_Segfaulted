@@ -14,7 +14,19 @@
 #define PICKUPCODE 1
 #define SPAWNCODE 2
 
-#define IS_DOMINANT_CONTROLLER 1 // Adjust depending on which controller you're using; one should be dominant to tell the other controller where the sprites are
+#define IS_DOMINANT_CONTROLLER 0 // Adjust depending on which controller you're using; one should be dominant to tell the other controller where the sprites are
+
+typedef struct {
+  double posX;
+  double posY;
+  double planeX;
+  double planeY;
+  int playerHealth;
+  uint8_t isVulnerable;
+  uint8_t isShooting;
+  int kills;
+  int isOnTarget;
+} Player;
 
 // hit‐indicator state
 typedef enum { HIT_FRONT, HIT_RIGHT, HIT_BACK, HIT_LEFT } HitDir_t;

@@ -4,6 +4,8 @@
  #include <math.h>
  #include "Async_Delay.h"
  #include "Sync.h"
+#include "UART1.h"
+#include "UART2.h"
  #include "ti/devices/msp/msp.h"
  #include "ST7735_SDC.h"
  #include "../inc/SPI.h"
@@ -87,22 +89,27 @@ void respawnPlayer(){
 void DeathScreen(){
     Inventory_currentItem(&inventory)->enabled = 0;
     ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
-    uint8_t deathScreenIndex = 0;
-    while (deathScreenTexts[language][deathScreenIndex] != 0){
-      if (deathScreenIndex == 0) {
-        ST7735_DrawTextBoxS(0, 0, 160, deathScreenTexts[language][deathScreenIndex], ST7735_WHITE, ST7735_WHITE, 2, 1, 0);
-      }
-      else if (deathScreenTexts[language][deathScreenIndex+1] == 0){
-        ST7735_DrawTextBoxS(0, 112, 160, deathScreenTexts[language][deathScreenIndex], ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
-      }
-      else{
-        ST7735_DrawTextBoxS(0, 24, 160, deathScreenTexts[language][deathScreenIndex], ST7735_WHITE, ST7735_BLACK, 1, 1, 0);
-        Clock_Delay1ms(1000);
-      }
-      deathScreenIndex++;
+    
+    uint8_t i = 0;
+    const char * const *texts = deathScreenTexts[language];
+
+    while (texts[i]) {
+        if (i == 0) {
+            ST7735_DrawTextBoxS(0, 0, 160, texts[i], ST7735_WHITE, ST7735_WHITE, 2, 1, 0);
+        } 
+        else if (texts[i+1] == 0) {
+            ST7735_DrawTextBoxS(0, 112, 160, texts[i], ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
+        } 
+        else {
+            ST7735_DrawTextBoxS(0, 24, 160, texts[i], ST7735_WHITE, ST7735_BLACK, 1, 1, 0);
+            if (texts[i+1] != 0 && texts[i+2] != 0) Clock_Delay1ms(1000);
+        }
+        i++;
     }
-    while (!((GPIOA->DIN31_0 & (1<<28)) || GPIOA->DIN31_0 & (1<<27))) {}
+
+    while (!(GPIOA->DIN31_0 & ((1<<28) | (1<<27)))) {}
 }
+
 
 uint8_t isPlaying;
 void GameLoop(){
@@ -122,11 +129,9 @@ void GameLoop(){
     Sprites[0].scale = 5;
    }
    RenderScene();
-   
-   // if (GPIOA->DIN31_0 & (1<<18) for use of side switch
-   
+  
    // In case of death
-   if (GPIOA->DIN31_0 & (1<<18) || playerHealth <= 0){
+   if (playerHealth <= 0){
     DeathScreen();
     if (GPIOA->DIN31_0 & (1<<27)) {
       isPlaying = 0;
@@ -146,6 +151,7 @@ void Menus_Run(void);
 
 int main() {
   SystemInit();
+
   while (1){
     SoundSD_Mount();
     SoundSD_Init(80000000/11025, 1); 

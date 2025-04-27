@@ -28,7 +28,6 @@ C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c \
 C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c \
 ../UART1.c \
 ../UART2.c \
-../UARTbusywait.c \
 ../diskio.c \
 ../ff.c \
 ../main.c \
@@ -55,7 +54,6 @@ C_DEPS += \
 ./Timer.d \
 ./UART1.d \
 ./UART2.d \
-./UARTbusywait.d \
 ./diskio.d \
 ./ff.d \
 ./main.d \
@@ -82,7 +80,6 @@ OBJS += \
 ./Timer.o \
 ./UART1.o \
 ./UART2.o \
-./UARTbusywait.o \
 ./diskio.o \
 ./ff.o \
 ./main.o \
@@ -109,7 +106,6 @@ OBJS__QUOTED += \
 "Timer.o" \
 "UART1.o" \
 "UART2.o" \
-"UARTbusywait.o" \
 "diskio.o" \
 "ff.o" \
 "main.o" \
@@ -136,7 +132,6 @@ C_DEPS__QUOTED += \
 "Timer.d" \
 "UART1.d" \
 "UART2.d" \
-"UARTbusywait.d" \
 "diskio.d" \
 "ff.d" \
 "main.d" \
@@ -163,7 +158,6 @@ C_SRCS__QUOTED += \
 "C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/inc/Timer.c" \
 "../UART1.c" \
 "../UART2.c" \
-"../UARTbusywait.c" \
 "../diskio.c" \
 "../ff.c" \
 "../main.c" \

@@ -50,12 +50,16 @@ void UART2_Init(void){
 //------------UART2_InChar------------
 // Get new serial port receive data from FIFO1
 // Input: none
-// Output: Return 0 if the FIFO1 is empty
-//         Return nonzero data from the FIFO1 if available
+// Output: Return and wait on nonzero data from the FIFO1
 char UART2_InChar(void){
   char in = RxFifo_Get();
   while (in == 0){in = RxFifo_Get();}
   return in;
+}
+
+// Return whatever is in FIFO1, or 0 if empty
+char UART2_InChar0(void){
+  return RxFifo_Get();
 }
 
 

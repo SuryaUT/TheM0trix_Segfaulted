@@ -49,6 +49,8 @@ void UART2_Init(void);
  */
 char UART2_InChar(void);
 
+char UART2_InChar0(void);
+
 
 
 

@@ -17,7 +17,6 @@
 "./Timer.o"
 "./UART1.o"
 "./UART2.o"
-"./UARTbusywait.o"
 "./diskio.o"
 "./ff.o"
 "./main.o"
