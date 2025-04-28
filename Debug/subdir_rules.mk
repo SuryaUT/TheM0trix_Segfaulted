@@ -8,35 +8,35 @@ SHELL = cmd.exe
 %.o: ../%.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-Clock.o: C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Clock.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+Clock.o: C:/CCS/MSPM0_ValvanoWare/inc/Clock.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"Clock.d_raw" -MT"Clock.o" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-LaunchPad.o: C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/LaunchPad.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+LaunchPad.o: C:/CCS/MSPM0_ValvanoWare/inc/LaunchPad.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"LaunchPad.d_raw" -MT"LaunchPad.o" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-SPI.o: C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/SPI.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+SPI.o: C:/CCS/MSPM0_ValvanoWare/inc/SPI.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"SPI.d_raw" -MT"SPI.o" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-Timer.o: C:/Users/elsil/OneDrive/Development/ECE\ 319K/Valvanoware/inc/Timer.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+Timer.o: C:/CCS/MSPM0_ValvanoWare/inc/Timer.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"Timer.d_raw" -MT"Timer.o" -I"C:/Users/elsil/OneDrive/Development/ECE 319K/Valvanoware/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/CCS/MSPM0_ValvanoWare/TheM0trix_Segfaulted/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 

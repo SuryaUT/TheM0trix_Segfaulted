@@ -55,7 +55,7 @@ void dialogueScreen(){
     if (!IS_DOMINANT_CONTROLLER){
         ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "Valvano:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
-        SoundSD_Stream("VSPEECH.bin");
+        SoundSD_Stream("VANOSPCH.bin");
 
         uint8_t dialogueIndex = 0;
         while (valvanoDialogues[language][dialogueIndex] != 0){
@@ -69,7 +69,7 @@ void dialogueScreen(){
         triggerMode = 1;
         ST7735_DrawBitmapFromSDC(0, 127, "GGLEEB.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "General Gleeb", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
-        SoundSD_Stream("GSPEECH.bin");
+        SoundSD_Stream("GEEBSPCH.bin");
 
         uint8_t dialogueIndex = 0;
         while (geebleGeneralDialogues[language][dialogueIndex] != 0){
