@@ -6,6 +6,7 @@
 
 extern uint32_t Length;
 extern const uint8_t* SoundPt;
+uint32_t idx = 0;
 
 // from fatfs
 static FATFS fs;
@@ -84,8 +85,6 @@ void friendlyDelay(uint32_t ms){
 }
 
 void SysTick_Handler(void){
-  static uint32_t idx = 0;
-
   if(SoundMode == 1){ // SD streaming
     DAC_Out(front[idx++]>>4);
     if(idx >= SD_BUFSIZE){
