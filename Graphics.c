@@ -260,53 +260,40 @@ void DrawHealthBar(){
 }
 
 void DrawCrosshair(int side, uint16_t color) {
-    int size = Inventory_currentItem(&inventory)->crosshair_size;
-    int spacing = size/6;
+    int size      = Inventory_currentItem(&inventory)->crosshair_size;
+    int spacing   = size / 6;
     int thickness = 2;
+    int halfT     = thickness >> 1;
+    int cx        = SCREEN_WIDTH  >> 1;
+    int cy        = SCREEN_HEIGHT >> 1;
 
-    int centerX_fullScreen = SCREEN_WIDTH / 2;
-    int centerY = SCREEN_HEIGHT / 2;
-
-    if (side == 0) { // Left side
-        // Upper vertical
-        for (int y = centerY - size; y < centerY - spacing; y++) {
-            for (int i = 0; i < thickness - 1; i++) {
-                setPixelBuffer(centerX_fullScreen - thickness + i + 1, y, color);
-            }
-        }
-        // Lower vertical
-        for (int y = centerY + 1 + spacing; y < centerY + 1 + size; y++) {
-            for (int i = 0; i < thickness - 1; i++) {
-                setPixelBuffer(centerX_fullScreen - thickness + i + 1, y, color);
-            }
-        }
-        // Left horizontal
-        for (int i = -thickness / 2; i <= thickness / 2; i++) {
-            for (int x = centerX_fullScreen - size; x < centerX_fullScreen - spacing; x++) {
-                setPixelBuffer(x, centerY + i, color);
-            }
-        }
-    } else if (side == 1) { // Right side
-        // Upper vertical
-        for (int y = centerY - size; y < centerY - spacing; y++) {
-            for (int i = 0; i < thickness; i++) {
-                setPixelBuffer(i, y, color);
-            }
-        }
-        // Lower vertical
-        for (int y = centerY + 1 + spacing; y < centerY + 1 + size; y++) {
-            for (int i = 0; i < thickness; i++) {
-                setPixelBuffer(i, y, color);
-            }
-        }
-        // Right horizontal
-        for (int i = -thickness / 2; i <= thickness / 2; i++) {
-            for (int x = 1 + spacing; x <= size; x++) {
-                setPixelBuffer(x, centerY + i, color);
-            }
+    // Vertical segments: [cy - size .. cy - spacing)  and  (cy + spacing+1 .. cy + size+1)
+    int y0[2] = { cy - size,        cy + 1 + spacing };
+    int y1[2] = { cy - spacing,    cy + 1 + size    };
+    for (int seg = 0; seg < 2; seg++) {
+        int ys = y0[seg], ye = y1[seg];
+        if (side == 0) {
+            int xBase = cx - thickness + 1;
+            for (int y = ys; y < ye; y++)
+                for (int t = 0; t < thickness; t++)
+                    setPixelBuffer(xBase + t, y, color);
+        } else {
+            for (int y = ys; y < ye; y++)
+                for (int t = 0; t < thickness; t++)
+                    setPixelBuffer(t, y, color);
         }
     }
+
+    // Horizontal bar: y in [cy - halfT .. cy + halfT]
+    int yStart = cy - halfT, yEnd = cy + halfT;
+    int xStart = (side == 0) ? (cx - size)      : (1 + spacing);
+    int xEnd   = (side == 0) ? (cx - spacing)   : (size + 1);
+
+    for (int y = yStart; y <= yEnd; y++)
+        for (int x = xStart; x < xEnd; x++)
+            setPixelBuffer(x, y, color);
 }
+
 
 void DrawHitIndicator(void){
   if (hitTimer == 0) return;

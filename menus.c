@@ -51,6 +51,7 @@ extern uint8_t healthCode;
 // Epic pre-game dialogue
 void dialogueScreen(){
     if (!IS_DOMINANT_CONTROLLER){
+        SoundSD_Play("VSPEECH.bin");
         ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "Valvano:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
 
@@ -64,7 +65,8 @@ void dialogueScreen(){
     }
     else{
         triggerMode = 1;
-        ST7735_DrawBitmapFromSDC(0, 127, "GEEB.bin", 160, 128);
+        SoundSD_Play("GSPEECH.bin");
+        ST7735_DrawBitmapFromSDC(0, 127, "GGLEEB.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "General Gleeb", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
 
         uint8_t dialogueIndex = 0;
@@ -77,20 +79,7 @@ void dialogueScreen(){
         }
     }
     NVIC->ICER[0] = (1<<19); // Disable sync interrupt
-    if (IS_DOMINANT_CONTROLLER){
-        // Flush UART Receiver
-        while (RxFifo_Size()) {
-            UART2_InChar0();
-        }
-    }
-    friendlyDelay(1000);
-
-    if (IS_DOMINANT_CONTROLLER){
-        while (UART2_InChar0() != 'M') {}
-    }
-    else{
-        UART1_OutChar('M');
-    }
+    handshake();
 }
 
 
@@ -191,10 +180,10 @@ void getMenuState(){
 
 uint8_t needSync;
 void Menus_Run(void) {
-    needSync = 1;
     triggerMode = 0;
     while (healthCode == RESTARTCODE){}
     NVIC->ICER[0] = (1<<2) | (1<<20);
+    handshake();
     TimerA1_IntArm(400000/128, 128, 2);
     SoundEffects_disable();
     startGameSelected = false;
@@ -207,13 +196,8 @@ void Menus_Run(void) {
     selection = 0;
     uint8_t      prevSelect = UINT8_MAX;
 
-    // Immediately Sync up controllers
-    while (UART2_InChar0() != 'M'){}
-    friendlyDelay(10);
-    needSync = 0;
-
     // Pibble Studios screen
-    ST7735_ClearScreenBlack();
+    ST7735_DrawBitmapFromSDC(0, 127, "PIBB.bin", 160, 128);
     ST7735_DrawTextBoxS_IF(0, 42, 160, "Pibble\nStudios\nPresents", ST7735_WHITE, ST7735_WHITE, 2, 1, 50);
     friendlyDelay(1000);
 

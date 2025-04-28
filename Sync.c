@@ -11,6 +11,7 @@
 #include "Graphics.h"
 #include <stdlib.h>
 #include <math.h>
+#include "SoundSD.h"
 
 extern double otherPosX, otherPosY;
 extern double otherDirX, otherDirY;
@@ -89,6 +90,15 @@ void RandomizeSprites(){ // Will randomize sprite positions and synchronize
   TimerG8_IntArm(1000000/128, 128, 1);
   TimerG7_IntArm(400000/128, 128, 2);
   TimerA0_IntArm(40000, 200, 3);
+}
+
+void handshake(){
+  TimerA1_IntArm(400000/128, 128, 2);
+  needSync = 1;
+  while (UART2_InChar0() != 'M'){}
+  friendlyDelay(10);
+  needSync = 0;
+  NVIC->ICER[0] = (1<<19);
 }
 
 void Sync_Init(){
