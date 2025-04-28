@@ -28,6 +28,7 @@ typedef struct{
     uint8_t muzzleX;
     uint8_t muzzleY;
     uint8_t healthcode;
+    uint8_t range;
 } Item;
 
 typedef struct {

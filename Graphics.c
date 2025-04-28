@@ -204,55 +204,23 @@ void DrawMinimap() {
     }
 }
 
+static void DrawBar(int16_t x, int16_t y, uint8_t health) {
+  uint16_t color = health >= 30 ? MATRIX_DARK_GREEN
+                  : health >= 15 ? ST7735_YELLOW
+                                 : ST7735_RED;
+  for(int yy=y; yy<y+8; yy++){
+    for(int xx=x; xx<x+50; xx++){
+      if(xx < x + health) setPixelBuffer(xx, yy, color);
+    }
+  }
+}
+
 void DrawHealthBar(){
-    int16_t barWidth = 50, barHeight = 8;
-    int startX = SCREEN_WIDTH - barWidth; // Top right, with 6 pixels margin
-    int startY = SCREEN_HEIGHT - barHeight - 6;
+    int16_t barWidth = 50;
 
-    uint16_t healthColor;
-    if (playerHealth >= 30){
-        healthColor = MATRIX_DARK_GREEN;
-    }
-    else if (playerHealth >= 15){
-        healthColor = ST7735_YELLOW;
-    }
-    else{
-        healthColor = ST7735_RED;
-    }
+    DrawBar(SCREEN_WIDTH-50, SCREEN_HEIGHT-14, playerHealth);
+    DrawBar(SCREEN_WIDTH-50, SCREEN_HEIGHT-26, otherHealth);
 
-    // Draw the health bar
-    for (int y = startY; y < startY + barHeight; y++) {
-        for (int x = startX; x < startX + barWidth; x++) {
-            if (x >= 0 && x < startX + playerHealth && y >= 0 && y < SCREEN_HEIGHT) {
-                if (x < startX + playerHealth) {
-                    setPixelBuffer(x, y, healthColor);
-                }
-            }
-        }
-    }
-
-    // Draw other player's health bar
-    if (otherHealth >= 30){
-        healthColor = MATRIX_DARK_GREEN;
-    }
-    else if (otherHealth >= 15){
-        healthColor = ST7735_YELLOW;
-    }
-    else{
-        healthColor = ST7735_RED;
-    }
-
-    // Draw the health bar
-    startY -= 12;
-    for (int y = startY; y < startY + barHeight; y++) {
-        for (int x = startX; x < startX + barWidth; x++) {
-            if (x >= 0 && x < startX + otherHealth && y >= 0 && y < SCREEN_HEIGHT) {
-                if (x < startX + otherHealth) {
-                    setPixelBuffer(x, y, healthColor);
-                }
-            }
-        }
-    }
 
     // Labels
     printToBuffer("M0", SCREEN_WIDTH - barWidth - 16, (IS_DOMINANT_CONTROLLER) ? 18 : 6, ST7735_WHITE, 1);

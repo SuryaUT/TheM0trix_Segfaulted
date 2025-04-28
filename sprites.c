@@ -119,7 +119,9 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         }
 
         if (bufferX != -1 && transformY < ZBuffer[stripe]) {
-            if ((stripe >= SCREEN_WIDTH/2 - Inventory_currentItem(&inventory)->crosshair_size && stripe <= SCREEN_WIDTH/2 + Inventory_currentItem(&inventory)->crosshair_size) && sprite_index == 0 && side == 1) isOnTarget = 1;
+            // Determine if enemy is on target
+            Item* weapon = Inventory_currentItem(&inventory);
+            if ((stripe >= SCREEN_WIDTH/2 - weapon->crosshair_size && stripe <= SCREEN_WIDTH/2 + weapon->crosshair_size) && sprite_index == 0 && side == 1 && transformY <= weapon->range) isOnTarget = 1;
             // Calculate texture x coordinate
             int texX = (stripe - drawStartX) * sprite.width / spriteWidth;
             if (texX >= 0 && texX < sprite.width) {
