@@ -12,6 +12,7 @@
 #include "Sync.h"
 #include "ti/devices/msp/msp.h"
 #include "../inc/Timer.h"
+#include "../inc/Clock.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -185,6 +186,7 @@ void Menus_Run(void) {
     triggerMode = 0;
     while (healthCode == RESTARTCODE){}
     NVIC->ICER[0] = (1<<2) | (1<<20);
+    Clock_Delay1ms(1000);
     handshake();
     TimerA1_IntArm(400000/128, 128, 2);
     SoundEffects_disable();
