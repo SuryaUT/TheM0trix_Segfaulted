@@ -110,7 +110,7 @@ const char* deathScreenTextEnglish[] = {
     "Reload to respawn in 3", 
     "Reload to respawn in 2", 
     "Reload to respawn in 1",
-    "Reload to respawn     ",
+    "Reload to respawn",
     "Or press left to return to main menu",
     0
 };
@@ -120,7 +120,7 @@ const char* deathScreenTextSpanish[] = {
     "Recarga para\nreaparecer en 3",
     "Recarga para\nreaparecer en 2",
     "Recarga para\nreaparecer en 1",
-    "Recarga para\nreaparecer     ",
+    "Recarga para\nreaparecer",
     "O presiona izq\npara menu",
     0
 };
@@ -131,7 +131,7 @@ const char* deathScreenTextGleeb[] = {
     "Re-zap to blorp in 3",
     "Re-zap to blorp in 2",
     "Re-zap to blorp in 1",
-    "Re-zap to blorp     ",
+    "Re-zap to blorp",
     "Or gloop left to\nblip back home",
     0
 };

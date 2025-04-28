@@ -88,7 +88,7 @@ void respawnPlayer(){
 
 void DeathScreen(){
     Inventory_currentItem(&inventory)->enabled = 0;
-    ST7735_DrawBitmapFromSDC(0, 127, "MENU.bin", 160, 128);
+    ST7735_DrawBitmapFromSDC(0, 127, (!IS_DOMINANT_CONTROLLER) ? "GEEB.bin" : "TWEO.bin", 160, 128);
     
     uint8_t i = 0;
     const char * const *texts = deathScreenTexts[language];
@@ -101,7 +101,8 @@ void DeathScreen(){
             ST7735_DrawTextBoxS(0, 112, 160, texts[i], ST7735_WHITE, ST7735_WHITE, 1, 1, 0);
         } 
         else {
-            ST7735_DrawTextBoxS(0, 24, 160, texts[i], ST7735_WHITE, ST7735_BLACK, 1, 1, 0);
+            ST7735_FillRect(0, 74, 160, 8, ST7735_BLACK);
+            ST7735_DrawTextBoxS(0, 74, 160, texts[i], ST7735_WHITE, ST7735_BLACK, 1, 1, 0);
             if (texts[i+1] != 0 && texts[i+2] != 0) Clock_Delay1ms(1000);
         }
         i++;
