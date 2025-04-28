@@ -18,6 +18,8 @@ void SoundSD_Init(uint32_t period, uint32_t priority);
 FRESULT SoundSD_Play(const char *filename);
 
 
+void SoundSD_Stream(const char *filename);
+
 void SoundSD_Stop();
 
 void friendlyDelay(uint32_t ms);

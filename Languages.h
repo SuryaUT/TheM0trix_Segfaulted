@@ -35,9 +35,9 @@ const uint16_t valvanoDialogueDelays[] = {
     2500, // "Take the blue LED, and wake up in lab."
     3000, // "Believe the TA. Blame the soldering."
     2300, // "Take the red LED, and break the loop."
-    3000, // "I'll show you how deep the data bus goes."
+    2500, // "I'll show you how deep the data bus goes."
     1700, // "All I'm offering is the truth."
-    3000  // "Nothing more."
+    1000  // "Nothing more."
 };
 
 const char* valvanoDialogueEnglish[] = {

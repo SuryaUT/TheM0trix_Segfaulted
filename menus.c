@@ -52,9 +52,9 @@ extern uint8_t healthCode;
 void dialogueScreen(){
     SoundSD_Stop();
     if (!IS_DOMINANT_CONTROLLER){
-        SoundSD_Play("VSPEECH.bin");
         ST7735_DrawBitmapFromSDC(0, 127, "VANO.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "Valvano:", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
+        SoundSD_Stream("VSPEECH.bin");
 
         uint8_t dialogueIndex = 0;
         while (valvanoDialogues[language][dialogueIndex] != 0){
@@ -66,19 +66,20 @@ void dialogueScreen(){
     }
     else{
         triggerMode = 1;
-        SoundSD_Play("GSPEECH.bin");
         ST7735_DrawBitmapFromSDC(0, 127, "GGLEEB.bin", 160, 128);
         ST7735_DrawTextBoxS_IF(0, 0, 160, "General Gleeb", ST7735_WHITE, ST7735_WHITE, 2, 0, 10);
+        SoundSD_Stream("GSPEECH.bin");
 
         uint8_t dialogueIndex = 0;
         while (geebleGeneralDialogues[language][dialogueIndex] != 0){
-            typeDialogueLine(geebleGeneralDialogues[language][dialogueIndex], 2000); // default delay for General Gleeb
+            typeDialogueLine(geebleGeneralDialogues[language][dialogueIndex], (geebleGeneralDialogues[language][dialogueIndex+1] == 0) ? 4000 : 2000);
             dialogueIndex++;
             if (geebleGeneralDialogues[language][dialogueIndex] != 0) clearDialogueLine();
             if (GPIOA->DIN31_0 >> 24 & 1) triggerPressed = 1; 
             if (triggerPressed) break;
         }
     }
+    SoundSD_Stop();
     NVIC->ICER[0] = (1<<19); // Disable sync interrupt
     handshake();
 }
@@ -198,6 +199,7 @@ void Menus_Run(void) {
     uint8_t      prevSelect = UINT8_MAX;
 
     // Pibble Studios screen
+    SoundSD_Stream("CLUB.bin");
     ST7735_DrawBitmapFromSDC(0, 127, "PIBB.bin", 160, 128);
     ST7735_DrawTextBoxS_IF(0, 42, 160, "Pibble\nStudios\nPresents", ST7735_WHITE, ST7735_WHITE, 2, 1, 50);
     friendlyDelay(1000);

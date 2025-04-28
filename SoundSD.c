@@ -54,6 +54,12 @@ FRESULT SoundSD_Play(const char *filename){
   return FR_OK;
 }
 
+void SoundSD_Stream(const char *filename){
+  SoundSD_Mount();
+  SoundSD_Init(80000000/11025, 1); 
+  SoundSD_Play(filename);
+}
+
 // call this in your main loop to keep data flowing
 void SoundSD_Service(void){
   if(needRefill){
@@ -74,6 +80,8 @@ void SoundSD_Service(void){
 }
 
 void SoundSD_Stop(){
+  f_close(&fil);
+  idx = 0;
   SoundMode = 0;
 }
 
