@@ -95,7 +95,7 @@ void RandomizeSprites(){ // Will randomize sprite positions and synchronize
 void handshake(){
   TimerA1_IntArm(400000/128, 128, 2);
   needSync = 1;
-  while (UART2_InChar0() != 'M'){}
+  while (UART2_InChar0() != 'M'){SoundSD_Service();}
   friendlyDelay(10);
   needSync = 0;
   NVIC->ICER[0] = (1<<19);
