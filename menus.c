@@ -80,9 +80,9 @@ void dialogueScreen(){
             if (triggerPressed) break;
         }
     }
-    SoundSD_Stop();
     NVIC->ICER[0] = (1<<19); // Disable sync interrupt
     handshake();
+    SoundSD_Stop();
 }
 
 
