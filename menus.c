@@ -202,8 +202,8 @@ void Menus_Run(void) {
 
     // Pibble Studios screen
     SoundSD_Stream("CLUB.bin");
-    ST7735_DrawBitmapFromSDC(0, 127, "PIBB.bin", 160, 128);
-    ST7735_DrawTextBoxS_IF(0, 42, 160, "Pibble\nStudios\nPresents", ST7735_WHITE, ST7735_WHITE, 2, 1, 50);
+    ST7735_DrawBitmapFromSDC(0, 127, "SCBMENU.bin", 160, 128);
+    ST7735_DrawTextBoxS_IF(0, 98, 160, "Pibble\nStudios", ST7735_WHITE, ST7735_WHITE, 2, 1, 50);
     friendlyDelay(1000);
 
     while (!startGameSelected) {

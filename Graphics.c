@@ -273,14 +273,17 @@ void DrawCrosshair(int side, uint16_t color) {
     for (int seg = 0; seg < 2; seg++) {
         int ys = y0[seg], ye = y1[seg];
         if (side == 0) {
-            int xBase = cx - thickness + 1;
-            for (int y = ys; y < ye; y++)
-                for (int t = 0; t < thickness; t++)
-                    setPixelBuffer(xBase + t, y, color);
+            // draw only one column instead of two to clip that extra pixel
+            int xBase = cx - thickness + 1;  
+            for (int y = ys; y < ye; y++) {
+                setPixelBuffer(xBase, y, color);
+            }
         } else {
-            for (int y = ys; y < ye; y++)
-                for (int t = 0; t < thickness; t++)
+            for (int y = ys; y < ye; y++) {
+                for (int t = 0; t < thickness; t++) {
                     setPixelBuffer(t, y, color);
+                }
+            }
         }
     }
 
@@ -289,10 +292,13 @@ void DrawCrosshair(int side, uint16_t color) {
     int xStart = (side == 0) ? (cx - size)      : (1 + spacing);
     int xEnd   = (side == 0) ? (cx - spacing)   : (size + 1);
 
-    for (int y = yStart; y <= yEnd; y++)
-        for (int x = xStart; x < xEnd; x++)
+    for (int y = yStart; y <= yEnd; y++) {
+        for (int x = xStart; x < xEnd; x++) {
             setPixelBuffer(x, y, color);
+        }
+    }
 }
+
 
 
 void DrawHitIndicator(void){
