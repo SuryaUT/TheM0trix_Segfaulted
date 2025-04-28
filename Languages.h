@@ -9,9 +9,9 @@ extern uint8_t language;
 
 const char* const startGameText[]     = {"Start Game", "Iniciar Juego", "Grik Tak"};
 const char* const languageText[]      = {"Language", "Idioma", "Blort"};
-const char* const englishText[]       = {"English", "Espanol", "Gleeb"};
-const char* const spanishText[]       = {"English", "Espanol", "Gleeb"};
-const char* const gleebText[]         = {"English", "Espanol", "Gleeb"};
+const char* const englishText[]       = {"English", "English", "English"};
+const char* const spanishText[]       = {"Espanol", "Espanol", "Espanol"};
+const char* const gleebText[]         = {"Gleeb", "Gleeb", "Gleeb"};
 const char* const backText[]          = {"Back", "Regresar", "Gleep"};
 const char* const selectMapText[]     = {"Select\nMap", "Elegir\nMapa", "Zog\nBlit"};
 const char* const ogMapText[]         = {"OG Map", "Mapa OG", "Grunt"};
