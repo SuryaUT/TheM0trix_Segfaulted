@@ -83,7 +83,9 @@ void respawnPlayer(){
   posX = respawnX + .5;
   posY = respawnY + .5;
 
+  // Reset some graphics
   isShooting = 0;
+  hitTimer = 0;
 }
 
 void DeathScreen(){
