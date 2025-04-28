@@ -155,6 +155,7 @@ int main() {
   while (1){
     SoundSD_Mount();
     SoundSD_Init(80000000/11025, 1); 
+    SoundSD_Play("CLUB.bin");
     Menus_Run();
     GameLoop();
   }
