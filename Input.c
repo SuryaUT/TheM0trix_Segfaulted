@@ -53,8 +53,8 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
   Item* current = Inventory_currentItem(&inventory);
   // Sprint using joystick button
   if (Joy_InButton() && current->enabled){ // Can't sprint while reloading
-    moveSpeed_FB *= 2.5;
-    moveSpeed_LR *= 2.5;
+    moveSpeed_FB *= 2;
+    moveSpeed_LR *= 2;
   }
 
   // Shoot weapon
