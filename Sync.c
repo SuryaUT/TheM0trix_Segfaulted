@@ -46,12 +46,12 @@ static void ComputeHitDirection(void){
 
 
 void getRandomMapPos(uint8_t* x, uint8_t* y){
-  uint8_t randX = (rand() % (MAP_WIDTH-1)) + 1;
-  uint8_t randY = (rand() % (MAP_HEIGHT-1)) + 1;
+  uint8_t randX = (rand() % (MAP_WIDTH-2)) + 1;
+  uint8_t randY = (rand() % (MAP_HEIGHT-2)) + 1;
 
   while (worldMap[randX][randY] != 0){
-    randX = (rand() % (MAP_WIDTH-1)) + 1;
-    randY = (rand() % (MAP_HEIGHT-1)) + 1;
+    randX = (rand() % (MAP_WIDTH-2)) + 1;
+    randY = (rand() % (MAP_HEIGHT-2)) + 1;
   }
 
   *x = randX;

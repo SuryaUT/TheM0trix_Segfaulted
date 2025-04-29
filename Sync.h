@@ -31,7 +31,7 @@ typedef struct {
   uint8_t isVulnerable;
   uint8_t isShooting;
   int kills;
-  int isOnTarget;
+  uint8_t isOnTarget;
 } Player;
 
 extern Player self, other;

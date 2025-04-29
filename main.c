@@ -127,6 +127,8 @@ void DeathScreen(){
         i++;
     }
 
+    if (other.playerHealth <= 0) other.playerHealth = 50; // If they died at the same time, we know they'll respawn
+
     while (!(GPIOA->DIN31_0 & ((1<<28) | (1<<27)))) {}
 }
 

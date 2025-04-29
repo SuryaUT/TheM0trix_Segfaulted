@@ -333,7 +333,7 @@ void printLeaderboard(int side){
     if (side == 0){
         DrawMinimap();
         printItem(side);
-        if (Item_isWeapon(Inventory_currentItem(&inventory))) printAmmo(side);
+        if (Item_isWeapon(Inventory_currentItem(&inventory)) && Inventory_currentItem(&inventory)->type != RAILGUN) printAmmo(side);
         printLeaderboard(side);
     }
     else{
