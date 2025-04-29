@@ -15,8 +15,6 @@
 extern Inventory inventory;
 extern uint8_t outX;
 extern uint8_t outY;
-extern int playerHealth;
-extern int otherHealth;
 extern uint8_t itemsStatus;
 extern uint8_t canSwapItems;
 uint8_t isSwapping;
@@ -49,7 +47,6 @@ uint8_t lastInput = 0;
 uint8_t isShooting;
 uint8_t reloaded; // Reload flag
 extern uint8_t healthCode;
-extern uint8_t isOnTarget;
 uint8_t rifleCanShoot = 1;
 
 void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double rotSpeed) {
@@ -69,22 +66,22 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
       }
       Sound_Start(*current->sound);
       current->ammo--;
-      if (isOnTarget){
+      if (self.isOnTarget){
         healthCode = current->healthcode;
         switch (healthCode){
-          case PISTOLCODE: otherHealth -= 2; break;
-          case SHOTGUNCODE: otherHealth -= 15; break;
-          case RIFLECODE: otherHealth -= 3; break;
-          case DEADCODE: otherHealth = 0; break; //for railgun
+          case PISTOLCODE: other.playerHealth -= 2; break;
+          case SHOTGUNCODE: other.playerHealth -= 15; break;
+          case RIFLECODE: other.playerHealth -= 3; break;
+          case DEADCODE: other.playerHealth = 0; break; //for railgun
         }
       }
       else if(current->type == MEDKIT) {
         healthCode = current->healthcode;
-        playerHealth += 20;
-        if (playerHealth > 50) playerHealth = 50;
+        self.playerHealth += 20;
+        if (self.playerHealth > 50) self.playerHealth = 50;
       }
 
-      if (otherHealth < 0) otherHealth = 0;
+      if (other.playerHealth < 0) other.playerHealth = 0;
 
       if (Item_isSpent(current) && (current->type == MEDKIT || current->type == RAILGUN)){
         Inventory_removeCurrent(&inventory);
@@ -136,37 +133,37 @@ void MovePlayer(uint8_t input, double moveSpeed_FB, double moveSpeed_LR, double 
    double cosRot = fastCos(rotSpeed);
    double sinRot = -fastSin(rotSpeed);
    // Both camera direction and camera plane must be rotated
-   double oldDirX = dirX;
-   dirX = dirX * cosRot - dirY * sinRot;
-   dirY = oldDirX * sinRot + dirY * cosRot;
+   double oldDirX = self.dirX;
+   self.dirX = self.dirX * cosRot - self.dirY * sinRot;
+   self.dirY = oldDirX * sinRot + self.dirY * cosRot;
    // Camera plane must be perpendicular to camera direction
-   planeX = dirY;
-   planeY = -dirX;
+   self.planeX = self.dirY;
+   self.planeY = -self.dirX;
   }
  
   if (input & (1<<3)){
    double cosRot = fastCos(rotSpeed);
    double sinRot = fastSin(rotSpeed);
    // Both camera direction and camera plane must be rotated
-   double oldDirX = dirX;
-   dirX = dirX * cosRot - dirY * sinRot;
-   dirY = oldDirX * sinRot + dirY * cosRot;
+   double oldDirX = self.dirX;
+   self.dirX = self.dirX * cosRot - self.dirY * sinRot;
+   self.dirY = oldDirX * sinRot + self.dirY * cosRot;
    // Camera plane must be perpendicular to camera direction
-   planeX = dirY;
-   planeY = -dirX;
+   self.planeX = self.dirY;
+   self.planeY = -self.dirX;
   }
  
   // Joystick input:
   // Move forward or backward, checking for walls
-  uint8_t isCollision_X = worldMap[(int)(posX + 2* dirX * moveSpeed_FB)][(int)posY] != 0;
-  uint8_t isCollision_Y = worldMap[(int)posX][(int)(posY + 2*dirY * moveSpeed_FB)] != 0;
-  if(!isCollision_X) posX += dirX * moveSpeed_FB;
-  if(!isCollision_Y) posY += dirY * moveSpeed_FB;
+  uint8_t isCollision_X = worldMap[(int)(self.posX + 2* self.dirX * moveSpeed_FB)][(int)self.posY] != 0;
+  uint8_t isCollision_Y = worldMap[(int)self.posX][(int)(self.posY + 2*self.dirY * moveSpeed_FB)] != 0;
+  if(!isCollision_X) self.posX += self.dirX * moveSpeed_FB;
+  if(!isCollision_Y) self.posY += self.dirY * moveSpeed_FB;
   // Move left or right, checking for walls
-  isCollision_X = worldMap[(int)(posX + 2* planeX * moveSpeed_LR)][(int)posY] != 0;
-  isCollision_Y = worldMap[(int)posX][(int)(posY + 2*planeY * moveSpeed_LR)] != 0;
-  if(!isCollision_X) posX += planeX * moveSpeed_LR;
-  if(!isCollision_Y) posY += planeY * moveSpeed_LR;
+  isCollision_X = worldMap[(int)(self.posX + 2* self.planeX * moveSpeed_LR)][(int)self.posY] != 0;
+  isCollision_Y = worldMap[(int)self.posX][(int)(self.posY + 2*self.planeY * moveSpeed_LR)] != 0;
+  if(!isCollision_X) self.posX += self.planeX * moveSpeed_LR;
+  if(!isCollision_Y) self.posY += self.planeY * moveSpeed_LR;
 
   lastInput = input;
  }

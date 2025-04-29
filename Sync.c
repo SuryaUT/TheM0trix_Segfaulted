@@ -13,14 +13,8 @@
 #include <math.h>
 #include "SoundSD.h"
 
-extern double otherPosX, otherPosY;
-extern double otherDirX, otherDirY;
-extern int otherHealth;
 extern Sprite Sprites[];
 Sprite* otherPlayer = Sprites;
-extern double posX, posY;
-extern double dirX, dirY;
-extern int playerHealth;
 extern uint8_t healthCode;
 uint8_t itemsStatus = 1;
 extern const uint16_t DrM0Front[];
@@ -29,8 +23,6 @@ extern const uint16_t AgentYFront[];
 extern const uint16_t AgentYBack[];
 extern uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT];
 extern int numsprites;
-extern uint8_t isVulnerable;
-extern int kills;
 extern uint8_t isPlaying;
 
 HitDir_t  hitDir   = HIT_FRONT;
@@ -38,11 +30,11 @@ uint16_t  hitTimer = 0;
 
 static void ComputeHitDirection(void){
   // vector from you → attacker
-  double ax = otherPosX - posX;
-  double ay = otherPosY - posY;
+  double ax = other.posX - self.posX;
+  double ay = other.posY - self.posY;
   // dot products against your forward/right axes
-  double fwd = ax*dirX + ay*dirY;        // how much in front
-  double sid = ax*dirY - ay*dirX;        // positive = attacker is to your right
+  double fwd = ax*self.dirX + ay*self.dirY;        // how much in front
+  double sid = ax*self.dirY - ay*self.dirX;        // positive = attacker is to your right
 
   // pick the largest magnitude axis
   if (fabs(fwd) >= fabs(sid)) {
@@ -115,8 +107,8 @@ uint8_t getPositionPacket(){
   if (endSentinel == '>'){
     otherPlayer->x = inX/10.0;
     otherPlayer->y = inY/10.0;
-    otherPosX = otherPlayer->x;
-    otherPosY = otherPlayer->y;
+    other.posX = otherPlayer->x;
+    other.posY = otherPlayer->y;
   }
   return 1;
 }
@@ -133,15 +125,15 @@ uint8_t getDirectionPacket(){
 
   if (endSentinel == ']') {
     // reconstruct their forward‐vector (≈ unit length)
-    otherDirX = rawDirX / 100.0;
-    otherDirY = rawDirY / 100.0;
+    other.dirX = rawDirX / 100.0;
+    other.dirY = rawDirY / 100.0;
 
     // vector from them → you
-    double vx = posX - otherPosX;
-    double vy = posY - otherPosY;
+    double vx = self.posX - other.posX;
+    double vy = self.posY - other.posY;
 
     // raw dot = |D|·|V|·cosθ
-    double dot   = otherDirX * vx + otherDirY * vy;
+    double dot   = other.dirX * vx + other.dirY * vy;
     double dist2 = vx*vx + vy*vy;
 
     // front half‐plane & within ±60° cone?
@@ -161,10 +153,10 @@ uint8_t getDirectionPacket(){
 }
 
 void processHit(int damage){
-  if (!isVulnerable) return;
+  if (!self.isVulnerable) return;
   ComputeHitDirection();
   hitTimer = HIT_INDICATOR_DURATION;
-  playerHealth -= damage;
+  self.playerHealth -= damage;
 }
 
 
@@ -179,8 +171,8 @@ uint8_t getInfoPacket(){
       case PISTOLCODE: processHit(2); break;
       case SHOTGUNCODE: processHit(15); break;
       case RIFLECODE: processHit(3); break;
-      case MEDKITCODE: otherHealth += 20; if (otherHealth > 50) otherHealth = 50; break;
-      case RESPAWNCODE: otherHealth = 50; kills++; break;
+      case MEDKITCODE: other.playerHealth += 20; if (other.playerHealth > 50) other.playerHealth = 50; break;
+      case RESPAWNCODE: other.playerHealth = 50; self.kills++; break;
       case DEADCODE: processHit(50); break;
       case RESTARTCODE: isPlaying = 0; break;
     }
@@ -197,8 +189,8 @@ uint8_t getInfoPacket(){
 }
 
 void sendPositionPacket(){
-  uint8_t sendX = (uint8_t) ((posX+0.05)*10);//convert into fixed point
-  uint8_t sendY = (uint8_t) ((posY+0.05)*10);//convert into fixed point
+  uint8_t sendX = (uint8_t) ((self.posX+0.05)*10);//convert into fixed point
+  uint8_t sendY = (uint8_t) ((self.posY+0.05)*10);//convert into fixed point
 
   UART1_OutChar('<');
   UART1_OutChar(sendX);
@@ -207,8 +199,8 @@ void sendPositionPacket(){
 }
 
 void sendDirectionPacket(){
-  int8_t sendX = (int8_t) ((dirX+.005)*100);//convert into fixed point
-  int8_t sendY = (int8_t) ((dirY+.005)*100);//convert into fixed point
+  int8_t sendX = (int8_t) ((self.dirX+.005)*100);//convert into fixed point
+  int8_t sendY = (int8_t) ((self.dirY+.005)*100);//convert into fixed point
 
   UART1_OutChar('[');
   UART1_OutChar(sendX);

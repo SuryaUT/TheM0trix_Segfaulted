@@ -23,6 +23,8 @@ void handshake();
 typedef struct {
   double posX;
   double posY;
+  double dirX;
+  double dirY;
   double planeX;
   double planeY;
   int playerHealth;
@@ -31,6 +33,8 @@ typedef struct {
   int kills;
   int isOnTarget;
 } Player;
+
+extern Player self, other;
 
 // hit‐indicator state
 typedef enum { HIT_FRONT, HIT_RIGHT, HIT_BACK, HIT_LEFT } HitDir_t;

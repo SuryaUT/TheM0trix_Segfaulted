@@ -46,15 +46,8 @@ unsigned char buffer[512];
   }
  }
 
-extern double posX, posY;
-extern double dirX, dirY;
-extern double planeX, planeY;
 extern uint8_t accuracyRad;
-extern uint8_t isOnTarget;
-extern int playerHealth;
-extern int otherHealth;
 extern Inventory inventory;
-extern int kills, otherKills;
 extern uint8_t language; 
 
  double ZBuffer[SCREEN_WIDTH];
@@ -67,12 +60,12 @@ extern uint8_t language;
   for (int x = startX; x < endX; x++) {
    // Calculate ray position and direction
    double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
-   double rayDirX = dirX + planeX * cameraX;
-   double rayDirY = dirY + planeY * cameraX;
+   double rayDirX = self.dirX + self.planeX * cameraX;
+   double rayDirY = self.dirY + self.planeY * cameraX;
  
    // Which box of the map we're in
-   int mapX = (int)posX;
-   int mapY = (int)posY;
+   int mapX = (int)self.posX;
+   int mapY = (int)self.posY;
  
    // Length of ray from current position to next x or y-side
    double sideDistX;
@@ -93,17 +86,17 @@ extern uint8_t language;
    // Calculate step and initial sideDist
    if (rayDirX < 0) {
     stepX = -1;
-    sideDistX = (posX - mapX) * deltaDistX;
+    sideDistX = (self.posX - mapX) * deltaDistX;
    } else {
     stepX = 1;
-    sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+    sideDistX = (mapX + 1.0 - self.posX) * deltaDistX;
    }
    if (rayDirY < 0) {
     stepY = -1;
-    sideDistY = (posY - mapY) * deltaDistY;
+    sideDistY = (self.posY - mapY) * deltaDistY;
    } else {
     stepY = 1;
-    sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+    sideDistY = (mapY + 1.0 - self.posY) * deltaDistY;
    }
  
    // Perform DDA
@@ -141,8 +134,8 @@ extern uint8_t language;
  
    int texNum = (worldMap[mapX][mapY] % 5) - 1; // Texture index based on map value (0-4)
     double wallX; // Where exactly the wall was hit
-    if (sideHit == 0) wallX = posY + perpWallDist * rayDirY;
-    else           wallX = posX + perpWallDist * rayDirX;
+    if (sideHit == 0) wallX = self.posY + perpWallDist * rayDirY;
+    else           wallX = self.posX + perpWallDist * rayDirX;
     wallX -= floor(wallX);
 
     int texX = (int)(wallX * (double)TEX_WIDTH);
@@ -196,8 +189,8 @@ void DrawMinimap() {
     blitBufferToRenderBuffer(miniMap, MAP_WIDTH, MAP_HEIGHT, minimapDestX, minimapDestY);
 
     // Draw player position on the minimap (remains the same)
-    int playerMinimapY = (SCREEN_HEIGHT - 24) + ((MAP_HEIGHT - 1) - (int)posX);
-    int playerMinimapX = (int)posY;
+    int playerMinimapY = (SCREEN_HEIGHT - 24) + ((MAP_HEIGHT - 1) - (int)self.posX);
+    int playerMinimapX = (int)self.posY;
 
     if (playerMinimapY >= SCREEN_HEIGHT - 24 && playerMinimapY < SCREEN_HEIGHT && playerMinimapX >= 0 && playerMinimapX < 24) {
         setPixelBuffer(playerMinimapX, playerMinimapY, MATRIX_GREEN);
@@ -218,8 +211,8 @@ static void DrawBar(int16_t x, int16_t y, uint8_t health) {
 void DrawHealthBar(){
     int16_t barWidth = 50;
 
-    DrawBar(SCREEN_WIDTH-50, SCREEN_HEIGHT-14, playerHealth);
-    DrawBar(SCREEN_WIDTH-50, SCREEN_HEIGHT-26, otherHealth);
+    DrawBar(SCREEN_WIDTH-50, SCREEN_HEIGHT-14, self.playerHealth);
+    DrawBar(SCREEN_WIDTH-50, SCREEN_HEIGHT-26, other.playerHealth);
 
 
     // Labels
@@ -317,14 +310,14 @@ void printLeaderboard(int side){
     char buffer1[16];
     char buffer2[16];
     if (IS_DOMINANT_CONTROLLER){ // So the names are correct
-        sprintf(buffer1, "%d Agent Y", kills);
-        sprintf(buffer2,"%d Dr. M0", otherKills);
+        sprintf(buffer1, "%d Agent Y", self.kills);
+        sprintf(buffer2,"%d Dr. M0", other.kills);
     }
     else{
-        sprintf(buffer1, "%d Dr. M0", kills);
-        sprintf(buffer2,"%d Agent Y", otherKills);
+        sprintf(buffer1, "%d Dr. M0", self.kills);
+        sprintf(buffer2,"%d Agent Y", other.kills);
     }
-    if (kills > otherKills){
+    if (self.kills > other.kills){
         printToBuffer(buffer1, 0, 28, MATRIX_NEON_GREEN, side);
         printToBuffer(buffer2, 0, 36, ST7735_RED, side);   
     }
@@ -335,7 +328,7 @@ void printLeaderboard(int side){
 }
 
  void RenderHUD(int side){
-    uint16_t crosshair_color = (isOnTarget) ? ST7735_RED : ST7735_WHITE;
+    uint16_t crosshair_color = (self.isOnTarget) ? ST7735_RED : ST7735_WHITE;
     DrawCrosshair(side, crosshair_color);
     if (side == 0){
         DrawMinimap();

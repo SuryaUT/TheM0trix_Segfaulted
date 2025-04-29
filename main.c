@@ -20,20 +20,37 @@
  #include "Inventory.h"
  #include "Items.h"
  #include "SoundSD.h"
- 
-// Player state
-double posX = 22, posY = 12;    // x and y start position
-double dirX = -1, dirY = 0;    // initial direction vector
-double planeX = 0, planeY = 0.66;  // the 2d raycaster version of camera plane
-int playerHealth = 50;
-uint8_t isVulnerable = 1;
-extern uint8_t isShooting;
-int kills = 0, otherKills = 0;
 
-double otherPosX, otherPosY;
-double otherDirX, otherDirY;
-int otherHealth = 50;
-uint8_t isOnTarget = 0;
+
+// Player state
+Player self = {
+  22, // X position
+  12, // Y position
+  -1, // X direction
+  0, // Y direction
+  0, // Plane direction
+  .66,
+  50, // Health
+  1, // is vulnerable
+  0, // is shooting
+  0, // number of kills
+  0 // is on target
+};
+
+Player other = {
+  22,
+  12,
+  -1,
+  0,
+  0,
+  .66,
+  50,
+  1,
+  0,
+  0,
+  0
+};
+
 uint8_t healthCode = 1;
 
 extern uint8_t language;
@@ -76,15 +93,15 @@ void respawnPlayer(){
   uint8_t respawnX;
   uint8_t respawnY;
   // Temporary invulnerability
-  start_delay(1000, &isVulnerable);
+  start_delay(1000, &self.isVulnerable);
 
   getRandomMapPos(&respawnX, &respawnY);
 
-  posX = respawnX + .5;
-  posY = respawnY + .5;
+  self.posX = respawnX + .5;
+  self.posY = respawnY + .5;
 
   // Reset some graphics
-  isShooting = 0;
+  self.isShooting = 0;
   hitTimer = 0;
 }
 
@@ -116,8 +133,8 @@ void DeathScreen(){
 
 uint8_t isPlaying;
 void GameLoop(){
-  playerHealth = otherHealth = 50;
-  kills = otherKills = 0;
+  self.playerHealth = other.playerHealth = 50;
+  self.kills = other.kills = 0;
   SoundEffects_enable();
   Inventory_add(&inventory, &pistol);
   RandomizeSprites();
@@ -125,7 +142,7 @@ void GameLoop(){
   respawnPlayer();
   isPlaying = 1;
   while(isPlaying) {
-   if (otherHealth == 0){
+   if (other.playerHealth == 0){
     Sprites[0].scale = 0; 
     healthCode = DEADCODE;
    }else {
@@ -134,16 +151,16 @@ void GameLoop(){
    RenderScene();
   
    // In case of death
-   if (playerHealth <= 0){
+   if (self.playerHealth <= 0){
     DeathScreen();
     if (GPIOA->DIN31_0 & (1<<27)) {
       isPlaying = 0;
       healthCode = RESTARTCODE;
     }
     else{
-      playerHealth = 50;
+      self.playerHealth = 50;
       healthCode = RESPAWNCODE;
-      otherKills++;
+      other.kills++;
       respawnPlayer();
     }
    }

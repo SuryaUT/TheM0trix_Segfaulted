@@ -6,11 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-extern double posX, posY;
-extern double dirX, dirY;
-extern double planeX, planeY;
 extern double ZBuffer[SCREEN_WIDTH];
-extern uint8_t isOnTarget;
 
 extern int numsprites;
 extern Sprite Sprites[];
@@ -48,15 +44,15 @@ int compareSprites(const void *a, const void *b) {
 }
 
 void RenderSprite(Sprite sprite, int side, int sprite_index) {
-    if (sprite_index == 0 && side == 1) isOnTarget = 0;
+    if (sprite_index == 0 && side == 1) self.isOnTarget = 0;
     // Sprite position relative to the player
-    double spriteX = sprite.x - posX;
-    double spriteY = sprite.y - posY;
+    double spriteX = sprite.x - self.posX;
+    double spriteY = sprite.y - self.posY;
 
     // Inverse camera transformation
-    double invDet = 1.0 / (planeX * dirY - dirX * planeY);
-    double transformX = invDet * (dirY * spriteX - dirX * spriteY);
-    double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+    double invDet = 1.0 / (self.planeX * self.dirY - self.dirX * self.planeY);
+    double transformX = invDet * (self.dirY * spriteX - self.dirX * spriteY);
+    double transformY = invDet * (-self.planeY * spriteX + self.planeX * spriteY);
 
     // Ignore if behind player
     if (transformY <= 0.1) return;
@@ -121,7 +117,7 @@ void RenderSprite(Sprite sprite, int side, int sprite_index) {
         if (bufferX != -1 && transformY < ZBuffer[stripe]) {
             // Determine if enemy is on target
             Item* weapon = Inventory_currentItem(&inventory);
-            if ((stripe >= SCREEN_WIDTH/2 - weapon->crosshair_size && stripe <= SCREEN_WIDTH/2 + weapon->crosshair_size) && sprite_index == 0 && side == 1 && transformY <= weapon->range) isOnTarget = 1;
+            if ((stripe >= SCREEN_WIDTH/2 - weapon->crosshair_size && stripe <= SCREEN_WIDTH/2 + weapon->crosshair_size) && sprite_index == 0 && side == 1 && transformY <= weapon->range) self.isOnTarget = 1;
             // Calculate texture x coordinate
             int texX = (stripe - drawStartX) * sprite.width / spriteWidth;
             if (texX >= 0 && texX < sprite.width) {
@@ -150,7 +146,7 @@ void RenderSprites(int side) {
     SpriteDistancePair spriteOrder[numsprites];
     for (int i = 0; i < numsprites; i++) {
         spriteOrder[i].index = i;
-        spriteOrder[i].distance = (posX - Sprites[i].x)*(posX - Sprites[i].x) + (posY - Sprites[i].y)*(posY - Sprites[i].y);
+        spriteOrder[i].distance = (self.posX - Sprites[i].x)*(self.posX - Sprites[i].x) + (self.posY - Sprites[i].y)*(self.posY - Sprites[i].y);
     }
 
     qsort(spriteOrder, numsprites, sizeof(SpriteDistancePair), compareSprites);
