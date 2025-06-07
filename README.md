@@ -123,8 +123,9 @@ Gameplay demo available on YouTube [here](https://www.youtube.com/watch?v=fk33UK
 * Designed in Fusion 360
 * Snap-fit top cover
 * Gamepad-style ergonomic shell
-  ![enclosure_1](https://github.com/user-attachments/assets/3218e189-bbb0-44d5-8a4e-75ed0119b0a7)
-  ![enclosure_2](https://github.com/user-attachments/assets/ac2e9b46-883b-4ba8-b5a2-e6602e3b1be0)
+  
+![enclosure_1](https://github.com/user-attachments/assets/3218e189-bbb0-44d5-8a4e-75ed0119b0a7)
+![enclosure_2](https://github.com/user-attachments/assets/ac2e9b46-883b-4ba8-b5a2-e6602e3b1be0)
 
 ---
 
