@@ -134,4 +134,4 @@ Gameplay demo available on YouTube [here](https://www.youtube.com/watch?v=fk33UK
 * Elijah Silguero
 * Surya Balaji
 
-Special thanks to Dr. Yerrabali and Dr. Valvano for their instruction and help with this project!
+Special thanks to Dr. Yerrabali, Dr. Valvano, and Dr. Tiwari at The University of Texas at Austin for their instruction and help with this project!
