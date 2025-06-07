@@ -47,11 +47,11 @@ Dodge enemy fire, navigate the simulation, and exploit every loophole in the cod
     git clone [https://github.com/SuryaUT/TheM0trix_Segfaulted.git](https://github.com/SuryaUT/TheM0trix_Segfaulted.git)
     ```
 
-2.  **Import into Code Composer Studio**
-    : Open CCS. Go to **File > Import > Code Composer Studio Projects**. Select the cloned folder. Make sure the target is set to **MSPM0G3507**. Click **Finish**.
+2.  **Import into Code Composer Studio** <br>
+    Open CCS. Go to **File > Import > Code Composer Studio Projects**. Select the cloned folder. Make sure the target is set to **MSPM0G3507**. Click **Finish**.
 
-3.  **Build and Flash**
-    : Plug in the LaunchPad. Press the build button. Flash to the board.
+3.  **Build and Flash** <br>
+    Plug in the LaunchPad. Press the build button. Flash to the board.
 
 ---
 
