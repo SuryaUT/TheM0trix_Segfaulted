@@ -44,7 +44,7 @@ Dodge enemy fire, navigate the simulation, and exploit every loophole in the cod
 1.  **Clone this repo**
 
     ```bash
-    git clone [https://github.com/SuryaUT/TheM0trix_Segfaulted.git](https://github.com/SuryaUT/TheM0trix_Segfaulted.git)
+    git clone https://github.com/SuryaUT/TheM0trix_Segfaulted.git
     ```
 
 2.  **Import into Code Composer Studio** <br>
